@@ -1,12 +1,15 @@
 package models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 @Getter
 @Value
-public class Address {
+@NoArgsConstructor(force = true)
+public class RestaurantAddress {
     private String country;
     private String city;
+
     private String street;
 }
