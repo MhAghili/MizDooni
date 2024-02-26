@@ -17,4 +17,6 @@ public interface DataBase {
     Stream<TableReservation> getReservations();
     void saveReservation(TableReservation reservation);
     void deleteReservation(String username, int reservationNumber);
+
+    int getReservationCounter();
 }

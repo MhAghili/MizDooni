@@ -17,6 +17,7 @@ import java.util.List;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private DataBase dataBase;
+
     public RestaurantServiceImpl(DataBase dataBase) {
         this.dataBase = dataBase;
     }
@@ -26,10 +27,10 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new RestaurantNameAlreadyTaken();
 
 
-        // TODo
-//        var managerUser = dataBase.getUsers().filter(i -> i.getUsername() == restaurant.getManagerUsername()).findFirst().orElse(null);
-//        if(managerUser == null || managerUser.getRole() != UserType.manager)
-//            throw new InvalidManagerUsername();
+
+        var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurant.getManagerUsername())).findFirst().orElse(null);
+        if(managerUser == null || managerUser.getRole() != UserType.manager)
+            throw new InvalidManagerUsername();
 
         if(restaurant.getStartTime().getMinutes() != 0 || restaurant.getEndTime().getMinutes() != 0)
             throw new TimeOfRestaurantShouldBeRound();
@@ -47,16 +48,67 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (dataBase.getTables().anyMatch(a -> a.getRestaurantName() == table.getRestaurantName() && a.getTableNumber() == table.getTableNumber()))
             throw new TableNumberAlreadyTaken();
 
-//        var managerUser = dataBase.getUsers().filter(i -> i.getUsername() == table.getManagerUsername()).findFirst().orElse(null);
-//        if(managerUser == null || managerUser.getRole() != UserType.manager)
-//            throw new InvalidManagerUsername();
+        var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(table.getManagerUsername())).findFirst().orElse(null);
+        if(managerUser == null || managerUser.getRole() != UserType.manager)
+            throw new InvalidManagerUsername();
 
-        if(dataBase.getRestaurants().anyMatch(a -> a.getName() == table.getRestaurantName()))
+        if(!(dataBase.getRestaurants().anyMatch(a -> a.getName().equals(table.getRestaurantName()))))
             throw new InvalidRestaurantName();
 
         dataBase.saveTable(table);
+
         System.out.println("Table added successfully");
     }
+
+    @Override
+    public void reserveTable(TableReservation reservation) throws Exception {
+
+        var user = dataBase.getUsers()
+                .filter(u -> u.getUsername().equals(reservation.getUsername()))
+                .findFirst()
+                .orElseThrow(UserNotFound::new);
+
+        if (user.getRole() == UserType.manager) {
+            throw new InvalidManagerUsername();
+        }
+
+        var restaurant = dataBase.getRestaurants()
+                .filter(r -> r.getName().equals(reservation.getRestaurantName()))
+                .findFirst()
+                .orElseThrow(InvalidRestaurantName::new);
+
+        var tables = dataBase.getTables()
+                .filter(t -> t.getRestaurantName().equals(reservation.getRestaurantName()))
+                .toList();
+
+        if (!tables.stream().anyMatch(i -> i.getTableNumber() == reservation.getTableNumber())) {
+            throw new TableNotFoundException();
+        }
+
+        if (!(reservation.getDateTime().getHours()>restaurant.getStartTime().getHours() && reservation.getDateTime().getHours()<restaurant.getEndTime().getHours())) {
+            throw new OutsideBusinessHoursException();
+        }
+
+        if (reservation.getDateTime().before(new Date())) {
+            throw new PastDateTimeException();
+        }
+
+        if (dataBase.getReservations().anyMatch(r ->
+                r.getRestaurantName().equals(reservation.getRestaurantName()) &&
+                        r.getTableNumber() == reservation.getTableNumber() &&
+                        r.getDateTime().equals(reservation.getDateTime()))) {
+            throw new TimeSlotAlreadyBookedException();
+        }
+
+        int reservationNumber = generateUniqueReservationNumber(); // Generate a unique reservation number
+        TableReservation newReservation = new TableReservation(reservationNumber, reservation.getUsername(),
+                reservation.getRestaurantName(), reservation.getTableNumber(), reservation.getDateTime());
+
+        dataBase.saveReservation(newReservation);
+
+        System.out.println("Table reserved successfully");
+    }
+
 
     @Override
     public void cancelReservation(String username, int reservationNumber) throws Exception {
@@ -101,5 +153,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         return Utils.isNullOrEmptyString(address.getCity())
                 || Utils.isNullOrEmptyString(address.getCountry())
                 || Utils.isNullOrEmptyString((address.getStreet()));
+    }
+    private int generateUniqueReservationNumber() {
+        return dataBase.getReservationCounter();
     }
 }

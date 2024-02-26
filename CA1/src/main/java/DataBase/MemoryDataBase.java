@@ -14,6 +14,7 @@ public class MemoryDataBase implements DataBase {
     private ArrayList<Restaurant> restaurants;
     private ArrayList<Table> tables;
     private ArrayList<TableReservation> reservations;
+    private int reservationCounter = 0;
 
     public MemoryDataBase() {
         users = new ArrayList<>();
@@ -60,6 +61,11 @@ public class MemoryDataBase implements DataBase {
 
     @Override
     public void deleteReservation(String username, int reservationNumber) {
-        reservations.removeIf(i -> i.getUsername() == username && i.getNumber() == reservationNumber);
+        reservations.removeIf(i -> i.getUsername().equals(username) && i.getNumber() == reservationNumber);
+    }
+
+    @Override
+    public int getReservationCounter() {
+        return ++reservationCounter;
     }
 }

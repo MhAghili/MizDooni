@@ -15,4 +15,9 @@ public class Errors {
     public static final String INVALID_RESTAURANT_NAME = "Invalid restaurant name";
     public static final String INVALID_RESERVATION_NUMBER = "Invalid Reservation number";
     public static final String CANNOT_CANCEL_RESERVATION_BECAUSE_OF_DATE = "The reservation cannot be cancelled because of date";
+    public static final String USER_NOT_FOUND = "The user is not found";
+    public static final String PAST_DATE_TIME = "The selected time is in the past";
+    public static final String OUTSIDE_BUSINESS_HOURS = "The selected time is outside the restaurant's business hours";
+    public static final String TABLE_NOT_FOUND = "The table is not found in the restaurant";
+    public static final String TIME_SLOT_ALREADY_BOOKED = "The selected time slot is already booked";
 }

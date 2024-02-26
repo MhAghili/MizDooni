@@ -5,6 +5,7 @@ import interfaces.RestaurantService;
 import interfaces.UserService;
 import models.Restaurant;
 import models.Table;
+import models.TableReservation;
 import models.User;
 import utils.ConsoleIOHandler;
 import defines.CommandType;  //?????
@@ -39,6 +40,12 @@ public class MizDooni {
                     restaurantService.addTable(mapper.readValue(input.getJsonData(), Table.class));
                     break;
             }
+            switch (input.getCommand()) {
+                case CommandType.RESERVE_TABLE:
+                    restaurantService.reserveTable(mapper.readValue(input.getJsonData(), TableReservation.class));
+                    break;
+            }
+
         }
     }
 
