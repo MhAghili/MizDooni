@@ -4,8 +4,8 @@ import enums.UserType;
 import exceptions.*;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
-import models.Address;
 import models.Restaurant;
+import models.RestaurantAddress;
 import models.Table;
 import models.TableReservation;
 import utils.Utils;
@@ -25,9 +25,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (dataBase.getRestaurants().anyMatch(i-> i.getName() == restaurant.getName()))
             throw new RestaurantNameAlreadyTaken();
 
-        var managerUser = dataBase.getUsers().filter(i -> i.getUsername() == restaurant.getManagerUsername()).findFirst().orElse(null);
-        if(managerUser == null || managerUser.getUserType() != UserType.MANAGER)
-            throw new InvalidManagerUsername();
+
+        // TODo
+//        var managerUser = dataBase.getUsers().filter(i -> i.getUsername() == restaurant.getManagerUsername()).findFirst().orElse(null);
+//        if(managerUser == null || managerUser.getRole() != UserType.manager)
+//            throw new InvalidManagerUsername();
 
         if(restaurant.getStartTime().getMinutes() != 0 || restaurant.getEndTime().getMinutes() != 0)
             throw new TimeOfRestaurantShouldBeRound();
@@ -36,21 +38,24 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new AddressShouldContainsCityAndCountryAndStreet();
 
         dataBase.saveRestaurant(restaurant);
+
+        System.out.println("Restaurant added successfully");
     }
 
     @Override
     public void addTable(Table table) throws Exception {
-        if (dataBase.getTables().anyMatch(a -> a.getRestaurantName() == table.getRestaurantName() && a.getNumber() == table.getNumber()))
+        if (dataBase.getTables().anyMatch(a -> a.getRestaurantName() == table.getRestaurantName() && a.getTableNumber() == table.getTableNumber()))
             throw new TableNumberAlreadyTaken();
 
-        var managerUser = dataBase.getUsers().filter(i -> i.getUsername() == table.getManagerUsername()).findFirst().orElse(null);
-        if(managerUser == null || managerUser.getUserType() != UserType.MANAGER)
-            throw new InvalidManagerUsername();
+//        var managerUser = dataBase.getUsers().filter(i -> i.getUsername() == table.getManagerUsername()).findFirst().orElse(null);
+//        if(managerUser == null || managerUser.getRole() != UserType.manager)
+//            throw new InvalidManagerUsername();
 
-        if(!dataBase.getRestaurants().anyMatch(a -> a.getName() == table.getRestaurantName()))
+        if(dataBase.getRestaurants().anyMatch(a -> a.getName() == table.getRestaurantName()))
             throw new InvalidRestaurantName();
 
         dataBase.saveTable(table);
+        System.out.println("Table added successfully");
     }
 
     @Override
@@ -92,7 +97,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .filter(i -> i.getUsername().equals(username))
                 .toList();
     }
-    private boolean addressIsInInvalidFormat(Address address) {
+    private boolean addressIsInInvalidFormat(RestaurantAddress address) {
         return Utils.isNullOrEmptyString(address.getCity())
                 || Utils.isNullOrEmptyString(address.getCountry())
                 || Utils.isNullOrEmptyString((address.getStreet()));

@@ -1,10 +1,13 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
 import interfaces.UserService;
+import models.Restaurant;
+import models.Table;
 import models.User;
 import utils.ConsoleIOHandler;
-import defines.CommandType;
+import defines.CommandType;  //?????
 
 public class MizDooni {
     private DataBase dataBase;
@@ -17,7 +20,7 @@ public class MizDooni {
         this.userService = userService;
     }
 
-    public void run() {
+    public void run() throws Exception {
         while (true) {
             var input = ConsoleIOHandler.getInput();
             var mapper = new ObjectMapper();
@@ -26,9 +29,18 @@ public class MizDooni {
                     userService.addUser(mapper.readValue(input.getJsonData(), User.class));
                     break;
             }
+            switch (input.getCommand()) {
+                case CommandType.ADD_RESTAURANT:
+                    restaurantService.addRestaurant(mapper.readValue(input.getJsonData(), Restaurant.class));
+                    break;
+            }
+            switch (input.getCommand()) {
+                case CommandType.ADD_TABLE:
+                    restaurantService.addTable(mapper.readValue(input.getJsonData(), Table.class));
+                    break;
+            }
         }
     }
-
 
 
 }

@@ -3,13 +3,16 @@ package models;
 import enums.UserType;
 import lombok.Getter;
 import lombok.Value;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Value
+@NoArgsConstructor(force = true)
 public class User {
-    private UserType userType;
+    private UserType role;
     private String username;
     private String password;
     private String email;
-    private Address address;
+    private UserAddress address;
+
 }

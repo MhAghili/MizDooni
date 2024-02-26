@@ -24,19 +24,25 @@ public class UserServiceImplementation implements UserService {
         if (dataBase.getUsers().anyMatch(user1 -> user1.getEmail() == user.getEmail()))
             throw new EmailAlreadyTaken();
 
-        if (user.getUserType() == UserType.OTHER)
+        if (user.getRole() == UserType.other)
             throw new InvalidUserType();
 
         if (!isValidEmail(user.getEmail()))
             throw new InvalidEmailFormat();
 
-        if (isValidUsername(user.getUsername()))
+        if (!isValidUsername(user.getUsername()))
             throw new InvalidUsernameFormat();
 
         if (Utils.isNullOrEmptyString(user.getAddress().getCity()) || Utils.isNullOrEmptyString(user.getAddress().getCountry()))
             throw new AddressShouldContainsCityAndCountry();
 
         dataBase.saveUser(user);
+
+        System.out.println("User added successfully");
+
+        return;
+
+
     }
 
     private boolean isValidEmail(String email) {

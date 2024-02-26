@@ -18,6 +18,8 @@ public class MemoryDataBase implements DataBase {
     public MemoryDataBase() {
         users = new ArrayList<>();
         restaurants = new ArrayList<>();
+        tables = new ArrayList<>();
+        reservations = new ArrayList<>();
     }
 
     @Override
