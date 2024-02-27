@@ -4,18 +4,17 @@ import enums.UserType;
 import models.*;
 import exceptions.*;
 import interfaces.DataBase;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import services.RestaurantServiceImpl;
 import DataBase.MemoryDataBase;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-class TableReservationTest {
+
+public class RestaurantServiceImplTest {
 
     private RestaurantServiceImpl restaurantService;
     private DataBase dataBase;
@@ -71,6 +70,11 @@ class TableReservationTest {
         TableReservation tableReservation_2 = new TableReservation(1,"user2", "restaurant1",1 , new Date("2024/3/13 15:00:00"));
         restaurantService.reserveTable(tableReservation_1);
         assertThrows(TimeSlotAlreadyBookedException.class, () -> restaurantService.reserveTable(tableReservation_2));
+    }
+    @AfterEach
+    void tearDown() {
+        dataBase = null;
+        restaurantService = null;
     }
 
 }
