@@ -19,11 +19,11 @@ public class MizDooni {
     }
 
     public void run() throws Exception {
-        var input = ConsoleIOHandler.getInput();
         var mapper = new ObjectMapper();
         var response = new Response();
         while (true) {
             try {
+                var input = ConsoleIOHandler.getInput(); // Move input reading inside the loop
                 switch (input.getCommand()) {
                     case CommandType.ADD_USER:
                         userService.addUser(mapper.readValue(input.getJsonData(), User.class));
@@ -41,6 +41,11 @@ public class MizDooni {
                     case CommandType.RESERVE_TABLE:
                         var reservationNumber = restaurantService.reserveTable(mapper.readValue(input.getJsonData(), TableReservation.class));
                         response.setData("{\"reservationNumber\":" + reservationNumber + "}");
+                        break;
+
+                    case CommandType.CANCEL_RESERVATION:
+                        restaurantService.cancelReservation(mapper.readValue(input.getJsonData(), ReservationCancellationRequest.class));
+                        response.setData("Reservation canceled successfully.");
                         break;
                 }
                 response.setSuccess(true);

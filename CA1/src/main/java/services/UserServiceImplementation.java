@@ -18,10 +18,10 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public void addUser(User user) throws Exception {
-        if (dataBase.getUsers().anyMatch(user1 -> user1.getUsername() == user.getUsername()))
+        if (dataBase.getUsers().anyMatch(user1 -> user1.getUsername().equals(user.getUsername())))
             throw new UsernameAlreadyTaken();
 
-        if (dataBase.getUsers().anyMatch(user1 -> user1.getEmail() == user.getEmail()))
+        if (dataBase.getUsers().anyMatch(user1 -> user1.getEmail().equals(user.getEmail())))
             throw new EmailAlreadyTaken();
 
         if (user.getRole() == UserType.other)

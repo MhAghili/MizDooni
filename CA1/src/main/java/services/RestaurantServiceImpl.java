@@ -4,10 +4,7 @@ import enums.UserType;
 import exceptions.*;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
-import models.Restaurant;
-import models.RestaurantAddress;
-import models.Table;
-import models.TableReservation;
+import models.*;
 import utils.Utils;
 
 import java.time.LocalDateTime;
@@ -23,10 +20,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
     @Override
     public void addRestaurant(Restaurant restaurant) throws Exception {
-        if (dataBase.getRestaurants().anyMatch(i-> i.getName() == restaurant.getName()))
+        if (dataBase.getRestaurants().anyMatch(i-> i.getName().equals(restaurant.getName())))
             throw new RestaurantNameAlreadyTaken();
-
-
 
         var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurant.getManagerUsername())).findFirst().orElse(null);
         if(managerUser == null || managerUser.getRole() != UserType.manager)
@@ -108,9 +103,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 
     @Override
-    public void cancelReservation(String username, int reservationNumber) throws Exception {
+    public void cancelReservation(ReservationCancellationRequest request) throws Exception {
         var reservation = dataBase.getReservations()
-                            .filter(i -> i.getUsername().equals(username) && i.getNumber() == reservationNumber)
+                            .filter(i -> i.getUsername().equals(request.getUsername()) && i.getNumber() == request.getReservationNumber())
                             .findFirst()
                             .orElse(null);
 
@@ -120,7 +115,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (reservation.getDateTime().before(new Date()))
             throw new CannotCancelReservationBecauseOfDate();
 
-        dataBase.deleteReservation(username, reservationNumber);
+        dataBase.deleteReservation(request.getUsername(), request.getReservationNumber());
     }
 
     @Override
