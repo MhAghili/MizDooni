@@ -10,4 +10,9 @@ import lombok.Value;
 public class UserAddress {
     private String country;
     private String city;
+
+    public UserAddress(String country, String city) {
+        this.country = country;
+        this.city = city;
+    }
 }

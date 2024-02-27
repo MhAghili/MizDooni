@@ -24,4 +24,14 @@ public class Restaurant {
 
     private String description;
     private RestaurantAddress address;
+
+    public Restaurant(String name, String managerUsername, String type, Date startTime, Date endTime, String description, RestaurantAddress address) {
+        this.name = name;
+        this.managerUsername = managerUsername;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.address = address;
+    }
 }
