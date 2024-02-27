@@ -3,10 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
 import interfaces.UserService;
-import models.Restaurant;
-import models.Table;
-import models.TableReservation;
-import models.User;
+import models.*;
 import utils.ConsoleIOHandler;
 import defines.CommandType;  //?????
 
@@ -22,30 +19,37 @@ public class MizDooni {
     }
 
     public void run() throws Exception {
+        var input = ConsoleIOHandler.getInput();
+        var mapper = new ObjectMapper();
+        var response = new Response();
         while (true) {
-            var input = ConsoleIOHandler.getInput();
-            var mapper = new ObjectMapper();
-            switch (input.getCommand()) {
-                case CommandType.ADD_USER:
-                    userService.addUser(mapper.readValue(input.getJsonData(), User.class));
-                    break;
-            }
-            switch (input.getCommand()) {
-                case CommandType.ADD_RESTAURANT:
-                    restaurantService.addRestaurant(mapper.readValue(input.getJsonData(), Restaurant.class));
-                    break;
-            }
-            switch (input.getCommand()) {
-                case CommandType.ADD_TABLE:
-                    restaurantService.addTable(mapper.readValue(input.getJsonData(), Table.class));
-                    break;
-            }
-            switch (input.getCommand()) {
-                case CommandType.RESERVE_TABLE:
-                    restaurantService.reserveTable(mapper.readValue(input.getJsonData(), TableReservation.class));
-                    break;
-            }
+            try {
+                switch (input.getCommand()) {
+                    case CommandType.ADD_USER:
+                        userService.addUser(mapper.readValue(input.getJsonData(), User.class));
+                        response.setData("User added successfully.");
+                        break;
 
+                    case CommandType.ADD_RESTAURANT:
+                        restaurantService.addRestaurant(mapper.readValue(input.getJsonData(), Restaurant.class));
+                        response.setData("Restaurant added successfully.");
+                        break;
+                    case CommandType.ADD_TABLE:
+                        restaurantService.addTable(mapper.readValue(input.getJsonData(), Table.class));
+                        response.setData("Table added successfully.");
+                        break;
+                    case CommandType.RESERVE_TABLE:
+                        var reservationNumber = restaurantService.reserveTable(mapper.readValue(input.getJsonData(), TableReservation.class));
+                        response.setData("{\"reservationNumber\":" + reservationNumber + "}");
+                        break;
+                }
+                response.setSuccess(true);
+            }
+            catch  (Exception ex) {
+                response.setSuccess(false);
+                response.setData(ex.getMessage());
+            }
+            ConsoleIOHandler.writeOutput(response.toString());
         }
     }
 

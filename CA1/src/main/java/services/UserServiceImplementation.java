@@ -38,11 +38,6 @@ public class UserServiceImplementation implements UserService {
 
         dataBase.saveUser(user);
 
-        System.out.println("User added successfully");
-
-        return;
-
-
     }
 
     private boolean isValidEmail(String email) {

@@ -40,7 +40,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         dataBase.saveRestaurant(restaurant);
 
-        System.out.println("Restaurant added successfully");
     }
 
     @Override
@@ -57,11 +56,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         dataBase.saveTable(table);
 
-        System.out.println("Table added successfully");
     }
 
     @Override
-    public void reserveTable(TableReservation reservation) throws Exception {
+    public int reserveTable(TableReservation reservation) throws Exception {
 
         var user = dataBase.getUsers()
                 .filter(u -> u.getUsername().equals(reservation.getUsername()))
@@ -105,8 +103,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 reservation.getRestaurantName(), reservation.getTableNumber(), reservation.getDateTime());
 
         dataBase.saveReservation(newReservation);
-
-        System.out.println("Table reserved successfully");
+        return newReservation.getNumber();
     }
 
 
