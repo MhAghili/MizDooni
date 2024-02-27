@@ -8,6 +8,8 @@ import models.*;
 import utils.ConsoleIOHandler;
 import defines.CommandType;  //?????
 
+import java.util.Map;
+
 public class MizDooni {
     private DataBase dataBase;
     private RestaurantService restaurantService;
@@ -50,6 +52,22 @@ public class MizDooni {
                     case CommandType.CANCEL_RESERVATION:
                         restaurantService.cancelReservation(mapper.readValue(input.getJsonData(), ReservationCancellationRequest.class));
                         response.setData("Reservation canceled successfully.");
+                        break;
+                    case CommandType.SHOW_RESERVATION_HISTORY:
+                        var reservationHistory = restaurantService.getReservationByUsername((String) mapper.readValue(input.getJsonData(), Map.class).get("username"));
+                        response.setData(mapper.writeValueAsString(reservationHistory));
+                        break;
+                    case CommandType.SEARCH_RESTAURANTS_BY_NAME:
+                        var restaurantsFilteredByName = restaurantService.getRestaurantByName((String) mapper.readValue(input.getJsonData(), Map.class).get("name"));
+                        response.setData(mapper.writeValueAsString(restaurantsFilteredByName));
+                        break;
+                    case CommandType.SEARCH_RESTAURANTS_BY_TYPE:
+                        var restaurantsFilteredByType = restaurantService.getRestaurantByType((String) mapper.readValue(input.getJsonData(), Map.class).get("name"));
+                        response.setData(mapper.writeValueAsString(restaurantsFilteredByType));
+                        break;
+                    case CommandType.SHOW_AVAILABLE_TABLES:
+                        var availableTimes = restaurantService.getAvailableTablesByRestaurant((String) mapper.readValue(input.getJsonData(), Map.class).get("restaurantName"));
+                        response.setData(mapper.writeValueAsString(availableTimes));
                         break;
                     case CommandType.ADD_REVIEW:
                         feedbackService.addReview(mapper.readValue(input.getJsonData(), Feedback.class));

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import utils.CustomDateDeserializer;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -16,14 +17,22 @@ public class TableReservation {
     private int tableNumber;
 
     @JsonDeserialize(using = CustomDateDeserializer.class)
-    private Date dateTime;
+    private Date datetime;
 
-    public TableReservation(int reservationNumber, String username, String restaurantName, int tableNumber, Date dateTime) {
+    public TableReservation(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime) {
         this.number = reservationNumber;
         this.username = username;
         this.restaurantName = restaurantName;
         this.tableNumber = tableNumber;
-        this.dateTime = dateTime;
+        this.datetime = datetime;
+    }
+
+    @Override
+    public String toString() {
+        return "reservationNumber: " + number
+              + "restaurantName: " + restaurantName
+              + "tableNumber: " + tableNumber
+              + "datetime: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(datetime);
     }
 }
 

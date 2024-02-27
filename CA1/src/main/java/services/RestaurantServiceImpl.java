@@ -7,7 +7,8 @@ import interfaces.RestaurantService;
 import models.*;
 import utils.Utils;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -78,24 +79,24 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new TableNotFoundException();
         }
 
-        if (!(reservation.getDateTime().getHours()>restaurant.getStartTime().getHours() && reservation.getDateTime().getHours()<restaurant.getEndTime().getHours())) {
+        if (!(reservation.getDatetime().getHours()>restaurant.getStartTime().getHours() && reservation.getDatetime().getHours()<restaurant.getEndTime().getHours())) {
             throw new OutsideBusinessHoursException();
         }
 
-        if (reservation.getDateTime().before(new Date())) {
+        if (reservation.getDatetime().before(new Date())) {
             throw new PastDateTimeException();
         }
 
         if (dataBase.getReservations().anyMatch(r ->
                 r.getRestaurantName().equals(reservation.getRestaurantName()) &&
                         r.getTableNumber() == reservation.getTableNumber() &&
-                        r.getDateTime().equals(reservation.getDateTime()))) {
+                        r.getDatetime().equals(reservation.getDatetime()))) {
             throw new TimeSlotAlreadyBookedException();
         }
 
         int reservationNumber = generateUniqueReservationNumber(); // Generate a unique reservation number
         TableReservation newReservation = new TableReservation(reservationNumber, reservation.getUsername(),
-                reservation.getRestaurantName(), reservation.getTableNumber(), reservation.getDateTime());
+                reservation.getRestaurantName(), reservation.getTableNumber(), reservation.getDatetime());
 
         dataBase.saveReservation(newReservation);
         return newReservation.getNumber();
@@ -112,7 +113,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (reservation == null)
             throw new InvalidReservationNumber();
 
-        if (reservation.getDateTime().before(new Date()))
+        if (reservation.getDatetime().before(new Date()))
             throw new CannotCancelReservationBecauseOfDate();
 
         dataBase.deleteReservation(request.getUsername(), request.getReservationNumber());
@@ -121,7 +122,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant getRestaurantByName(String name) throws Exception {
         var result = dataBase.getRestaurants()
-                        .filter(i -> i.getName().equals(name))
+                        .filter(i -> i.getName().contains(name))
                         .findFirst()
                         .orElse(null);
 
@@ -132,7 +133,45 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
     @Override
     public List<Restaurant> getRestaurantByType(String type) {
-        return dataBase.getRestaurants().filter(i -> i.getType() == type).toList();
+        return dataBase.getRestaurants().filter(i -> i.getType().equals(type)).toList();
+    }
+
+    @Override
+    public List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName) throws Exception{
+        if (!dataBase.getRestaurants().anyMatch(i -> i.getName().equals(restaurantName)))
+            throw new InvalidRestaurantName();
+
+        var currentDate = new Date();
+        var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
+        var tables = dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+
+
+        var result = new ArrayList<AvailableTableInfo>();
+        for (var table: tables) {
+            var tableReservations = dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber());
+
+            var availableTimes = new ArrayList<Date>();
+            for (int i = 1; i <= 24 ; i++) {
+                if(currentDate.getHours() + i <= restaurant.getEndTime().getHours()
+                        && currentDate.getHours() + i >= restaurant.getStartTime().getHours()
+                        && currentDate.getHours() + i <= 24
+                        && !tableReservations.anyMatch(j -> isTwoDateEqual(j.getDatetime(), currentDate))
+                    ) {
+                    Calendar calendar = Calendar.getInstance();
+
+                    calendar.set(Calendar.YEAR, currentDate.getYear());
+                    calendar.set(Calendar.MONTH, currentDate.getMonth());
+                    calendar.set(Calendar.DAY_OF_MONTH, currentDate.getDay());
+                    calendar.set(Calendar.HOUR_OF_DAY, currentDate.getHours() + i);
+                    calendar.set(Calendar.MINUTE, 0);
+
+                    availableTimes.add(calendar.getTime());
+                }
+            }
+            result.add(new AvailableTableInfo(table.getTableNumber(), table.getSeatsNumber(), availableTimes));
+        }
+        dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName));
+        return result;
     }
 
     @Override
@@ -140,6 +179,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         return dataBase.getReservations()
                 .filter(i -> i.getUsername().equals(username))
                 .toList();
+    }
+
+    private boolean isTwoDateEqual(Date date1, Date date2) {
+        return date1.getYear() == date2.getYear()
+                && date1.getMonth() == date2.getMonth()
+                && date1.getDay() == date2.getDay()
+                && date1.getHours() == date2.getHours()
+                && date1.getMinutes() == date2.getMinutes();
     }
     private boolean addressIsInInvalidFormat(RestaurantAddress address) {
         return Utils.isNullOrEmptyString(address.getCity())

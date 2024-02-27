@@ -1,10 +1,7 @@
 package interfaces;
 
 import exceptions.InvalidRestaurantName;
-import models.Restaurant;
-import models.Table;
-import models.TableReservation;
-import models.ReservationCancellationRequest;
+import models.*;
 
 import java.util.List;
 
@@ -16,4 +13,5 @@ public interface RestaurantService {
     List<Restaurant> getRestaurantByType(String type);
     Restaurant getRestaurantByName(String name) throws Exception;
     List<TableReservation> getReservationByUsername(String username);
+    List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName) throws Exception;
 }
