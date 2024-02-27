@@ -1,10 +1,7 @@
 package DataBase;
 
 import interfaces.DataBase;
-import models.Restaurant;
-import models.Table;
-import models.TableReservation;
-import models.User;
+import models.*;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -14,6 +11,8 @@ public class MemoryDataBase implements DataBase {
     private ArrayList<Restaurant> restaurants;
     private ArrayList<Table> tables;
     private ArrayList<TableReservation> reservations;
+
+    private ArrayList<Feedback> feedbacks;
     private int reservationCounter = 0;
 
     public MemoryDataBase() {
@@ -21,6 +20,7 @@ public class MemoryDataBase implements DataBase {
         restaurants = new ArrayList<>();
         tables = new ArrayList<>();
         reservations = new ArrayList<>();
+        feedbacks = new ArrayList<>();
     }
 
     @Override
@@ -67,5 +67,15 @@ public class MemoryDataBase implements DataBase {
     @Override
     public int getReservationCounter() {
         return ++reservationCounter;
+    }
+
+    @Override
+    public Stream<Feedback> getFeedbacks() {
+        return feedbacks.stream();
+    }
+
+    @Override
+    public void saveFeedback(Feedback feedback){
+        feedbacks.add(feedback);
     }
 }

@@ -1,9 +1,6 @@
 package interfaces;
 
-import models.Restaurant;
-import models.Table;
-import models.TableReservation;
-import models.User;
+import models.*;
 
 import java.util.stream.Stream;
 
@@ -19,4 +16,8 @@ public interface DataBase {
     void deleteReservation(String username, int reservationNumber);
 
     int getReservationCounter();
+
+    Stream<Feedback> getFeedbacks();
+
+    void saveFeedback(Feedback feedback);
 }

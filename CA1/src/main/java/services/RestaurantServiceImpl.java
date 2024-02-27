@@ -47,7 +47,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new InvalidManagerUsername();
 
         if(!(dataBase.getRestaurants().anyMatch(a -> a.getName().equals(table.getRestaurantName()))))
-            throw new InvalidRestaurantName();
+            throw new RestaurantNotFound();
 
         dataBase.saveTable(table);
 
@@ -62,13 +62,13 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(UserNotFound::new);
 
         if (user.getRole() == UserType.manager) {
-            throw new InvalidManagerUsername();
+            throw new RoleException();
         }
 
         var restaurant = dataBase.getRestaurants()
                 .filter(r -> r.getName().equals(reservation.getRestaurantName()))
                 .findFirst()
-                .orElseThrow(InvalidRestaurantName::new);
+                .orElseThrow(RestaurantNotFound::new);
 
         var tables = dataBase.getTables()
                 .filter(t -> t.getRestaurantName().equals(reservation.getRestaurantName()))

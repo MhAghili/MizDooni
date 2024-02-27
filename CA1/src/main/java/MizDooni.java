@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import interfaces.DataBase;
+import interfaces.FeedbackService;
 import interfaces.RestaurantService;
 import interfaces.UserService;
 import models.*;
@@ -12,10 +13,13 @@ public class MizDooni {
     private RestaurantService restaurantService;
     private UserService userService;
 
-    public MizDooni(DataBase dataBase, RestaurantService restaurantService, UserService userService) {
+    private FeedbackService feedbackService;
+
+    public MizDooni(DataBase dataBase, RestaurantService restaurantService, UserService userService,FeedbackService feedbackService) {
         this.dataBase = dataBase;
         this.restaurantService = restaurantService;
         this.userService = userService;
+        this.feedbackService = feedbackService;
     }
 
     public void run() throws Exception {
@@ -46,6 +50,10 @@ public class MizDooni {
                     case CommandType.CANCEL_RESERVATION:
                         restaurantService.cancelReservation(mapper.readValue(input.getJsonData(), ReservationCancellationRequest.class));
                         response.setData("Reservation canceled successfully.");
+                        break;
+                    case CommandType.ADD_REVIEW:
+                        feedbackService.addReview(mapper.readValue(input.getJsonData(), Feedback.class));
+                        response.setData("Feedback added successfully.");
                         break;
                 }
                 response.setSuccess(true);

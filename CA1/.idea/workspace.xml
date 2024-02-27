@@ -4,12 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="add Table Reserve Logic">
+    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="add CancleReservation Logic(using some utility classes)">
+      <change afterPath="$PROJECT_DIR$/src/main/java/defines/AllowedRateRange.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/exceptions/AllowedRangeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/exceptions/RestaurantNotFound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/exceptions/RoleException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/interfaces/FeedbackService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/Feedback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DataBase/MemoryDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DataBase/MemoryDataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MizDooni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MizDooni.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/defines/Errors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/defines/Errors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/DataBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" afterDir="false" />
     </list>
     <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
@@ -22,6 +31,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -126,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1708986249230</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add CancleReservation Logic(using some utility classes)">
+      <created>1709021266248</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1709021266248</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,21 +155,12 @@
     <MESSAGE value="fix input bugs" />
     <MESSAGE value="update workspace.xml" />
     <MESSAGE value="add Table Reserve Logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Table Reserve Logic" />
+    <MESSAGE value="add CancleReservation Logic(using some utility classes)" />
+    <option name="LAST_COMMIT_MESSAGE" value="add CancleReservation Logic(using some utility classes)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MizDooni.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MizDooni.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java</url>
           <line>106</line>
@@ -167,6 +175,45 @@
           <url>file://$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java</url>
           <line>117</line>
           <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/MizDooni.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/MizDooni.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java</url>
+          <line>18</line>
+          <properties class="services.FeedbackServiceImpl" method="addReview">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="61" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -183,6 +230,7 @@
         <watch expression="memoryDataBase" />
         <watch expression="dataBase" />
         <watch expression="request" />
+        <watch expression="feedback" />
       </configuration>
     </watches-manager>
   </component>

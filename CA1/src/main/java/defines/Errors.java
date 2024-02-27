@@ -20,4 +20,8 @@ public class Errors {
     public static final String OUTSIDE_BUSINESS_HOURS = "The selected time is outside the restaurant's business hours";
     public static final String TABLE_NOT_FOUND = "The table is not found in the restaurant";
     public static final String TIME_SLOT_ALREADY_BOOKED = "The selected time slot is already booked";
+    public static final String ROLE_PERMISSION = "The user doesn't have permission to do this action";
+    public static final String OUT_OF_RATE_RANGE = "The rate is out of range";
+
+    public static final String RESTAURANT_NOT_FOUND = "The restaurant is not found";
 }
