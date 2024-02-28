@@ -62,7 +62,7 @@ public class MizDooni {
                         response.setData(mapper.writeValueAsString(restaurantsFilteredByName));
                         break;
                     case CommandType.SEARCH_RESTAURANTS_BY_TYPE:
-                        var restaurantsFilteredByType = restaurantService.getRestaurantByType((String) mapper.readValue(input.getJsonData(), Map.class).get("name"));
+                        var restaurantsFilteredByType = restaurantService.getRestaurantByType((String) mapper.readValue(input.getJsonData(), Map.class).get("type"));
                         response.setData(mapper.writeValueAsString(restaurantsFilteredByType));
                         break;
                     case CommandType.SHOW_AVAILABLE_TABLES:
@@ -71,7 +71,7 @@ public class MizDooni {
                         break;
                     case CommandType.ADD_REVIEW:
                         feedbackService.addReview(mapper.readValue(input.getJsonData(), Feedback.class));
-                        response.setData("Feedback added successfully.");
+                        response.setData("Review added successfully.");
                         break;
                 }
                 response.setSuccess(true);
