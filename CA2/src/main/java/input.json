@@ -1,0 +1,64 @@
+{
+  "commands": [
+    {
+      "command": "addUser",
+      "jsonData": {
+        "role": "manager",
+        "username": "user1",
+        "password": "1234",
+        "email": "user1@gmail.com",
+        "address": {
+          "country": "Iran",
+          "city": "Tehran"
+        }
+      }
+    },
+    {
+      "command": "addUser",
+      "jsonData": {
+        "role": "client",
+        "username": "user2",
+        "password": "123534",
+        "email": "user12@gmail.com",
+        "address": {
+          "country": "Iran",
+          "city": "Tehran"
+        }
+      }
+    },
+    {
+      "command": "addRestaurant",
+      "jsonData": {
+        "name": "restaurant1",
+        "managerUsername": "user1",
+        "type": "Iranian",
+        "startTime": "08:00",
+        "endTime": "23:00",
+        "description": "Open seven days a week",
+        "address": {
+          "country": "Iran",
+          "city": "Tehran",
+          "street": "North Kargar"
+        }
+      }
+    },
+    {
+      "command": "addTable",
+      "jsonData": {
+        "tableNumber": 1,
+        "restaurantName": "restaurant1",
+        "managerUsername": "user1",
+        "seatsNumber": 4
+      }
+    },
+    {
+      "command": "addTable",
+      "jsonData": {
+        "tableNumber": 2,
+        "restaurantName": "restaurant1",
+        "managerUsername": "user1",
+        "seatsNumber": 4
+      }
+    }
+  ]
+}
