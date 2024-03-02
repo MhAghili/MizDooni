@@ -18,6 +18,8 @@ public class MizDooni {
     private FeedbackService feedbackService;
 
     private ObjectMapper mapper = new ObjectMapper();
+
+    private Response response = new Response();
     public MizDooni(DataBase dataBase, RestaurantService restaurantService, UserService userService,FeedbackService feedbackService) {
         this.dataBase = dataBase;
         this.restaurantService = restaurantService;
@@ -27,7 +29,6 @@ public class MizDooni {
 
     public void ReadFromJsonFile(File file) throws Exception {
         var jsonData = mapper.readValue(file, InputData.class);
-        var response = new Response();
         for (Command command : jsonData.getCommands()) {
             try {
                 switch (command.getCommand()) {
@@ -89,7 +90,6 @@ public class MizDooni {
 
     public void run() throws Exception {
         ReadFromJsonFile(new File("src/main/java/input.json"));
-        var response = new Response();
         while (true) {
             try {
                 var input = ConsoleIOHandler.getInput(); // Move input reading inside the loop
