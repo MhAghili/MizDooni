@@ -7,13 +7,20 @@ import interfaces.DataBase;
 import interfaces.FeedbackService;
 import models.Feedback;
 import static defines.AllowedRateRange.*;
+import DataBase.*;
 
 public class FeedbackServiceImpl implements FeedbackService {
-
+    private static FeedbackService instance = null;
     private DataBase dataBase;
 
-    public FeedbackServiceImpl(DataBase dataBase){
-        this.dataBase = dataBase;
+    private FeedbackServiceImpl(){
+        this.dataBase = MemoryDataBase.getInstance();
+    }
+
+    public static FeedbackService getInstance() {
+        if (instance == null)
+            instance = new FeedbackServiceImpl();
+        return instance;
     }
     @Override
     public void addReview(Feedback feedback) throws Exception{

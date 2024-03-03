@@ -4,13 +4,17 @@ import interfaces.FeedbackService;
 import interfaces.RestaurantService;
 import interfaces.UserService;
 import models.*;
+import services.FeedbackServiceImpl;
+import services.RestaurantServiceImpl;
+import services.UserServiceImplementation;
 import utils.ConsoleIOHandler;
 import defines.CommandType;
-
+import DataBase.*;
 import java.io.File;
 import java.util.Map;
 
 public class MizDooni {
+    private static MizDooni instance = null;
     private DataBase dataBase;
     private RestaurantService restaurantService;
     private UserService userService;
@@ -20,13 +24,18 @@ public class MizDooni {
     private ObjectMapper mapper = new ObjectMapper();
 
     private Response response = new Response();
-    public MizDooni(DataBase dataBase, RestaurantService restaurantService, UserService userService,FeedbackService feedbackService) {
+    private MizDooni(DataBase dataBase, RestaurantService restaurantService, UserService userService,FeedbackService feedbackService) {
         this.dataBase = dataBase;
         this.restaurantService = restaurantService;
         this.userService = userService;
         this.feedbackService = feedbackService;
     }
 
+    public static MizDooni getInstance() {
+        if (instance == null)
+            instance = new MizDooni(MemoryDataBase.getInstance(), RestaurantServiceImpl.getInstance(), UserServiceImplementation.getInstance(), FeedbackServiceImpl.getInstance());
+        return instance;
+    }
     public void ReadFromJsonFile(File file) throws Exception {
         var jsonData = mapper.readValue(file, InputData.class);
         for (Command command : jsonData.getCommands()) {

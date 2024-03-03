@@ -10,19 +10,20 @@ import org.junit.jupiter.api.Test;
 import services.RestaurantServiceImpl;
 import DataBase.MemoryDataBase;
 import java.util.Date;
+import interfaces.RestaurantService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class RestaurantServiceImplTest {
 
-    private RestaurantServiceImpl restaurantService;
+    private RestaurantService restaurantService;
     private DataBase dataBase;
 
     @BeforeEach
     void setUp() {
-        dataBase = new MemoryDataBase();
-        restaurantService = new RestaurantServiceImpl(dataBase);
+        dataBase = MemoryDataBase.getInstance();
+        restaurantService = RestaurantServiceImpl.getInstance();
         dataBase.saveUser(new User( UserType.manager, "user1", "1234", "email@yahoo.com", new UserAddress("hh","Tehran")));
         dataBase.saveUser(new User( UserType.client, "user2", "1234", "email@yahoo.com", new UserAddress("hh","Tehran")));
         dataBase.saveRestaurant(new Restaurant( "restaurant1", "manager", "type", new Date("2024/3/12 12:00:00"), new Date("2024/9/12 19:00:00"), "description", new RestaurantAddress("hh","Tehran","Kargar")));

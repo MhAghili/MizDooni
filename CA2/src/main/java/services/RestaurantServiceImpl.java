@@ -11,13 +11,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import DataBase.*;
 
 public class RestaurantServiceImpl implements RestaurantService {
-
+    private static RestaurantService instance = null;
     private DataBase dataBase;
 
-    public RestaurantServiceImpl(DataBase dataBase) {
-        this.dataBase = dataBase;
+    private RestaurantServiceImpl() {
+        this.dataBase = MemoryDataBase.getInstance();
+    }
+
+    public static RestaurantService getInstance() {
+        if (instance == null)
+            instance = new RestaurantServiceImpl();
+        return instance;
     }
     @Override
     public void addRestaurant(Restaurant restaurant) throws Exception {

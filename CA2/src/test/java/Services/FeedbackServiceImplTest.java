@@ -1,6 +1,7 @@
 package Services;
 
 import enums.UserType;
+import interfaces.FeedbackService;
 import models.*;
 import exceptions.*;
 import org.junit.jupiter.api.AfterEach;
@@ -13,13 +14,13 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class FeedbackServiceImplTest {
-    private FeedbackServiceImpl feedbackService;
+    private FeedbackService feedbackService;
     private DataBase dataBase;
 
     @BeforeEach
     void setUp() {
-        dataBase = new MemoryDataBase();
-        feedbackService = new FeedbackServiceImpl(dataBase);
+        dataBase = MemoryDataBase.getInstance();
+        feedbackService = FeedbackServiceImpl.getInstance();
         dataBase.saveUser(new User( UserType.manager, "user1", "1234", "email@yahoo.com", new UserAddress("hh","Tehran")));
         dataBase.saveUser(new User( UserType.client, "user2", "1234", "email@yahoo.com", new UserAddress("hh","Tehran")));
         dataBase.saveRestaurant(new Restaurant( "restaurant1", "manager", "type", new Date("2024/3/12 12:00:00"), new Date("2024/9/12 19:00:00"), "description", new RestaurantAddress("hh","Tehran","Kargar")));

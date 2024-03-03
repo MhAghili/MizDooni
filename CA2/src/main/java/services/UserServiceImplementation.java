@@ -6,16 +6,23 @@ import interfaces.DataBase;
 import interfaces.UserService;
 import models.User;
 import utils.Utils;
+import DataBase.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserServiceImplementation implements UserService {
+    private static UserService instance;
     private DataBase dataBase;
-    public UserServiceImplementation(DataBase dataBase) {
-        this.dataBase = dataBase;
+    private UserServiceImplementation() {
+        this.dataBase = MemoryDataBase.getInstance();
     }
 
+    public static UserService getInstance() {
+        if (instance == null)
+            instance = new UserServiceImplementation();
+        return instance;
+    }
     @Override
     public void addUser(User user) throws Exception {
         if (dataBase.getUsers().anyMatch(user1 -> user1.getUsername().equals(user.getUsername())))

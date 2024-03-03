@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class MemoryDataBase implements DataBase {
+    private static DataBase instance = null;
     private ArrayList<User> users;
     private ArrayList<Restaurant> restaurants;
     private ArrayList<Table> tables;
@@ -15,12 +16,18 @@ public class MemoryDataBase implements DataBase {
     private ArrayList<Feedback> feedbacks;
     private int reservationCounter = 0;
 
-    public MemoryDataBase() {
+    private MemoryDataBase() {
         users = new ArrayList<>();
         restaurants = new ArrayList<>();
         tables = new ArrayList<>();
         reservations = new ArrayList<>();
         feedbacks = new ArrayList<>();
+    }
+
+    public static DataBase getInstance() {
+        if (instance == null)
+            instance = new MemoryDataBase();
+        return instance;
     }
 
     @Override
