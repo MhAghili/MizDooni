@@ -1,26 +1,41 @@
+
+<%@ page import="application.MizDooni" %>
+<%@ page import="models.Restaurant" %>
+<%@ page import="java.util.List" %>
+<%@ page import="models.Table" %>
+
+<%
+    MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
+    String username = session.getAttribute("loggedInUser").toString();
+    Restaurant restaurant = mizDooni.getRestaurantService().getRestaurantByManager(username);
+    List<Table> tables = mizDooni.getRestaurantService().getTablesByRestaurant(restaurant.getName());
+%>
+
+
+
 <html lang="en"><head>
     <meta charset="UTF-8">
     <title>Manager Home</title>
 </head>
 <body>
-    <h1>Welcome  <%= session.getAttribute("loggedInUser")%> <a href="Logout.jsp" style="color: red">Log Out</a></h1>
+    <h1>Welcome  <%= username%> <a href="Logout.jsp" style="color: red">Log Out</a></h1>
 
     <h2>Your Restaurant Information:</h2>
     <ul>
-        <li id="id">Id: 1</li>
-        <li id="name">Name: Fast Food</li>
-        <li id="type">Type: Italian</li>
-        <li id="time">Time: 08:00 - 23:00</li>
-        <li id="description">Description: "Best food you can eat"</li>
-        <li id="address">Address: North Kargar, Tehran, Iran</li>
+
+        <li id="name">Name: <%= restaurant.getName() %> </li>
+        <li id="type">Type:  <%= restaurant.getType() %></li>
+        <li id="time">Time: <%= restaurant.getStartTime().getHours() %> - <%= restaurant.getEndTime().getHours() %></li>
+        <li id="description"> <%= restaurant.getDescription() %></li>
+        <li id="address"> <%= restaurant.getAddress().getCountry() %>,<%= restaurant.getAddress().getCity() %>,<%= restaurant.getAddress().getStreet() %></li>
         <li id="tables">Tables:</li>
+
         <ul>
-            <li>table1</li>
-            <li>table2</li>
-            <li>table3</li>
-            <li>table4</li>
-            <li>table5</li>
+            <% for (Table table : tables) { %>
+                <li> Table Number: <%= table.getTableNumber() %> Seats:<%= table.getSeatsNumber() %> </li>
+            <% } %>
         </ul>
+
     </ul>
     
     <table border="1" cellpadding="10">
@@ -28,7 +43,7 @@
             <td>
 
             <h3>Add Table:</h3>
-            <form method="post" action="">
+            <form method="post" action="TableHandler.jsp?restaurantName=<%= restaurant.getName() %>">
                 <label>Table Number:</label>
                 <input name="table_number" type="number" min="0"/>
                 <br>

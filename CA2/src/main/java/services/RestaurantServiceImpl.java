@@ -63,6 +63,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public List<Table> getTablesByRestaurant(String restaurantName) throws Exception {
+        return dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+    }
+
+    @Override
     public int reserveTable(TableReservation reservation) throws Exception {
 
         var user = dataBase.getUsers()
@@ -192,6 +197,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         return dataBase.getReservations()
                 .filter(i -> i.getUsername().equals(username))
                 .toList();
+    }
+
+    @Override
+    public Restaurant getRestaurantByManager(String managerUsername) throws Exception {
+        return dataBase.getRestaurants()
+                .filter(i -> i.getManagerUsername().equals(managerUsername))
+                .findFirst()
+                .orElseThrow(RestaurantNotFound::new);
     }
 
     private boolean isTwoDateEqual(Date date1, Date date2) {
