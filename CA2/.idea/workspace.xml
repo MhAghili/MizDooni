@@ -9,30 +9,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="bug fixes">
+    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="fix : bug fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/application/MizDooni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/MizDooni.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/FeedbackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/FeedbackService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" afterDir="false" />
+    </list>
+    <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="feat: add input.json">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24,_6_33 PM_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24__6_33PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DemoServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MizDooni.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/InputData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/ReservationCancellationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/ReservationCancellationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/LastCommitHash.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/LastCommitHash.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/consoleInput.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Services/RestaurantServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Services/RestaurantServiceImplTest.java" afterDir="false" />
     </list>
-    <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,28 +62,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Notification.DisplayName-DoNotAsk-Lombok plugin&quot;: &quot;Lombok integration problem&quot;,
-    &quot;Notification.DoNotAsk-Lombok plugin&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/src/main/webapp/WEB-INF&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/node_modules/prettier&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Notification.DisplayName-DoNotAsk-Lombok plugin": "Lombok integration problem",
+    "Notification.DoNotAsk-Lombok plugin": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/src/main/webapp/WEB-INF",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/node_modules/prettier",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
@@ -340,7 +334,7 @@
       <workItem from="1709889650431" duration="81000" />
       <workItem from="1709889734571" duration="5000" />
       <workItem from="1709889967195" duration="4932000" />
-      <workItem from="1709911373224" duration="6288000" />
+      <workItem from="1709911373224" duration="15379000" />
     </task>
     <task id="LOCAL-00001" summary="add custom Time deserializer">
       <created>1708965993206</created>
@@ -412,7 +406,28 @@
       <option name="project" value="LOCAL" />
       <updated>1709113137000</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="feat : add login and logout features">
+      <created>1709917995036</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1709917995036</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: add input.json">
+      <created>1709918174009</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1709918174009</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix : bug fixes">
+      <created>1709922610814</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1709922610814</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,7 +455,10 @@
     <MESSAGE value="Add Table Reservation Unit tests" />
     <MESSAGE value="Add Review Unit tests" />
     <MESSAGE value="bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fixes" />
+    <MESSAGE value="feat : add login and logout features" />
+    <MESSAGE value="feat: add input.json" />
+    <MESSAGE value="fix : bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix : bug fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -458,11 +476,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
           <line>6</line>
           <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp</url>
-          <line>19</line>
-          <option name="timeStamp" value="108" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

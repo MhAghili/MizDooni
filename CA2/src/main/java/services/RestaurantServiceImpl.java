@@ -183,6 +183,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public Restaurant getCurrentRes(String restaurantName) throws Exception {
+        return dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
+    }
+
+    @Override
     public List<TableReservation> getReservationByUsername(String username) {
         return dataBase.getReservations()
                 .filter(i -> i.getUsername().equals(username))

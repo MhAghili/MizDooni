@@ -117,7 +117,8 @@ public class MizDooni {
         this.dataBase.saveRestaurant(new Restaurant("restaurant1", "user1", "Iranian", new Date(2014, 02, 11 , 8 , 0), new Date(2014, 02, 11 ,  23, 0), "Open seven days a week", new RestaurantAddress("Iran", "Tehran", "North Kargar")));
         this.dataBase.saveTable(new Table(1, "restaurant1", "user1", 4));
         this.dataBase.saveTable(new Table(2, "restaurant1", "user1", 4));
-
+        this.dataBase.saveFeedback(new Feedback("user2", "restaurant1", 4.4, 3.3, 2.5, 3.5, "good"));
+        this.dataBase.saveFeedback(new Feedback("user2", "restaurant1", 3, 4, 4, 3, "not bad"));
     }
     }
 

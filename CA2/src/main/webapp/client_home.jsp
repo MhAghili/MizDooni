@@ -14,7 +14,7 @@
 
     <ul type="square">
         <li>
-            <a href="Restaurant.jsp">Restaurants</a>
+            <a href="Restaurants.jsp">Restaurants</a>
         </li>
         <li>
             <a href="Restaurants.jsp">Reservations</a>

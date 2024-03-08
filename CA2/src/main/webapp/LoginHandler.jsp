@@ -24,7 +24,7 @@
   }
 
   if (mizDooni.getUserService().login(username, password)) {
-    session.setAttribute(Integer.toString(users.size()), username);
+    session.setAttribute("loggedInUser", username);
 
     if (role == UserType.client) {
       response.sendRedirect("client_home.jsp");
