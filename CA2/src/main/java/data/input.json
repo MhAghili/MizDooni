@@ -18,7 +18,7 @@
       "jsonData": {
         "role": "client",
         "username": "user2",
-        "password": "123534",
+        "password": "12345",
         "email": "user12@gmail.com",
         "address": {
           "country": "Iran",
@@ -57,8 +57,33 @@
         "tableNumber": 2,
         "restaurantName": "restaurant1",
         "managerUsername": "user1",
-        "seatsNumber": 4
+        "seatsNumber": 3
+      }
+    },
+    {
+      "command": "addReview",
+        "jsonData": {
+            "username": "user2",
+            "restaurantName": "restaurant1",
+            "foodRate": "4",
+            "serviceRate": "3",
+            "ambianceRate": "3",
+            "overallRate": "4",
+            "comment": "good"
+        }
+    },
+    {
+      "command": "addReview",
+      "jsonData": {
+        "username": "user2",
+        "restaurantName": "restaurant1",
+        "foodRate": "4.5",
+        "serviceRate": "3.5",
+        "ambianceRate": "2",
+        "overallRate": "3.5",
+        "comment": "not bad!"
       }
     }
+
   ]
 }

@@ -111,14 +111,7 @@ public class MizDooni {
     }
 
     public void run() throws Exception {
-//        ReadFromJsonFile(new File("input.json"));
-        this.dataBase.saveUser(new User(UserType.manager, "user1", "1234","user1@gmail.com",new UserAddress("Iran","Tehran")));
-        this.dataBase.saveUser(new User(UserType.client, "user2", "12345", "user12@gmail.com", new UserAddress("Iran", "Tehran")));
-        this.dataBase.saveRestaurant(new Restaurant("restaurant1", "user1", "Iranian", new Date(2014, 02, 11 , 8 , 0), new Date(2014, 02, 11 ,  23, 0), "Open seven days a week", new RestaurantAddress("Iran", "Tehran", "North Kargar")));
-        this.dataBase.saveTable(new Table(1, "restaurant1", "user1", 4));
-        this.dataBase.saveTable(new Table(2, "restaurant1", "user1", 2));
-        this.dataBase.saveFeedback(new Feedback("user2", "restaurant1", 4.4, 3.3, 2.5, 3.5, "good"));
-        this.dataBase.saveFeedback(new Feedback("user2", "restaurant1", 3, 4, 4, 3, "not bad"));
+        ReadFromJsonFile(new File("/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/src/main/java/data/input.json"));
     }
     }
 

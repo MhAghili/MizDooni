@@ -105,7 +105,7 @@
         <th>Overall Rate</th>
       </tr>
       <tr>
-        <td><%= feedback.getUsername()%>></td>
+        <td><%= feedback.getUsername()%></td>
         <td><%= feedback.getComment()%></td>
         <td><%= feedback.getFoodRate()%></td>
         <td><%= feedback.getServiceRate()%></td>

@@ -9,17 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="fix : bug fixes">
+    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="feat : complete manager_home.jsp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/application/MizDooni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/MizDooni.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/FeedbackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/FeedbackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/input.json" afterDir="false" />
     </list>
     <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="feat: add input.json">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24,_6_33 PM_[Changes]/shelved.patch" beforeDir="false" />
@@ -334,7 +327,7 @@
       <workItem from="1709889650431" duration="81000" />
       <workItem from="1709889734571" duration="5000" />
       <workItem from="1709889967195" duration="4932000" />
-      <workItem from="1709911373224" duration="15379000" />
+      <workItem from="1709911373224" duration="19621000" />
     </task>
     <task id="LOCAL-00001" summary="add custom Time deserializer">
       <created>1708965993206</created>
@@ -427,7 +420,28 @@
       <option name="project" value="LOCAL" />
       <updated>1709922610814</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat : add Restaurant and Restaurants JSPs pages and implementations">
+      <created>1709936337214</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1709936337214</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat : add feedback feature to JSPs">
+      <created>1709936378714</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1709936378714</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat : complete manager_home.jsp">
+      <created>1709938524545</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1709938524545</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -458,14 +472,17 @@
     <MESSAGE value="feat : add login and logout features" />
     <MESSAGE value="feat: add input.json" />
     <MESSAGE value="fix : bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix : bug fixes" />
+    <MESSAGE value="feat : add Restaurant and Restaurants JSPs pages and implementations" />
+    <MESSAGE value="feat : add feedback feature to JSPs" />
+    <MESSAGE value="feat : complete manager_home.jsp" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat : complete manager_home.jsp" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java</url>
-          <line>123</line>
+          <line>128</line>
           <properties class="services.RestaurantServiceImpl">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -476,6 +493,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
           <line>6</line>
           <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/webapp/TableHandler.jsp</url>
+          <line>12</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/webapp/TableHandler.jsp</url>
+          <line>14</line>
+          <option name="timeStamp" value="117" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
