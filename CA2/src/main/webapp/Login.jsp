@@ -37,9 +37,6 @@
     <label>Password:</label>
     <input name="password" type="password" />
     <br>
-    <label>Role:</label>
-    <input name="role" type="text" />
-    <br>
     <button type="submit">Login!</button>
   </form>
 </body>

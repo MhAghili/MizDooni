@@ -2,22 +2,31 @@
 <%@ page import="application.MizDooni" %>
 <%@ page import="enums.UserType" %>
 <%@ page import="models.User" %>
-
+<%@ page import="java.util.List" %>
+<%@ page import="models.Restaurant" %>
 
 <%
-  String username = request.getParameter("username");
-  String password = request.getParameter("password");
-  String role = request.getParameter("role");
-
   MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
 
+  String username = request.getParameter("username");
+  String password = request.getParameter("password");
+  UserType role = null;
+
+
+  List<User> users = mizDooni.getDataBase().getUsers().toList();
+
+
+  for (User user : users){
+    if(user.getUsername().equals(username)){
+      role = user.getRole();
+      break;
+    }
+  }
 
   if (mizDooni.getUserService().login(username, password)) {
+    session.setAttribute(Integer.toString(users.size()), username);
 
-    session.setAttribute("loggedInUser", username);
-
-//    User curUser = mizDooni.getDataBase().getUsers().filter(u -> u.getUsername().equals(username)).findFirst().orElse(null);
-    if (role.equals(UserType.client.toString())) {
+    if (role == UserType.client) {
       response.sendRedirect("client_home.jsp");
     } else {
       response.sendRedirect("manager_home.jsp");
@@ -27,3 +36,4 @@
     response.sendRedirect("Login.jsp");
   }
 %>
+
