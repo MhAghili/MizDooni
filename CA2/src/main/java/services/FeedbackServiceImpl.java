@@ -9,6 +9,8 @@ import models.Feedback;
 import static defines.AllowedRateRange.*;
 import DataBase.*;
 
+import java.util.List;
+
 public class FeedbackServiceImpl implements FeedbackService {
     private static FeedbackService instance = null;
     private DataBase dataBase;
@@ -49,4 +51,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         dataBase.saveFeedback(feedback);
     }
+
+    @Override
+    public List<Feedback> getReviewsByRestaurantName(String restaurantName) throws Exception {
+        return dataBase.getFeedbacks().filter(f -> f.getRestaurantName().equals(restaurantName)).toList();
+    }
+
 }
