@@ -47,6 +47,17 @@ public class UserServiceImplementation implements UserService {
 
     }
 
+    public boolean login(String username, String password) throws Exception {
+        if (dataBase.getUsers().noneMatch(user -> user.getUsername().equals(username)))
+            throw new UserNotFound();
+
+        if (dataBase.getUsers().noneMatch(user -> user.getUsername().equals(username) && user.getPassword().equals(password)))
+            throw new UserNotFound();
+
+        return true;
+
+    }
+
     private boolean isValidEmail(String email) {
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(regex);

@@ -1,4 +1,4 @@
-package models;
+package utils;
 import java.util.Map;
 
 public class Command {

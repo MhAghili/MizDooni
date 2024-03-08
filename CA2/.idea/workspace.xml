@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="web exploded" />
+      <artifact name="CA2:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,9 +10,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="bug fixes">
-      <change afterPath="$PROJECT_DIR$/../CA1/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/DemoServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CA1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CA1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24,_6_33 PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24__6_33PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DemoServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MizDooni.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/InputData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ReservationCancellationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/ReservationCancellationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/LastCommitHash.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/LastCommitHash.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/consoleInput.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Services/RestaurantServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Services/RestaurantServiceImplTest.java" afterDir="false" />
     </list>
     <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +43,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -59,11 +78,12 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/IE Projects/CA2/pom.xml&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/src/main/webapp/WEB-INF&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/node_modules/prettier&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -72,6 +92,14 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/application" />
+      <recent name="$PROJECT_DIR$/src/main/java/data" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
@@ -82,7 +110,7 @@
   <component name="RunManager" selected="Tomcat Server.Tomcat 8.5.99">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="CA1" />
+      <module name="CA2" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -180,9 +208,9 @@
     <configuration name="Tomcat 8.5.99" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.99" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="web exploded">
+        <artifact name="CA2:war exploded">
           <settings>
-            <option name="CONTEXT_PATH" value="/web_exploded" />
+            <option name="CONTEXT_PATH" value="/CA2_war_exploded" />
           </settings>
         </artifact>
       </deployment>
@@ -260,7 +288,7 @@
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
-          <artifact name="web exploded" />
+          <artifact name="CA2:war exploded" />
         </option>
       </method>
     </configuration>
@@ -274,9 +302,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.RestaurantServiceImplTest" />
         <item itemvalue="JUnit.FeedbackServiceImplTest" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.FeedbackServiceImplTest.addFeedback_successfulFeedback" />
         <item itemvalue="JUnit.RestaurantServiceImplTest (1)" />
       </list>
@@ -305,6 +333,14 @@
       <workItem from="1709205207253" duration="203000" />
       <workItem from="1709309544873" duration="46000" />
       <workItem from="1709311706713" duration="150000" />
+      <workItem from="1709453322784" duration="15000" />
+      <workItem from="1709453511692" duration="53000" />
+      <workItem from="1709453672524" duration="1989000" />
+      <workItem from="1709489824665" duration="1620000" />
+      <workItem from="1709889650431" duration="81000" />
+      <workItem from="1709889734571" duration="5000" />
+      <workItem from="1709889967195" duration="4932000" />
+      <workItem from="1709911373224" duration="6288000" />
     </task>
     <task id="LOCAL-00001" summary="add custom Time deserializer">
       <created>1708965993206</created>
@@ -382,6 +418,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add custom Time deserializer" />
     <MESSAGE value="seprate resturant and user Adrees" />
@@ -400,12 +447,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java</url>
-          <line>122</line>
-          <properties class="services.RestaurantServiceImpl" method="getRestaurantByName">
+          <line>123</line>
+          <properties class="services.RestaurantServiceImpl">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
+          <line>6</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp</url>
+          <line>19</line>
+          <option name="timeStamp" value="108" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -415,11 +472,10 @@
       </pinned-members>
     </pin-to-top-manager>
     <watches-manager>
+      <configuration name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
+        <watch expression="mizDooni.getDataBase().getUsers().filter(u -&gt; u.getUsername().equals(username)).findFirst()" language="JSP" />
+      </configuration>
       <configuration name="Application">
-        <watch expression="reservation.getDateTime().before(restaurant.getEndTime())" language="JAVA" />
-        <watch expression="restaurant.getEndTime().getHours()" language="JAVA" />
-        <watch expression="reservation.getDateTime().getHours()" language="JAVA" />
-        <watch expression="memoryDataBase" />
         <watch expression="dataBase" />
         <watch expression="request" />
         <watch expression="feedback" />

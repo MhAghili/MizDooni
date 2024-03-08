@@ -1,24 +1,37 @@
+package application;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import enums.UserType;
 import interfaces.DataBase;
 import interfaces.FeedbackService;
 import interfaces.RestaurantService;
 import interfaces.UserService;
+import lombok.Getter;
 import models.*;
 import services.FeedbackServiceImpl;
 import services.RestaurantServiceImpl;
 import services.UserServiceImplementation;
+import utils.Command;
 import utils.ConsoleIOHandler;
 import defines.CommandType;
 import DataBase.*;
+import utils.InputData;
+import utils.ReservationCancellationRequest;
+
 import java.io.File;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.Map;
+
 
 public class MizDooni {
     private static MizDooni instance = null;
+    @Getter
     private DataBase dataBase;
+    @Getter
     private RestaurantService restaurantService;
+    @Getter
     private UserService userService;
-
+    @Getter
     private FeedbackService feedbackService;
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -98,64 +111,15 @@ public class MizDooni {
     }
 
     public void run() throws Exception {
-        ReadFromJsonFile(new File("src/main/java/input.json"));
-        while (true) {
-            try {
-                var input = ConsoleIOHandler.getInput(); // Move input reading inside the loop
-                switch (input.getCommand()) {
-                    case CommandType.ADD_USER:
-                        userService.addUser(mapper.readValue(input.getJsonData(), User.class));
-                        response.setData("User added successfully.");
-                        break;
+//        ReadFromJsonFile(new File("input.json"));
+        this.dataBase.saveUser(new User(UserType.manager, "user1", "1234","user1@gmail.com",new UserAddress("Iran","Tehran")));
+        this.dataBase.saveUser(new User(UserType.client, "user2", "12345", "user12@gmail.com", new UserAddress("Iran", "Tehran")));
+        this.dataBase.saveRestaurant(new Restaurant("restaurant1", "user1", "Iranian", new Date(2014, 02, 11 , 8 , 0), new Date(2014, 02, 11 ,  23, 0), "Open seven days a week", new RestaurantAddress("Iran", "Tehran", "North Kargar")));
+        this.dataBase.saveTable(new Table(1, "restaurant1", "user1", 4));
+        this.dataBase.saveTable(new Table(2, "restaurant1", "user1", 4));
 
-                    case CommandType.ADD_RESTAURANT:
-                        restaurantService.addRestaurant(mapper.readValue(input.getJsonData(), Restaurant.class));
-                        response.setData("Restaurant added successfully.");
-                        break;
-                    case CommandType.ADD_TABLE:
-                        restaurantService.addTable(mapper.readValue(input.getJsonData(), Table.class));
-                        response.setData("Table added successfully.");
-                        break;
-                    case CommandType.RESERVE_TABLE:
-                        var reservationNumber = restaurantService.reserveTable(mapper.readValue(input.getJsonData(), TableReservation.class));
-                        response.setData("{\"reservationNumber\":" + reservationNumber + "}");
-                        break;
-
-                    case CommandType.CANCEL_RESERVATION:
-                        restaurantService.cancelReservation(mapper.readValue(input.getJsonData(), ReservationCancellationRequest.class));
-                        response.setData("Reservation canceled successfully.");
-                        break;
-                    case CommandType.SHOW_RESERVATION_HISTORY:
-                        var reservationHistory = restaurantService.getReservationByUsername((String) mapper.readValue(input.getJsonData(), Map.class).get("username"));
-                        response.setData(mapper.writeValueAsString(reservationHistory));
-                        break;
-                    case CommandType.SEARCH_RESTAURANTS_BY_NAME:
-                        var restaurantsFilteredByName = restaurantService.getRestaurantByName((String) mapper.readValue(input.getJsonData(), Map.class).get("name"));
-                        response.setData(mapper.writeValueAsString(restaurantsFilteredByName));
-                        break;
-                    case CommandType.SEARCH_RESTAURANTS_BY_TYPE:
-                        var restaurantsFilteredByType = restaurantService.getRestaurantByType((String) mapper.readValue(input.getJsonData(), Map.class).get("type"));
-                        response.setData(mapper.writeValueAsString(restaurantsFilteredByType));
-                        break;
-                    case CommandType.SHOW_AVAILABLE_TABLES:
-                        var availableTimes = restaurantService.getAvailableTablesByRestaurant((String) mapper.readValue(input.getJsonData(), Map.class).get("restaurantName"));
-                        response.setData(mapper.writeValueAsString(availableTimes));
-                        break;
-                    case CommandType.ADD_REVIEW:
-                        feedbackService.addReview(mapper.readValue(input.getJsonData(), Feedback.class));
-                        response.setData("Review added successfully.");
-                        break;
-                }
-                response.setSuccess(true);
-            }
-            catch  (Exception ex) {
-                response.setSuccess(false);
-                response.setData(ex.getMessage());
-            }
-            ConsoleIOHandler.writeOutput(response.toString());
-        }
+    }
     }
 
 
 
-}

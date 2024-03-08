@@ -30,12 +30,15 @@
 <body style="text-align:center">
 
   <h1>Welcome to Mizdooni</h1>
-  <form method="post" action="">
+  <form method="post" action="LoginHandler.jsp" >
     <label>Username:</label>
-    <input name="uesrname" type="text" />
+    <input name="username" type="text" />
     <br>
     <label>Password:</label>
     <input name="password" type="password" />
+    <br>
+    <label>Role:</label>
+    <input name="role" type="text" />
     <br>
     <button type="submit">Login!</button>
   </form>

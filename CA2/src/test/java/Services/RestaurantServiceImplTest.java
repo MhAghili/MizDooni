@@ -60,8 +60,7 @@ public class RestaurantServiceImplTest {
     }
 
     @Test
-    void pastDate() {
-        TableReservation tableReservation = new TableReservation(1,"user2", "restaurant1",1 , new Date("2021/3/13 15:00:00"));
+    void pastDate() {TableReservation tableReservation = new TableReservation(1,"user2", "restaurant1",1 , new Date("2021/3/13 15:00:00"));
         assertThrows(PastDateTimeException.class, () -> restaurantService.reserveTable(tableReservation));
     }
 

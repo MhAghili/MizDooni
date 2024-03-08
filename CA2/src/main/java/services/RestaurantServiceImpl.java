@@ -5,6 +5,7 @@ import exceptions.*;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
 import models.*;
+import utils.ReservationCancellationRequest;
 import utils.Utils;
 
 import java.util.ArrayList;

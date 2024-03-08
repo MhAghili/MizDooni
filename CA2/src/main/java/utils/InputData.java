@@ -1,4 +1,6 @@
-package models;
+package utils;
+
+import utils.Command;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package interfaces;
 
-import exceptions.InvalidRestaurantName;
 import models.*;
+import utils.ReservationCancellationRequest;
 
 import java.util.List;
 
