@@ -2,11 +2,13 @@
 <%@ page import="application.MizDooni" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.TableReservation" %>
+<%@ page import="services.RestaurantServiceImpl" %>
+<%@ page import="interfaces.RestaurantService" %>
 <%try { %>
 <%
     String username = session.getAttribute("loggedInUser").toString();
-    MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
-    List<TableReservation> userReservations = mizDooni.getRestaurantService().getReservationsByUserName(username);
+    RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
+    List<TableReservation> userReservations = restaurantService.getReservationsByUserName(username);
 
 %>
 

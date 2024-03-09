@@ -3,10 +3,14 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="models.TableReservation" %>
+<%@ page import="interfaces.RestaurantService" %>
+<%@ page import="services.RestaurantServiceImpl" %>
 
 <%try { %>
 <%
-    MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
+
+    RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
+
     String username = session.getAttribute("loggedInUser").toString();
     String date_time = request.getParameter("date_time");
     String restaurantName = request.getParameter("restaurantName");
@@ -16,7 +20,7 @@
 
     TableReservation tableReservation = new TableReservation(0, username,restaurantName , table_number, date);
 
-    mizDooni.getRestaurantService().reserveTable(tableReservation);
+    restaurantService.reserveTable(tableReservation);
 
     response.sendRedirect("Reservations.jsp");
 %>

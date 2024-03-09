@@ -1,18 +1,17 @@
-<%@ page import="application.MizDooni" %>
-<%@ page import="models.Feedback" %>
-<%@ page import="models.Table" %>
+
 <%@ page import="utils.ReservationCancellationRequest" %>
+<%@ page import="interfaces.RestaurantService" %>
+<%@ page import="services.RestaurantServiceImpl" %>
 
 
 <%
-  MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
   String username = session.getAttribute("loggedInUser").toString();
   int id = Integer.parseInt(request.getParameter("id"));
-
+  RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
 
   ReservationCancellationRequest req = new ReservationCancellationRequest( id,username);
 
-  mizDooni.getRestaurantService().cancelReservation(req);
+  restaurantService.cancelReservation(req);
 
   response.sendRedirect("Reservations.jsp");
 

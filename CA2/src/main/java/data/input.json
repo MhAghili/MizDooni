@@ -18,7 +18,7 @@
       "jsonData": {
         "role": "client",
         "username": "user2",
-        "password": "12345",
+        "password": "1234",
         "email": "user12@gmail.com",
         "address": {
           "country": "Iran",
@@ -92,6 +92,66 @@
         "ambianceRate": "2",
         "overallRate": "3.5",
         "comment": "not bad!"
+      }
+    },
+    {
+      "command": "addUser",
+      "jsonData": {
+        "role": "manager",
+        "username": "user3",
+        "password": "1234",
+        "email": "user3@gmail.com",
+        "address": {
+          "country": "Iran",
+          "city": "Tehran"
+        }
+      }
+    },
+    {
+      "command": "addUser",
+      "jsonData": {
+        "role": "client",
+        "username": "user4",
+        "password": "1234",
+        "email": "user4@gmail.com",
+        "address": {
+          "country": "Iran",
+          "city": "Tehran"
+        }
+      }
+    },
+    {
+      "command": "addRestaurant",
+      "jsonData": {
+        "name": "restaurant2",
+        "managerUsername": "user3",
+        "type": "Italian",
+        "startTime": "09:00",
+        "endTime": "22:00",
+        "description": "Authentic Italian cuisine",
+        "address": {
+          "country": "Iran",
+          "city": "Tehran",
+          "street": "Valiasr"
+        }
+      }
+    },
+    {
+      "command": "addTable",
+      "jsonData": {
+        "tableNumber": 1,
+        "restaurantName": "restaurant2",
+        "managerUsername": "user3",
+        "seatsNumber": 6
+      }
+    },
+    {
+      "command": "addTable",
+      "jsonData": {
+        "tableNumber": 5,
+        "restaurantName": "restaurant2",
+        "managerUsername": "user3",
+        "seatsNumber": 4
       }
     }
 

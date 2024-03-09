@@ -1,18 +1,20 @@
 
-<%@ page import="application.MizDooni" %>
 <%@ page import="models.Restaurant" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Table" %>
+<%@ page import="interfaces.RestaurantService" %>
+<%@ page import="services.RestaurantServiceImpl" %>
 
 <%
     try {
     if (session.getAttribute("loggedInUser") == null) {
         response.sendRedirect("Login.jsp");
     }
-    MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
+
+    RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
     String username = session.getAttribute("loggedInUser").toString();
-    Restaurant restaurant = mizDooni.getRestaurantService().getRestaurantByManager(username);
-    List<Table> tables = mizDooni.getRestaurantService().getTablesByRestaurant(restaurant.getName());
+    Restaurant restaurant = restaurantService.getRestaurantByManager(username);
+    List<Table> tables = restaurantService.getTablesByRestaurant(restaurant.getName());
 %>
 
 

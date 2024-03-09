@@ -1,10 +1,11 @@
-<%@ page import="application.MizDooni" %>
-<%@ page import="models.Feedback" %>
 <%@ page import="models.Table" %>
+<%@ page import="services.RestaurantServiceImpl" %>
+<%@ page import="interfaces.RestaurantService" %>
 
 <%try { %>
 <%
-    MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
+
+    RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
     String username = session.getAttribute("loggedInUser").toString();
     String restaurantName = request.getParameter("restaurantName");
     int table_number = Integer.parseInt(request.getParameter("table_number"));
@@ -12,7 +13,7 @@
 
     Table table = new Table( table_number,restaurantName, username , seats_number);
 
-    mizDooni.getRestaurantService().addTable(table);
+    restaurantService.addTable(table);
 
     response.sendRedirect("manager_home.jsp");
 

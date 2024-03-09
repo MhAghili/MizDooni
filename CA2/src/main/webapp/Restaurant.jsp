@@ -3,13 +3,20 @@
 <%@ page import="enums.UserType" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.*" %>
+<%@ page import="services.RestaurantServiceImpl" %>
+<%@ page import="interfaces.RestaurantService" %>
+<%@ page import="interfaces.FeedbackService" %>
+<%@ page import="services.FeedbackServiceImpl" %>
 <%try { %>
 <%
 
-  MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
+  RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
+
+  FeedbackService feedbackService = FeedbackServiceImpl.getInstance();
+
   String restaurantName = request.getParameter("restaurantName");
-  Restaurant restaurant = mizDooni.getRestaurantService().getCurrentRes(restaurantName);
-  List<Feedback> feedbacks = mizDooni.getFeedbackService().getReviewsByRestaurantName(restaurantName);
+  Restaurant restaurant = restaurantService.getCurrentRes(restaurantName);
+  List<Feedback> feedbacks = feedbackService.getReviewsByRestaurantName(restaurantName);
 
 %>
 
@@ -31,7 +38,7 @@
       <li id="address">Address: <%= restaurant.getAddress().getCountry() %> - <%= restaurant.getAddress().getCity() %> - <%= restaurant.getAddress().getStreet() %></li>
       <li id="description">Description: <%= restaurant.getDescription() %></li>
       <li id="rate">Scores:</li>
-      <%  Feedback restaurantAverageRating = mizDooni.getRestaurantService().getAverageFeedbackOfRestaurant(restaurant.getName()); %>
+      <%  Feedback restaurantAverageRating = restaurantService.getAverageFeedbackOfRestaurant(restaurant.getName()); %>
       <ul>
         <li>Food: <%= restaurantAverageRating.getFoodRate() %></li>
         <li>Service: <%= restaurantAverageRating.getServiceRate() %> </li>
@@ -43,7 +50,7 @@
 
 
     <%
-      List<Table> availableTableInfos = mizDooni.getRestaurantService().getTablesByRestaurant(restaurant.getName());
+      List<Table> availableTableInfos = restaurantService.getTablesByRestaurant(restaurant.getName());
     %>
 
 

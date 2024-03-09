@@ -27,11 +27,11 @@ public class MizDooni {
     private static MizDooni instance = null;
     @Getter
     private DataBase dataBase;
-    @Getter
+
     private RestaurantService restaurantService;
-    @Getter
+
     private UserService userService;
-    @Getter
+
     private FeedbackService feedbackService;
 
     private ObjectMapper mapper = new ObjectMapper();

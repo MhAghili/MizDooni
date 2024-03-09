@@ -5,10 +5,11 @@
 <%@ page import="services.RestaurantServiceImpl" %>
 <%@ page import="models.Feedback" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="interfaces.RestaurantService" %>
 <%try { %>
 <%
-
-    MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
+    RestaurantService restaurantService = RestaurantServiceImpl.getInstance();
+    MizDooni mizDooni = MizDooni.getInstance();
     List<Restaurant> restaurants;
 
 
@@ -63,7 +64,7 @@
             <th>Overall Score</th>
         </tr>
         <% for (Restaurant restaurant : restaurants) { %>
-        <% Feedback restaurantAverageRating = mizDooni.getRestaurantService().getAverageFeedbackOfRestaurant(restaurant.getName()); %>
+        <% Feedback restaurantAverageRating = restaurantService.getAverageFeedbackOfRestaurant(restaurant.getName()); %>
         <tr>
             <td id="name"><a href="Restaurant.jsp?restaurantName=<%= restaurant.getName() %>" ><%= restaurant.getName()%></a></td>
             <td id="city"> <%= restaurant.getAddress().getCity() %></td>

@@ -3,11 +3,13 @@
 <%@ page import="enums.UserType" %>
 <%@ page import="models.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="interfaces.UserService" %>
+<%@ page import="services.UserServiceImplementation" %>
 
 <%try { %>
 <%
-  MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
-
+  MizDooni mizDooni = MizDooni.getInstance();
+  UserService userService = UserServiceImplementation.getInstance();
   String username = request.getParameter("username");
   String password = request.getParameter("password");
   UserType role = null;
@@ -23,7 +25,7 @@
     }
   }
 
-  if (mizDooni.getUserService().login(username, password)) {
+  if (userService.login(username, password)) {
     session.setAttribute("loggedInUser", username);
 
     if (role == UserType.client) {
