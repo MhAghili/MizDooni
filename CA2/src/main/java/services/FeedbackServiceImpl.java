@@ -43,8 +43,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         if (!dataBase
                 .getReservations()
-                .anyMatch(i -> i.getUsername().equals(feedback.getUsername()) && i.getRestaurantName().equals(feedback.getRestaurantName())
-                        )) {
+                .anyMatch(i -> i.getUsername().equals(feedback.getUsername()) && i.getRestaurantName().equals(feedback.getRestaurantName())))
+//                && i.getDatetime().before(new Date())))  // not work
+        {
             throw new MustHavePastReservationForAddFeedback();
         }
 

@@ -23,4 +23,6 @@ public interface RestaurantService {
     Feedback getAverageFeedbackOfRestaurant(String restaurnatName);
 
     List<TableReservation> getReservationsByUserName(String userName ) throws Exception;
+
+    List<Table> getTablesByRestaurantName(String restaurantName) throws Exception;
 }

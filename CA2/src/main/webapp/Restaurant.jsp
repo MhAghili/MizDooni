@@ -1,10 +1,8 @@
 <%@ page import="javax.servlet.http.*" %>
 <%@ page import="application.MizDooni" %>
 <%@ page import="enums.UserType" %>
-<%@ page import="models.User" %>
-<%@ page import="models.Restaurant" %>
 <%@ page import="java.util.List" %>
-<%@ page import="models.Feedback" %>
+<%@ page import="models.*" %>
 <%try { %>
 <%
 
@@ -29,7 +27,7 @@
     <ul>
       <li id="name">Name: <%= restaurant.getName() %></li>
       <li id="type">Type: <%= restaurant.getType() %></li>
-      <li id="time">Time: <%= restaurant.getStartTime() %> - <%= restaurant.getEndTime() %></li>
+      <li id="time">Time: <%= restaurant.getStartTime().getHours() %> - <%= restaurant.getEndTime().getHours() %></li>
       <li id="address">Address: <%= restaurant.getAddress().getCountry() %> - <%= restaurant.getAddress().getCity() %> - <%= restaurant.getAddress().getStreet() %></li>
       <li id="description">Description: <%= restaurant.getDescription() %></li>
       <li id="rate">Scores:</li>
@@ -44,26 +42,31 @@
     <br>
 
 
+    <%
+      List<Table> availableTableInfos = mizDooni.getRestaurantService().getTablesByRestaurant(restaurant.getName());
+    %>
 
-<%--    <table border="1" cellpadding="10">--%>
-<%--      <tr>--%>
-<%--          <td>--%>
-<%--              <label>Reserve Table:</label>--%>
-<%--              <form action="" method="post">--%>
-<%--                <label>Table:</label>--%>
-<%--                <select id="table_number" name="table_number">--%>
-<%--                  <option value="1">1</option>--%>
-<%--                  <option value="2">2</option>--%>
-<%--                  <option value="3">3</option>--%>
-<%--                </select>--%>
-<%--                <label>Date & Time:</label>--%>
-<%--                <input type="datetime-local" id="date_time" name="date_time">--%>
-<%--                <br>--%>
-<%--                <button type="submit" name="action" value="reserve">Reserve</button>--%>
-<%--              </form>--%>
-<%--          </td>--%>
-<%--      </tr>--%>
-<%--  </table>--%>
+
+
+    <table border="1" cellpadding="10">
+      <tr>
+          <td>
+              <label>Reserve Table:</label>
+              <form action="ReserveHandler.jsp?restaurantName=<%= restaurantName %>" method="post">
+                <label>Table:</label>
+                <select id="table_number" name="table_number">
+                  <% for (Table table : availableTableInfos) { %>
+                    <option value="<%= table.getTableNumber()%>"><%= table.getTableNumber()%></option>
+                  <% } %>
+                </select>
+                <label>Date & Time:</label>
+                <input type="datetime-local" id="date_time" name="date_time">
+                <br>
+                <button type="submit" name="action" value="reserve">Reserve</button>
+              </form>
+          </td>
+      </tr>
+  </table>
 
     <table border="1" cellpadding="10">
       <tr>
