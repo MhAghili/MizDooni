@@ -213,15 +213,23 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Feedback getAverageFeedbackOfRestaurant(String restaurnatName) {
         var feedbacks = dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName));
-        if (feedbacks.findAny().isEmpty())
-            return new Feedback("",restaurnatName, 0,0,0,0, "");
+        long count = feedbacks.count(); // Count the number of feedbacks
+
+        if (count == 0) {
+            return new Feedback("", restaurnatName, 0, 0, 0, 0, "");
+        }
 
         return new Feedback( "", restaurnatName,
-            feedbacks.map(i -> i.getFoodRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-            feedbacks.map(i -> i.getServiceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-            feedbacks.map(i -> i.getAmbianceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-            feedbacks.map(i -> i.getOverallRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getFoodRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getServiceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getAmbianceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getOverallRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
             "");
+    }
+
+    @Override
+    public List<TableReservation> getReservationsByUserName(String userName ) throws Exception {
+        return dataBase.getReservations().filter(i -> i.getUsername().equals(userName)).toList();
     }
 
     private boolean isTwoDateEqual(Date date1, Date date2) {
@@ -239,4 +247,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     private int generateUniqueReservationNumber() {
         return dataBase.getReservationCounter();
     }
+
+
 }

@@ -34,12 +34,13 @@
       <li id="address">Address: <%= restaurant.getAddress().getCountry() %> - <%= restaurant.getAddress().getCity() %> - <%= restaurant.getAddress().getStreet() %></li>
       <li id="description">Description: <%= restaurant.getDescription() %></li>
       <li id="rate">Scores:</li>
-<%--      <ul>--%>
-<%--        <li>Food: 3.45</li>--%>
-<%--        <li>Service: 2.5</li>--%>
-<%--        <li>Ambiance: 4.59</li>--%>
-<%--        <li>Overall: 4.1</li>--%>
-<%--      </ul>--%>
+      <%  Feedback restaurantAverageRating = mizDooni.getRestaurantService().getAverageFeedbackOfRestaurant(restaurant.getName()); %>
+      <ul>
+        <li>Food: <%= restaurantAverageRating.getFoodRate() %></li>
+        <li>Service: <%= restaurantAverageRating.getServiceRate() %> </li>
+        <li>Ambiance: <%= restaurantAverageRating.getAmbianceRate() %></li>
+        <li>Overall: <%= restaurantAverageRating.getOverallRate() %></li>
+      </ul>
     </ul>
     <br>
 

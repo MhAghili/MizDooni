@@ -61,6 +61,16 @@
       }
     },
     {
+      "command": "reserveTable",
+      "jsonData": {
+        "username": "user2",
+        "restaurantName": "restaurant1",
+        "tableNumber": 1,
+        "datetime": "2024-03-14 21:00"
+
+      }
+    },
+    {
       "command": "addReview",
         "jsonData": {
             "username": "user2",

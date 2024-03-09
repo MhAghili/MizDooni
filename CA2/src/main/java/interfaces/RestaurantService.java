@@ -21,4 +21,6 @@ public interface RestaurantService {
 
     Restaurant getRestaurantByManager(String managerUsername) throws Exception;
     Feedback getAverageFeedbackOfRestaurant(String restaurnatName);
+
+    List<TableReservation> getReservationsByUserName(String userName ) throws Exception;
 }

@@ -10,4 +10,10 @@ import lombok.Setter;
 public class ReservationCancellationRequest {
     private int reservationNumber;
     private String username;
+
+    public ReservationCancellationRequest(int reservationNumber, String username) {
+        this.reservationNumber = reservationNumber;
+        this.username = username;
+    }
+
 }

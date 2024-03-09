@@ -4,10 +4,6 @@
 </head>
 
 
-<%
-
-%>
-
 <body>
     <h1>Welcome <%= session.getAttribute("loggedInUser")%>  <a href="Logout.jsp" style="color: red">Log Out</a></h1>
     
@@ -17,7 +13,7 @@
             <a href="Restaurants.jsp">Restaurants</a>
         </li>
         <li>
-            <a href="Restaurants.jsp">Reservations</a>
+            <a href="Reservations.jsp">Reservations</a>
         </li>
     </ul>
     
