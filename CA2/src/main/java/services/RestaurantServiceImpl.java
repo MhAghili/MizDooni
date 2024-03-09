@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 import DataBase.*;
 
 public class RestaurantServiceImpl implements RestaurantService {
@@ -161,14 +164,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         var result = new ArrayList<AvailableTableInfo>();
         for (var table: tables) {
-            var tableReservations = dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber());
+            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber());
 
             var availableTimes = new ArrayList<Date>();
             for (int i = 1; i <= 24 ; i++) {
                 if(currentDate.getHours() + i <= restaurant.getEndTime().getHours()
                         && currentDate.getHours() + i >= restaurant.getStartTime().getHours()
                         && currentDate.getHours() + i <= 24
-                        && !tableReservations.anyMatch(j -> isTwoDateEqual(j.getDatetime(), currentDate))
+                        && !tableReservations.get().anyMatch(j -> isTwoDateEqual(j.getDatetime(), currentDate))
                     ) {
                     Calendar calendar = Calendar.getInstance();
 
