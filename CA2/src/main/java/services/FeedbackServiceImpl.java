@@ -9,6 +9,7 @@ import models.Feedback;
 import static defines.AllowedRateRange.*;
 import DataBase.*;
 
+import java.util.Date;
 import java.util.List;
 
 public class FeedbackServiceImpl implements FeedbackService {
@@ -40,6 +41,15 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .findFirst()
                 .orElseThrow(RestaurantNotFound::new);
 
+        if (!dataBase
+                .getReservations()
+                .anyMatch(i -> i.getUsername() == feedback.getUsername()
+                        && i.getRestaurantName() == feedback.getRestaurantName()
+                        && i.getDatetime().before(new Date()))) {
+            throw new MustHavePastReservationForAddFeedback();
+        }
+
+
         if((feedback.getServiceRate() < MIN_RATE || feedback.getServiceRate() > MAX_RATE) ||
                 (feedback.getFoodRate() < MIN_RATE || feedback.getFoodRate() > MAX_RATE) ||
                 (feedback.getAmbianceRate() < MIN_RATE || feedback.getAmbianceRate() > MAX_RATE) ||
@@ -47,6 +57,16 @@ public class FeedbackServiceImpl implements FeedbackService {
         {
 
             throw new AllowedRangeException();
+        }
+
+
+        var previousFeedBack =
+                dataBase
+                    .getFeedbacks()
+                    .filter(i -> i.getUsername().equals(feedback.getUsername()))
+                        .findFirst().orElse(null);
+        if (previousFeedBack != null) {
+            dataBase.deleteFeedback(previousFeedBack);
         }
 
         dataBase.saveFeedback(feedback);

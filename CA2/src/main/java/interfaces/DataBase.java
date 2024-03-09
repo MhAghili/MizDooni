@@ -20,4 +20,5 @@ public interface DataBase {
     Stream<Feedback> getFeedbacks();
 
     void saveFeedback(Feedback feedback);
+    void deleteFeedback(Feedback feedback);
 }

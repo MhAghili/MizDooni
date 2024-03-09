@@ -85,4 +85,6 @@ public class MemoryDataBase implements DataBase {
     public void saveFeedback(Feedback feedback){
         feedbacks.add(feedback);
     }
+    @Override
+    public void deleteFeedback(Feedback feedback) { feedbacks.remove(feedback); }
 }
