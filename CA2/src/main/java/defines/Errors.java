@@ -24,4 +24,5 @@ public class Errors {
     public static final String OUT_OF_RATE_RANGE = "The rate is out of range";
     public static final String RESTAURANT_NOT_FOUND = "The restaurant is not found";
     public static final String MUST_HAVE_PAST_RESERVATION_FOR_ADD_FEEDBACK = "To add feedback, you must have a reservation for restaurant and it must be past the reservation date";
+    public static final String INVALID_PASSWORD = "The password is invalid";
 }

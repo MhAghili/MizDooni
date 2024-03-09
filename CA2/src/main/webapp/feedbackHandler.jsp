@@ -1,6 +1,6 @@
 <%@ page import="application.MizDooni" %>
 <%@ page import="models.Feedback" %>
-
+<%try { %>
 
 <%
     MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
@@ -19,3 +19,7 @@
     response.sendRedirect("Restaurant.jsp?restaurantName=" + restaurantName);
 
 %>
+
+<%} catch (Exception e) {
+    response.sendRedirect("error.jsp?error=" + e.getMessage());
+}%>

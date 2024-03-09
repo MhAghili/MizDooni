@@ -9,19 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="fix : mizdooni bug fixes">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/Reservations.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/cancleReservationHandler.jsp" afterDir="false" />
+    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/RestaurantService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/FeedbackServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/RestaurantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ReservationCancellationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/ReservationCancellationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Home.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/defines/Errors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/defines/Errors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Reservations.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Reservations.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/TableHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/TableHandler.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/error.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/error.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/feedbackHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/feedbackHandler.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" afterDir="false" />
     </list>
     <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="feat: add input.json">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24,_6_33 PM_[Changes]/shelved.patch" beforeDir="false" />
@@ -37,13 +38,26 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Jsp File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="efdc4d5c-a405-4ba5-8f8a-15177e3f7a4d" />
+        <option name="url" value="https://github.com/MhAghili/MizDooni.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/Downloads/jdk-19.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Date.java" root0="FORCE_HIGHLIGHTING" />
@@ -64,29 +78,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Notification.DisplayName-DoNotAsk-Lombok plugin&quot;: &quot;Lombok integration problem&quot;,
-    &quot;Notification.DoNotAsk-Lombok plugin&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/src/main/webapp&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/node_modules/prettier&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Notification.DisplayName-DoNotAsk-Lombok plugin": "Lombok integration problem",
+    "Notification.DoNotAsk-Lombok plugin": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/src/main/webapp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/mohammad/Desktop/University/Semester 8/Internet Engineering/MizDooni/CA2/node_modules/prettier",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp" />
@@ -342,6 +356,7 @@
       <workItem from="1709989568283" duration="105000" />
       <workItem from="1709989679498" duration="29000" />
       <workItem from="1709989714662" duration="120000" />
+      <workItem from="1709989922948" duration="1778000" />
     </task>
     <task id="LOCAL-00001" summary="add custom Time deserializer">
       <created>1708965993206</created>
@@ -462,7 +477,14 @@
       <option name="project" value="LOCAL" />
       <updated>1709940359664</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fix : add reservation jsp and cancel Reservation Cancel handler">
+      <created>1709990201097</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1709990201097</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -497,7 +519,8 @@
     <MESSAGE value="feat : add feedback feature to JSPs" />
     <MESSAGE value="feat : complete manager_home.jsp" />
     <MESSAGE value="fix : mizdooni bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix : mizdooni bug fixes" />
+    <MESSAGE value="fix : add reservation jsp and cancel Reservation Cancel handler" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix : add reservation jsp and cancel Reservation Cancel handler" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -515,16 +538,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
           <line>6</line>
           <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/TableHandler.jsp</url>
-          <line>12</line>
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/TableHandler.jsp</url>
-          <line>14</line>
-          <option name="timeStamp" value="117" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

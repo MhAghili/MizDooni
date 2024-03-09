@@ -2,7 +2,7 @@
 <%@ page import="application.MizDooni" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.TableReservation" %>
-
+<%try { %>
 <%
     String username = session.getAttribute("loggedInUser").toString();
     MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
@@ -45,3 +45,7 @@
     </table>
 </body>
 </html>
+<%} catch (Exception e) {
+    response.sendRedirect("error.jsp?error=" + e.getMessage());
+}%>
+

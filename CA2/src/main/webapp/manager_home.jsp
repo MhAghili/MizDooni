@@ -5,6 +5,10 @@
 <%@ page import="models.Table" %>
 
 <%
+    try {
+    if (session.getAttribute("loggedInUser") == null) {
+        response.sendRedirect("Login.jsp");
+    }
     MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
     String username = session.getAttribute("loggedInUser").toString();
     Restaurant restaurant = mizDooni.getRestaurantService().getRestaurantByManager(username);
@@ -56,6 +60,10 @@
             </td>
         </tr>
     </table>
-    
+
 
 </body></html>
+
+<%} catch (Exception e) {
+    response.sendRedirect("error.jsp?error=" + e.getMessage());
+}%>

@@ -4,7 +4,7 @@
 <%@ page import="models.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Restaurant" %>
-
+<%try { %>
 <%
   MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
 
@@ -37,3 +37,6 @@
   }
 %>
 
+<%} catch (Exception e) {
+  response.sendRedirect("error.jsp?error=" + e.getMessage());
+}%>

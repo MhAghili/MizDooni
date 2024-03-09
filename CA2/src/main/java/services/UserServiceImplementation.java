@@ -52,7 +52,7 @@ public class UserServiceImplementation implements UserService {
             throw new UserNotFound();
 
         if (dataBase.getUsers().noneMatch(user -> user.getUsername().equals(username) && user.getPassword().equals(password)))
-            throw new UserNotFound();
+            throw new InvalidPassword();
 
         return true;
 

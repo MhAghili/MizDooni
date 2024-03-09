@@ -1,3 +1,11 @@
+
+<%
+if (session.getAttribute("loggedInUser") == null) {
+    response.sendRedirect("Login.jsp");
+}
+
+%>
+
 <html lang="en"><head>
     <meta charset="UTF-8">
     <title>Client Home</title>

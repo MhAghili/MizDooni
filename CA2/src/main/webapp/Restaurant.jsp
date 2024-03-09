@@ -5,7 +5,7 @@
 <%@ page import="models.Restaurant" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Feedback" %>
-
+<%try { %>
 <%
 
   MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
@@ -14,7 +14,6 @@
   List<Feedback> feedbacks = mizDooni.getFeedbackService().getReviewsByRestaurantName(restaurantName);
 
 %>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -119,3 +118,6 @@
 
   </body>
 </html>
+<%} catch (Exception e) {
+  response.sendRedirect("error.jsp?error=" + e.getMessage());
+  }%>

@@ -2,7 +2,7 @@
 <%@ page import="models.Feedback" %>
 <%@ page import="models.Table" %>
 
-
+<%try { %>
 <%
     MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
     String username = session.getAttribute("loggedInUser").toString();
@@ -17,3 +17,7 @@
     response.sendRedirect("manager_home.jsp");
 
 %>
+<%} catch (Exception e) {
+    response.sendRedirect("error.jsp?error=" + e.getMessage());
+    }%>
+
