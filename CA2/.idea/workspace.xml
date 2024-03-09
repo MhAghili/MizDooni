@@ -9,20 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="">
+    <list default="true" id="fbf16cb3-eae3-464e-acf8-a2d65511ef71" name="Changes" comment="feat : add errors handling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/defines/Errors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/defines/Errors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UserServiceImplementation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Reservations.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Reservations.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurant.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Restaurants.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/TableHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/TableHandler.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/client_home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/error.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/error.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/feedbackHandler.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/feedbackHandler.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/manager_home.jsp" afterDir="false" />
     </list>
     <list id="79e82ad6-d64a-4623-819a-3c15d2a85c18" name="nonsenses" comment="feat: add input.json">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2_25_24,_6_33 PM_[Changes]/shelved.patch" beforeDir="false" />
@@ -38,8 +29,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Jsp File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -356,7 +347,7 @@
       <workItem from="1709989568283" duration="105000" />
       <workItem from="1709989679498" duration="29000" />
       <workItem from="1709989714662" duration="120000" />
-      <workItem from="1709989922948" duration="1778000" />
+      <workItem from="1709989922948" duration="3314000" />
     </task>
     <task id="LOCAL-00001" summary="add custom Time deserializer">
       <created>1708965993206</created>
@@ -484,7 +475,14 @@
       <option name="project" value="LOCAL" />
       <updated>1709990201097</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="feat : add errors handling">
+      <created>1709991895383</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1709991895383</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -520,7 +518,8 @@
     <MESSAGE value="feat : complete manager_home.jsp" />
     <MESSAGE value="fix : mizdooni bug fixes" />
     <MESSAGE value="fix : add reservation jsp and cancel Reservation Cancel handler" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix : add reservation jsp and cancel Reservation Cancel handler" />
+    <MESSAGE value="feat : add errors handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat : add errors handling" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -539,13 +538,18 @@
           <line>6</line>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp</url>
+          <line>7</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/webapp/LoginHandler.jsp</url>
+          <line>15</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="DataBase.MemoryDataBase" memberName="users" />
-      </pinned-members>
-    </pin-to-top-manager>
     <watches-manager>
       <configuration name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
         <watch expression="mizDooni.getRestaurantService().getAverageFeedbackOfRestaurant(&quot;restaurant1&quot;)" language="JSP" />

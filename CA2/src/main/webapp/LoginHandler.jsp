@@ -1,9 +1,9 @@
-<%@ page import="javax.servlet.http.*" %>
+
 <%@ page import="application.MizDooni" %>
 <%@ page import="enums.UserType" %>
 <%@ page import="models.User" %>
 <%@ page import="java.util.List" %>
-<%@ page import="models.Restaurant" %>
+
 <%try { %>
 <%
   MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
