@@ -2,6 +2,8 @@
 <%@ page import="application.MizDooni" %>
 <%@ page import="models.Restaurant" %>
 <%@ page import="java.util.List" %>
+<%@ page import="services.RestaurantServiceImpl" %>
+<%@ page import="models.Feedback" %>
 
 <%
 
@@ -44,15 +46,16 @@
             <th>Overall Score</th>
         </tr>
         <% for (Restaurant restaurant : restaurants) { %>
+        <% Feedback restaurantAverageRating = RestaurantServiceImpl.getInstance().getAverageFeedbackOfRestaurant(restaurant.getName()); %>
         <tr>
             <td id="name"><a href="Restaurant.jsp?restaurantName=<%= restaurant.getName() %>" ><%= restaurant.getName()%></a></td>
             <td id="city">City: <%= restaurant.getAddress().getCity() %></td>
             <td id="type">Type: <%= restaurant.getType() %></td>
             <td id="time">Time: <%= restaurant.getStartTime() %> - <%= restaurant.getEndTime() %></td>
-<%--            <td>Food: 3.45</td>--%>
-<%--            <td>Service: 2.5</td>--%>
-<%--            <td>Ambiance: 4.59</td>--%>
-<%--            <td>Overall: 4.1</td>--%>
+            <td id="foodRaing"><%= restaurantAverageRating.getFoodRate() %></td>
+            <td id ="serviceRating"><%= restaurantAverageRating.getServiceRate() %></td>
+            <td id="ambianceRating"><%= restaurantAverageRating.getAmbianceRate() %></td>
+            <td id="overallRating"><%= restaurantAverageRating.getOverallRate() %></td>
         </tr>
         <br>
         <% } %>

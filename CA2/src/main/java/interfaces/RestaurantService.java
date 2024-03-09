@@ -20,4 +20,5 @@ public interface RestaurantService {
     List<Table> getTablesByRestaurant(String restaurantName) throws Exception;
 
     Restaurant getRestaurantByManager(String managerUsername) throws Exception;
+    Feedback getAverageFeedbackOfRestaurant(String restaurnatName);
 }

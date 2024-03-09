@@ -207,6 +207,20 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(RestaurantNotFound::new);
     }
 
+    @Override
+    public Feedback getAverageFeedbackOfRestaurant(String restaurnatName) {
+        var feedbacks = dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName));
+        if (feedbacks.findAny().isEmpty())
+            return new Feedback("",restaurnatName, 0,0,0,0, "");
+
+        return new Feedback( "", restaurnatName,
+            feedbacks.map(i -> i.getFoodRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+            feedbacks.map(i -> i.getServiceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+            feedbacks.map(i -> i.getAmbianceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+            feedbacks.map(i -> i.getOverallRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+            "");
+    }
+
     private boolean isTwoDateEqual(Date date1, Date date2) {
         return date1.getYear() == date2.getYear()
                 && date1.getMonth() == date2.getMonth()
