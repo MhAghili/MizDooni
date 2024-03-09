@@ -4,12 +4,29 @@
 <%@ page import="java.util.List" %>
 <%@ page import="services.RestaurantServiceImpl" %>
 <%@ page import="models.Feedback" %>
+<%@ page import="java.util.ArrayList" %>
 <%try { %>
 <%
 
     MizDooni mizDooni = (MizDooni) application.getAttribute("mizDooni");
-    List<Restaurant> restaurants = mizDooni.getDataBase().getRestaurants().toList();
+    List<Restaurant> restaurants;
 
+
+    String buttonClicked = request.getParameter("action");
+    String searchValue = request.getParameter("search");
+
+    ArrayList<Restaurant> filteredRestaurants = new ArrayList<Restaurant>();
+    if ("search_by_type".equals(buttonClicked)) {
+        filteredRestaurants.addAll(RestaurantServiceImpl.getInstance().getRestaurantByType(searchValue));
+    } else if ("search_by_name".equals(buttonClicked)) {
+        filteredRestaurants.add(RestaurantServiceImpl.getInstance().getRestaurantByName(searchValue));
+    } else if ("search_by_city".equals(buttonClicked)) {
+        filteredRestaurants.addAll(RestaurantServiceImpl.getInstance().getRestaurantsByCity(searchValue));
+    }
+    else
+        filteredRestaurants.addAll(mizDooni.getDataBase().getRestaurants().toList());
+
+    restaurants = filteredRestaurants;
 %>
 
 <html lang="en">
@@ -20,7 +37,7 @@
 <body>
 <p id="username">username: <%= session.getAttribute("loggedInUser") %> <a href="client_home.jsp">Home</a> <a href="Logout.jsp" style="color: red">Log Out</a></p>
     <br><br>
-    <form action="" method="POST">
+    <form action="Restaurants.jsp" method="POST">
         <label>Search:</label>
         <input type="text" name="search" value="">
         <button type="submit" name="action" value="search_by_type">Search By Type</button>
@@ -29,7 +46,7 @@
         <button type="submit" name="action" value="clear">Clear Search</button>
     </form>
     <br><br>
-    <form action="" method="POST">
+    <form action="Restaurants.jsp" method="POST">
         <label>Sort By:</label>
         <button type="submit" name="action" value="sort_by_rate">Overall Score</button>
     </form>

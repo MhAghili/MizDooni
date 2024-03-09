@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -138,12 +139,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant getRestaurantByName(String name) throws Exception {
         var result = dataBase.getRestaurants()
-                        .filter(i -> i.getName().contains(name))
+                        .filter(i -> i.getName().equals(name))
                         .findFirst()
                         .orElse(null);
 
-        if (result == null)
-            throw new InvalidRestaurantName();
+//        if (result == null)
+//            throw new InvalidRestaurantName();
 
         return result;
     }
@@ -235,6 +236,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<Table> getTablesByRestaurantName(String restaurantName) throws Exception {
         return dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+    }
+
+    @Override
+    public List<Restaurant> getRestaurantsByCity(String cityName) {
+        return dataBase.getRestaurants().filter(i -> i.getAddress().getCity().equals(cityName)).toList();
     }
 
     private boolean isTwoDateEqual(Date date1, Date date2) {

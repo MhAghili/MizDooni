@@ -4,6 +4,7 @@ import models.*;
 import utils.ReservationCancellationRequest;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public interface RestaurantService {
     void addRestaurant(Restaurant restaurant) throws Exception;
@@ -25,4 +26,5 @@ public interface RestaurantService {
     List<TableReservation> getReservationsByUserName(String userName ) throws Exception;
 
     List<Table> getTablesByRestaurantName(String restaurantName) throws Exception;
+    List<Restaurant> getRestaurantsByCity(String cityName);
 }
