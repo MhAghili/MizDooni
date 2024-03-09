@@ -63,7 +63,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         var previousFeedBack =
                 dataBase
                     .getFeedbacks()
-                    .filter(i -> i.getUsername().equals(feedback.getUsername()))
+                    .filter(i -> i.getUsername().equals(feedback.getUsername()) && i.getRestaurantName().equals(feedback.getRestaurantName()))
                         .findFirst().orElse(null);
         if (previousFeedBack != null) {
             dataBase.deleteFeedback(previousFeedBack);
