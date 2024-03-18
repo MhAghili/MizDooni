@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Seatch Reslts</title>
+    <title>Home</title>
     <link rel="stylesheet" href="classes.css" />
 
     <link
@@ -45,8 +45,48 @@
         </div>
       </div>
     </header>
-    <div class="container mt-2">
-      <span class="ms-5">Results for # Restaurant Name</span>
+    <div class="position-relative overflow-hidden">
+      <div class="container-fluid position-absolute searchForm">
+        <div class="row">
+          <div class="col-6">
+            <img
+              src="Statics/mizdooni_logo.png"
+              class="ms-5 searchFormlogo"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-4">
+            <div class="row fs-14 darkGray align-content-center">
+              <div
+                class="col-auto bg-light buttonRound me-2 align-self-center py-2"
+              >
+                <div>Location</div>
+              </div>
+              <div
+                class="col-auto bg-light buttonRound me-2 align-self-center py-2"
+              >
+                <span>Restaurant</span>
+              </div>
+              <input
+                class="col-3 bg-light buttonRound me-2 align-self-center py-2"
+                placeholder="Restaurant..."
+              />
+              <div class="col-auto align-self-center p-0">
+                <button type="button" class="btn btn-danger rounded-5">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="Statics/Background.png" class="mainBackground" alt="" />
+    </div>
+
+    <div class="container mt-4">
+      <span class="ms-5">Top Restaurants in Mizdooni</span>
       <div class="row justify-content-center">
         <div class="col-auto border cardRadius m-3">
           <div class="container-fluid p-0">
@@ -330,8 +370,36 @@
         </div>
       </div>
     </div>
+
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-8 d-flex">
+          <div class="col-7">
+            <img src="Statics/Banner.svg" class="tableSize" alt="" />
+          </div>
+          <div class="col-6 pt-5">
+            <span class="text-danger fs-4">About Mizdooni</span>
+            <br />
+            <p class="darkGray">
+              Are you tired of waiting in long lines at restaurants or
+              struggling to find a table at your favorite eatery? Look no
+              further than Mizdooni – the ultimate solution for all your dining
+              reservation needs. Mizdooni is a user-friendly website where you
+              can reserve a table at any restaurant, from anywhere, at a
+              specific time. Whether you're craving sushi, Italian, or a quick
+              bite to eat, Mizdooni has you covered. With a simple search
+              feature, you can easily find a restaurant based on cuisine or
+              location. The best part? There are no fees for making a
+              reservation through Mizdooni. Say goodbye to the hassle of calling
+              multiple restaurants or showing up only to find there's a long
+              wait.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer
-      class="text-bg-danger justify-content-center bg-danger text-center p-2 fixed-bottom"
+      class="text-bg-danger justify-content-center bg-danger text-center p-2"
     >
       <span class="text-light"
         >Copyright © 2024 Mizdooni - All rights reserved</span
