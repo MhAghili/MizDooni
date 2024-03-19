@@ -51,6 +51,14 @@
   color: #303030;
 }
 
+.darkRed {
+  color: #861A24;
+}
+
+.lightPink {
+  color: #FFF6F7;
+}
+
 .searchForm {
   top: 20%;
   left: 13.5%;
