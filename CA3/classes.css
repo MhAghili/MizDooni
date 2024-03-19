@@ -52,11 +52,19 @@
 }
 
 .darkRed {
-  color: #861A24;
+  background-color: #861A24;
 }
 
 .lightPink {
-  color: #FFF6F7;
+  background-color: #FFF6F7;
+}
+
+.bg-green {
+  background-color: #2B9407;
+}
+
+.bg-white-opacity-92 {
+  background-color: rgba(255, 255, 255, 0.92);
 }
 
 .searchForm {
@@ -71,6 +79,11 @@
 
 .buttonRound {
   border-radius: 8px;
+}
+
+.title-font {
+  font-weight: 700;
+  font-size: xx-large;
 }
 
 .radiusEnd {
@@ -88,3 +101,4 @@ span,
 p {
   font-family: "Spline Sans", sans-serif;
 }
+
