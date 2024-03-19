@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Restaurants</title>
+    <link rel="stylesheet" href="classes.css" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    </head>
+
+    <body>
+        <header class="navbar navbar-expand-lg navbar-light bg-light px-5 py-3 position-sticky">
+            <div class="container-fluid">
+                <div class="col-4">
+                  <div class="d-flex align-items-center">
+                    <img src="Statics/mizdooni_logo.png" class="mizdooniHeader" />
+                    <span class="align-middle ms-2 text-danger"
+                      >Reserve Table From Anywhere!</span
+                    >
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                    <button type="button" class="ms-1 btn btn-danger rounded-5">
+                        Reserve Now!
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container d-flex mt-4">
+            <div class="col-6 me-3">
+                <div class="container-fluid p-0">
+                    <div class="container mt-4 position-relative">
+                        <div class="row">
+                            <div class="col">
+                                <img src="Statics/RestaurantBackground.png" class="img-fluid" />
+                            </div>
+                            <div class="bg-white-opacity-92 bg-white-opacity-92 position-absolute bottom-0 end-0 w-100 d-flex justify-content-between">
+                                <div class="col-7 title-font p-2 rounded">Dizy Ali Daei</div>
+                                <div class="col-4 col-md-2 py-2 px-3 bg-green text-center cardRadius m-3 d-flex align-items-center">
+                                    <span class="text-light m-auto">Open!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ms-1 mb-3">
+                        <div class="container d-flex">
+                            <div class="col-5">
+                                <img src="Statics/Clock.png" />
+                                <span class="darkGray fs-14">From 11 AM to 10 PM</span>
+                            </div>
+                            <div class="col-4">
+                                <img src="Statics/review.png" />
+                                <span class="darkGray fs-14">160 Reviews</span>
+                            </div>
+                            <div class="col-3">
+                                <img src="Statics/Type.png" />
+                                <span class="darkGray fs-14">Dizy</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ms-1 mb-3">
+                        <i class="fa-solid fa-location-dot ">
+                            <span class="gray fs-14">Iran, Boshehr, Vali-e-Asr Square</span>
+                        </i>
+                        <span class="ms-1 gray fs-10"></span>
+                    </div>
+                    <div class="row ms-1 mb-3">
+                        <p class="gray">
+                            Ali Daei Dizy restaurant is a cultural oasis in the heart of the city,
+                            serving up the best of traditional Iranian cuisine. 
+                            With a menu that boasts a diverse selection of flavorful dishes such as kebabs, stews,
+                            and rice dishes, guests will experience the richness and depth of Persian flavors.
+                            The ambiance of the restaurant is warm and inviting, with intricate Persian rugs
+                            adorning the walls and the soothing sounds of traditional Iranian music playing in the background. 
+                            Whether you're looking to indulge in a delicious meal with friends or
+                            simply craving a taste of Iran, Ali Daei Dizy restaurant is the perfect spot to satisfy your culinary cravings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 ms-3 pt-3 align-items-start">
+                <div class="row text-bold pb-2 mb-2 fs-18">
+                    Reserve Table
+                </div>
+                <div class="row pb-2 mb-2">
+                    <div class="container d-flex align-items-start">
+                        <div class="col">
+                            For <input type="number" placeholder="2" class="col-2 bg-light buttonRound" min="0" max="10" /> people,
+                            on date <input type="date" placeholder="2024-02-18" class="col-3 bg-light buttonRound" />
+                        </div>
+                    </div>
+                </div>                
+                <div class="row fs-14 ">Available Times for Table #1 (2 seats)</div>
+                <div class="row">
+                    <div class="col-4 col-md-2 py-1 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">11:00 PM</span>
+                    </div>
+                    <div class="col-4 col-md-2 py-1 text-center border border-danger bg-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-light m-auto">12:00 PM</span>
+                    </div>
+                    <div class="col-4 col-md-2 py-1 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">13:00 PM</span>
+                    </div>
+                    <div class="col-4 col-md-2 py-1 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">14:00 PM</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 col-md-2 py-1 px-3 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">15:00 PM</span>
+                    </div>
+                    <div class="col-4 col-md-2 py-1 px-3 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">16:00 PM</span>
+                    </div>
+                    <div class="col-4 col-md-2 py-1 px-3 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">17:00 PM</span>
+                    </div>
+                    <div class="col-4 col-md-2 py-1 px-3 text-center border border-danger cardRadius m-1 d-flex align-items-center">
+                        <span class="text-danger m-auto">18:00 PM</span>
+                    </div>
+                </div>
+                <div class="row fs-14 text-danger pb-2 mb-2">You  will reserve this table  only for one  hour, for more time please contact the restaurant.</div>
+                <div class="row">
+                    <button type="submit" class="btn btn-danger rounded-5">
+                        Complete the Reservation
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="container mb-5">
+            <div class="container-fluid d-flex justify-content-between pb-3 mb-3 lightPink rounded-5">
+                <div class="col-6">
+                    <div class="col fs-18 pb-2 mb-2">What 160 people are saying</div> 
+                    <div class="col-6">
+                        <i class="fa-solid fa-star fa-sm text-warning"></i>
+                        <i class="fa-solid fa-star fa-sm text-warning"></i>
+                        <i class="fa-solid fa-star fa-sm text-warning"></i>
+                        <i class="fa-solid fa-star fa-sm text-warning"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <span class="gray fs-14">4 based on recent ratings</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid d-flex">
+                        <div class="col-2 d-flex flex-column align-items-center">
+                            <div class="row pb-2 mb-2">Food</div>
+                            <div class="row">4.5</div>
+                        </div>
+                        <div class="col-2 d-flex flex-column align-items-center">
+                            <div class="row pb-2 mb-2">Service</div>
+                            <div class="row">4.1</div>
+                        </div>
+                        <div class="col-2 d-flex flex-column align-items-center">
+                            <div class="row pb-2 mb-2">Ambience</div>
+                            <div class="row">3.8</div>
+                        </div>
+                        <div class="col-2 d-flex flex-column align-items-center">
+                            <div class="row pb-2 mb-2">Overall</div>
+                            <div class="row">4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid d-flex justify-content-between pb-3 mb-3">
+                <div class="col-4">
+                  <div class="d-flex align-items-center">
+                    <span class="align-middle ms-2">160 Reviews</span>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                    <button type="button" class="ms-1 btn btn-danger rounded-5">
+                        Add Review
+                    </button>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row d-flex pb-3 mb-3 border-bottom">
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center text-bold circle pink">AD</div>
+                    </div>
+                    <div class="col-7">
+                        <div class="row text-bold fs-18">Ali Daei</div>
+                        <div class="row fs-10 d-flex justify-content-start">
+                            <div class="col-auto">
+                                Overall <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Food <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Service <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Ambience <span class="text-danger">5</span>
+                            </div>
+                        </div>    
+                        <div class="row fs-14">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</div>                    
+                    </div>
+                    <div class="col-4 text-end text-warning">
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <span class="gray fs-14">Dined on February 17, 2024</span>
+                    </div>
+                </div>
+                <div class="row d-flex pb-3 mb-3 border-bottom">
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center text-bold circle pink">AD</div>
+                    </div>
+                    <div class="col-7">
+                        <div class="row text-bold fs-18">Ali Daei</div>
+                        <div class="row fs-10 d-flex justify-content-start">
+                            <div class="col-auto">
+                                Overall <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Food <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Service <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Ambience <span class="text-danger">5</span>
+                            </div>
+                        </div>    
+                        <div class="row fs-14">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</div>                    
+                    </div>
+                    <div class="col-4 text-end text-warning">
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <span class="gray fs-14">Dined on February 17, 2024</span>
+                    </div>
+                </div>
+                <div class="row d-flex pb-3 mb-3 border-bottom">
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center text-bold circle pink">AD</div>
+                    </div>
+                    <div class="col-7">
+                        <div class="row text-bold fs-18">Ali Daei</div>
+                        <div class="row fs-10 d-flex justify-content-start">
+                            <div class="col-auto">
+                                Overall <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Food <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Service <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Ambience <span class="text-danger">5</span>
+                            </div>
+                        </div>    
+                        <div class="row fs-14">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</div>                    
+                    </div>
+                    <div class="col-4 text-end text-warning">
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <span class="gray fs-14">Dined on February 17, 2024</span>
+                    </div>
+                </div>
+                <div class="row d-flex pb-3 mb-3 border-bottom">
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center text-bold circle pink">AD</div>
+                    </div>
+                    <div class="col-7">
+                        <div class="row text-bold fs-18">Ali Daei</div>
+                        <div class="row fs-10 d-flex justify-content-start">
+                            <div class="col-auto">
+                                Overall <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Food <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Service <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Ambience <span class="text-danger">5</span>
+                            </div>
+                        </div>    
+                        <div class="row fs-14">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</div>                    
+                    </div>
+                    <div class="col-4 text-end text-warning">
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <span class="gray fs-14">Dined on February 17, 2024</span>
+                    </div>
+                </div>
+                <div class="row d-flex pb-3 mb-3">
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center text-bold circle pink">AD</div>
+                    </div>
+                    <div class="col-7">
+                        <div class="row text-bold fs-18">Ali Daei</div>
+                        <div class="row fs-10 d-flex justify-content-start">
+                            <div class="col-auto">
+                                Overall <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Food <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Service <span class="text-danger">5</span>
+                                <img src="Statics/dot.png" />
+                            </div>
+                            <div class="col-auto">
+                                Ambience <span class="text-danger">5</span>
+                            </div>
+                        </div>    
+                        <div class="row fs-14">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</div>                    
+                    </div>
+                    <div class="col-4 text-end text-warning">
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <i class="fa-solid fa-star fa-sm"></i>
+                        <span class="gray fs-14">Dined on February 17, 2024</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <img src="Statics/pagination.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <footer class="text-danger justify-content-center bg-danger text-center p-2 fixed-bottom">
+            <span class="text-light">
+                Copyright © 2024 Mizdooni - All rights reserved
+            </span>
+        </footer>
+    </body>
+</html>

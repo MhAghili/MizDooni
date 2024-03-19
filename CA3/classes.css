@@ -43,6 +43,10 @@
   font-size: 14px;
 }
 
+.fs-18 {
+  font-size: larger;
+}
+
 .gray {
   color: #7e7e7e;
 }
@@ -63,8 +67,18 @@
   background-color: #2B9407;
 }
 
+.pink {
+  background-color: #F0B5BA;
+}
+
 .bg-white-opacity-92 {
   background-color: rgba(255, 255, 255, 0.92);
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .searchForm {
@@ -79,6 +93,10 @@
 
 .buttonRound {
   border-radius: 8px;
+}
+
+.text-bold {
+  font-weight: 600;
 }
 
 .title-font {
