@@ -72,6 +72,8 @@ public class MemoryDataBase implements DataBase {
     }
 
     @Override
+    public void deleteUser(User user) { users.remove(user); }
+    @Override
     public int getReservationCounter() {
         return ++reservationCounter;
     }

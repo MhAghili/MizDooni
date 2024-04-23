@@ -22,4 +22,5 @@ public interface DataBase {
     void saveFeedback(Feedback feedback);
     void deleteFeedback(Feedback feedback);
     void deleteRestaurant(Restaurant restaurant);
+    void deleteUser(User user);
 }

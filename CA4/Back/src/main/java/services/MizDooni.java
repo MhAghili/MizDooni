@@ -44,18 +44,18 @@ public class MizDooni {
     }
 
     public void fetchAndStoreData(String address) {
+        var usersResponse = restTemplate.getForEntity(address + "/users", String.class).getBody();
         var restaurantsResponse = restTemplate.getForEntity(address + "/restaurants", String.class).getBody();
         var reviewsResponse = restTemplate.getForEntity(address + "/reviews", String.class).getBody();
-        var usersResponse = restTemplate.getForEntity(address + "/users", String.class).getBody();
         var tablesResponse = restTemplate.getForEntity(address + "/tables", String.class).getBody();
 
         try {
+            var users = mapper.readValue(usersResponse, new TypeReference<List<User>>() {});
+            UserServiceImplementation.getInstance().save(users);
             var restaurants = mapper.readValue(restaurantsResponse, new TypeReference<List<Restaurant>>() {});
             RestaurantServiceImpl.getInstance().save(restaurants);
             var reviews = mapper.readValue(reviewsResponse, new TypeReference<List<Feedback>>() {});
             FeedbackServiceImpl.getInstance().save(reviews);
-            var users = mapper.readValue(usersResponse, new TypeReference<List<User>>() {});
-            UserServiceImplementation.getInstance().save(users);
             var tables = mapper.readValue(tablesResponse, new TypeReference<List<Table>>() {});
             RestaurantServiceImpl.getInstance().saveTables(tables);
         }
