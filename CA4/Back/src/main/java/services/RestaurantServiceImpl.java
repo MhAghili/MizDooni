@@ -49,6 +49,20 @@ public class RestaurantServiceImpl implements RestaurantService {
         dataBase.saveRestaurant(restaurant);
 
     }
+    
+    @Override
+    public void save(List<Restaurant> restaurants) throws Exception {
+        for (var restaurant : restaurants) {
+            addRestaurant(restaurant);
+        }
+    }
+
+    @Override
+    public void saveTables(List<Table> tables) throws Exception {
+        for (var table : tables) {
+            addTable(table);
+        }
+    }
 
     @Override
     public void addTable(Table table) throws Exception {
@@ -242,6 +256,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Restaurant> getRestaurantsByCity(String cityName) {
         return dataBase.getRestaurants().filter(i -> i.getAddress().getCity().equals(cityName)).toList();
     }
+
+    @Override
+    public List<Restaurant> fetchAll() { return dataBase.getRestaurants().toList(); }
 
     private boolean isTwoDateEqual(Date date1, Date date2) {
         return date1.getYear() == date2.getYear()
