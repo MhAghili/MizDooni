@@ -58,6 +58,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public void save(Restaurant restaurant) {
+        var existingRestaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurant.getName())).findFirst();
+
+        if(existingRestaurant.isEmpty())
+            dataBase.saveRestaurant(restaurant);
+        else {
+            dataBase.deleteRestaurant(existingRestaurant.get());
+            dataBase.saveRestaurant(restaurant);
+        }
+    }
+
+    @Override
     public void saveTables(List<Table> tables) throws Exception {
         for (var table : tables) {
             addTable(table);
@@ -260,6 +272,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<Restaurant> fetchAll() { return dataBase.getRestaurants().toList(); }
 
+    @Override
+    public void delete(String restaurantName) throws Exception {
+        var restaurant =
+            dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst();
+
+        if (restaurant.isEmpty())
+            throw new InvalidRestaurantName();
+
+        dataBase.deleteRestaurant(restaurant.get());
+    }
     private boolean isTwoDateEqual(Date date1, Date date2) {
         return date1.getYear() == date2.getYear()
                 && date1.getMonth() == date2.getMonth()
