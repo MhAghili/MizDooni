@@ -24,7 +24,7 @@ public class RestaurantController {
     @GetMapping("/{name}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable("name") String name) {
         try {
-            return new ResponseEntity<>(service.getRestaurantByName(name), HttpStatus.OK)
+            return new ResponseEntity<>(service.getRestaurantByName(name), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
