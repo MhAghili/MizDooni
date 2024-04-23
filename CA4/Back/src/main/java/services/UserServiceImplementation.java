@@ -5,6 +5,7 @@ import exceptions.*;
 import interfaces.DataBase;
 import interfaces.UserService;
 import models.User;
+import org.springframework.stereotype.Service;
 import utils.Utils;
 import DataBase.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class UserServiceImplementation implements UserService {
     private static UserService instance;
     private DataBase dataBase;
@@ -51,8 +53,34 @@ public class UserServiceImplementation implements UserService {
     @Override
     public void save(List<User> users) throws Exception {
         for (var user : users) {
-            addUser(user);
+            save(user);
         }
+    }
+
+    @Override
+    public void save(User user) throws Exception {
+        var existingUser = dataBase.getUsers().filter(i -> i.getUsername().equals(user.getUsername())).findFirst();
+        if(existingUser.isEmpty())
+            dataBase.saveUser(user);
+        else {
+            dataBase.deleteUser(existingUser.get());
+            dataBase.saveUser(user);
+        }
+    }
+
+    @Override
+    public void delete(String username) throws Exception {
+        var user = dataBase.getUsers().filter(i -> i.getUsername().equals(username)).findFirst();
+
+        if(user.isEmpty())
+            throw new InvalidUsernameFormat();
+
+        dataBase.deleteUser(user.get());
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return dataBase.getUsers().toList();
     }
 
     public boolean login(String username, String password) throws Exception {

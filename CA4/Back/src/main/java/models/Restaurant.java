@@ -27,8 +27,9 @@ public class Restaurant {
 
     private String description;
     private RestaurantAddress address;
+    private String image;
 
-    public Restaurant(String name, String managerUsername, String type, Date startTime, Date endTime, String description, RestaurantAddress address) {
+    public Restaurant(String name, String managerUsername, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
         this.name = name;
         this.managerUsername = managerUsername;
         this.type = type;
@@ -36,5 +37,6 @@ public class Restaurant {
         this.endTime = endTime;
         this.description = description;
         this.address = address;
+        this.image = image;
     }
 }
