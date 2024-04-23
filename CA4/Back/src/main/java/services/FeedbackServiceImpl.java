@@ -75,7 +75,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public void save(List<Feedback> feedbacks) throws Exception {
         for (var feedback : feedbacks) {
-            addReview(feedback);
+            dataBase.saveFeedback(feedback);
         }
     }
 

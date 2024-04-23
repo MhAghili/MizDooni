@@ -53,7 +53,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void save(List<Restaurant> restaurants) throws Exception {
         for (var restaurant : restaurants) {
-            save(restaurant);
+            dataBase.saveRestaurant(restaurant);
         }
     }
 

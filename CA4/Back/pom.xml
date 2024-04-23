@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>MizDooni</groupId>
-  <artifactId>CA2</artifactId>
+  <artifactId>CA4</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>CA2 Maven Webapp</name>
+  <name>CA4</name>
   <url>http://maven.apache.org</url>
 
 
@@ -89,7 +89,7 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>CA2</finalName>
+    <finalName>CA4</finalName>
   </build>
 
 </project>

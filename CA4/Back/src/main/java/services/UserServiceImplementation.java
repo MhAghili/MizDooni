@@ -53,7 +53,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public void save(List<User> users) throws Exception {
         for (var user : users) {
-            save(user);
+            dataBase.saveUser(user);
         }
     }
 
