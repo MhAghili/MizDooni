@@ -52,7 +52,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public void addTable(Table table) throws Exception {
-        if (dataBase.getTables().anyMatch(a -> a.getRestaurantName() == table.getRestaurantName() && a.getTableNumber() == table.getTableNumber()))
+        if (dataBase.getTables().anyMatch(a -> a.getRestaurantName().equals(table.getRestaurantName()) && a.getTableNumber() == table.getTableNumber()))
             throw new TableNumberAlreadyTaken();
 
         var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(table.getManagerUsername())).findFirst().orElse(null);
