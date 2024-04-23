@@ -9,6 +9,9 @@ import java.util.function.Predicate;
 public interface RestaurantService {
     void addRestaurant(Restaurant restaurant) throws Exception;
     void addTable(Table table) throws Exception;
+    void save(List<Restaurant> restaurants) throws Exception;
+    void save(Restaurant restaurant);
+    void saveTables(List<Table> tables) throws Exception;
     int reserveTable(TableReservation reservation) throws Exception;
     void cancelReservation(ReservationCancellationRequest request) throws Exception;
     List<Restaurant> getRestaurantByType(String type);
@@ -27,4 +30,7 @@ public interface RestaurantService {
 
     List<Table> getTablesByRestaurantName(String restaurantName) throws Exception;
     List<Restaurant> getRestaurantsByCity(String cityName);
+    List<Restaurant> fetchAll();
+    void delete(String restaurantName) throws Exception;
+
 }

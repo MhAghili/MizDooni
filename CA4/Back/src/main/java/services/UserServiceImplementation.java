@@ -8,6 +8,7 @@ import models.User;
 import utils.Utils;
 import DataBase.*;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,6 +46,13 @@ public class UserServiceImplementation implements UserService {
 
         dataBase.saveUser(user);
 
+    }
+
+    @Override
+    public void save(List<User> users) throws Exception {
+        for (var user : users) {
+            addUser(user);
+        }
     }
 
     public boolean login(String username, String password) throws Exception {

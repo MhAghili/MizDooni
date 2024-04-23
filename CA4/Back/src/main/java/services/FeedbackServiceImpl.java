@@ -73,6 +73,13 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    public void save(List<Feedback> feedbacks) throws Exception {
+        for (var feedback : feedbacks) {
+            addReview(feedback);
+        }
+    }
+
+    @Override
     public List<Feedback> getReviewsByRestaurantName(String restaurantName) throws Exception {
         return dataBase.getFeedbacks().filter(f -> f.getRestaurantName().equals(restaurantName)).toList();
     }

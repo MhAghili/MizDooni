@@ -87,4 +87,6 @@ public class MemoryDataBase implements DataBase {
     }
     @Override
     public void deleteFeedback(Feedback feedback) { feedbacks.remove(feedback); }
+    @Override
+    public void deleteRestaurant(Restaurant restaurant) { restaurants.remove(restaurant); }
 }
