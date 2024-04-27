@@ -9,6 +9,7 @@ import { Customer } from "./Pages/Customer";
 import { Restaurant } from "./Pages/Restaurant";
 import { MangerRestaurant } from "./Pages/MangerRestaurant";
 import Error from "./Pages/Error";
+import { SignUpIn } from "./Pages/SignUpIn";
 
 function App() {
   const {
@@ -38,7 +39,6 @@ function App() {
     fetchData();
     console.log("data fetched!");
   }, []);
-  console.log(userData, restaurantData);
   return (
     <Router>
       <Routes>
@@ -48,6 +48,7 @@ function App() {
         <Route path="/SearchResult" element={<SearchResult />} />
         <Route path="/Restaurant" element={<Restaurant />} />
         <Route path="/Manager-Restaurant" element={<MangerRestaurant />} />
+        <Route path="/SignUp_In" element={<SignUpIn />}></Route>
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
