@@ -9,6 +9,7 @@ import interfaces.RestaurantService;
 import interfaces.UserService;
 import lombok.Getter;
 import models.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,31 +20,11 @@ import java.util.List;
 
 public class MizDooni {
     private static MizDooni instance = null;
-    @Getter
-    private DataBase dataBase;
-    private RestaurantService restaurantService;
-    private UserService userService;
-    private FeedbackService feedbackService;
-    private ObjectMapper mapper = new ObjectMapper();
-    private Response response = new Response();
-    private final RestTemplate restTemplate;
+    private static ObjectMapper mapper = new ObjectMapper();
+    private static Response response = new Response();
+    private static RestTemplate restTemplate = new RestTemplate();
 
-    private MizDooni(DataBase dataBase, RestaurantService restaurantService, UserService userService, FeedbackService feedbackService) {
-        this.dataBase = dataBase;
-        this.restaurantService = restaurantService;
-        this.userService = userService;
-        this.feedbackService = feedbackService;
-        this.restTemplate = new RestTemplate();
-        this.mapper = new ObjectMapper();
-    }
-
-    public static MizDooni getInstance() {
-        if (instance == null)
-            instance = new MizDooni(MemoryDataBase.getInstance(), RestaurantServiceImpl.getInstance(), UserServiceImplementation.getInstance(), FeedbackServiceImpl.getInstance());
-        return instance;
-    }
-
-    public void fetchAndStoreData(String address) {
+    public static void fetchAndStoreData(String address) {
         var usersResponse = restTemplate.getForEntity(address + "/users", String.class).getBody();
         var restaurantsResponse = restTemplate.getForEntity(address + "/restaurants", String.class).getBody();
         var reviewsResponse = restTemplate.getForEntity(address + "/reviews", String.class).getBody();

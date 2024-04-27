@@ -5,6 +5,7 @@ import exceptions.*;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
 import models.*;
+import org.springframework.stereotype.Service;
 import utils.ReservationCancellationRequest;
 import utils.Utils;
 
@@ -17,7 +18,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import DataBase.*;
-
+@Service
 public class RestaurantServiceImpl implements RestaurantService {
     private static RestaurantService instance = null;
     private DataBase dataBase;

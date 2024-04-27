@@ -2,10 +2,11 @@ package DataBase;
 
 import interfaces.DataBase;
 import models.*;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
-
+@Service
 public class MemoryDataBase implements DataBase {
     private static DataBase instance = null;
     private ArrayList<User> users;

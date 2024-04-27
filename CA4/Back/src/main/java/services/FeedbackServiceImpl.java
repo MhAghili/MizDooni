@@ -8,10 +8,11 @@ import interfaces.FeedbackService;
 import models.Feedback;
 import static defines.AllowedRateRange.*;
 import DataBase.*;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-
+@Service
 public class FeedbackServiceImpl implements FeedbackService {
     private static FeedbackService instance = null;
     private DataBase dataBase;
