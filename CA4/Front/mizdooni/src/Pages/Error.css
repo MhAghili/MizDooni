@@ -1,0 +1,25 @@
+.error-container {
+  text-align: center;
+}
+
+.error-code {
+  font-size: 6em;
+  margin-bottom: 10px;
+  color: #dc3545;
+}
+
+.error-message {
+  font-size: 1.5em;
+  color: #6c757d;
+}
+
+.back-link {
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
