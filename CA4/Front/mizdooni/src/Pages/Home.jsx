@@ -5,7 +5,9 @@ import { RestaurantCard } from "../components/RestaurantCard";
 import mizdooniLogo from "../Statics/mizdooni_logo.png";
 import mainBackground from "../Statics/Background.png";
 import { About } from "../components/About";
+import { useData } from "../Data/DataContext";
 const Home = () => {
+  const { restaurantData } = useData();
   return (
     <>
       <Header name={"salam"} descreption={"reserve Now"} />
@@ -44,25 +46,16 @@ const Home = () => {
       <div className="container mt-4">
         <span className="ms-5">Top Restaurants in Mizdooni</span>
         <div className="row justify-content-center">
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
-          <RestaurantCard />
+          {restaurantData.map((restaurant) => (
+            <RestaurantCard
+              key={restaurant.id}
+              name={restaurant.name}
+              address={restaurant.address}
+              image={restaurant.image}
+              type={restaurant.type}
+              endTime={restaurant.endTime}
+            />
+          ))}
         </div>
       </div>
       <About />
