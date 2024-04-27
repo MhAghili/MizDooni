@@ -58,7 +58,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void save(User user) throws Exception {
+    public void updateUser(User user) throws Exception {
         var existingUser = dataBase.getUsers().filter(i -> i.getUsername().equals(user.getUsername())).findFirst();
         if(existingUser.isEmpty())
             dataBase.saveUser(user);

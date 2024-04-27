@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity addUser(@RequestBody User user) {
         try {
-            service.save(user);
+            service.addUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
@@ -53,7 +53,7 @@ public class UserController {
     @PutMapping
     public ResponseEntity updateUser(@RequestBody User user) {
         try {
-            service.save(user);
+            service.updateUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
