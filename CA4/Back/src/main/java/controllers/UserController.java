@@ -13,7 +13,7 @@ import services.UserServiceImplementation;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping("/users")
 public class UserController {
     private final UserService service;
@@ -47,6 +47,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam("username") String username,
+                                        @RequestParam("password") String password) {
+        try {
+            service.login(username, password);
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping
     public ResponseEntity updateUser(@RequestBody User user) {
         try {
@@ -57,6 +68,8 @@ public class UserController {
             return new ResponseEntity(e.getMessage() + e.getStackTrace(), HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
     @DeleteMapping("/{username}")
     public ResponseEntity deleteUser(@PathVariable("username") String username) {
