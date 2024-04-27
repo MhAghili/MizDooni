@@ -59,7 +59,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void save(Restaurant restaurant) {
+    public void updateRestaurant(Restaurant restaurant) {
         var existingRestaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurant.getName())).findFirst();
 
         if(existingRestaurant.isEmpty())

@@ -13,6 +13,7 @@ import services.UserServiceImplementation;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
     private MizDooni mizDooni = MizDooni.getInstance();

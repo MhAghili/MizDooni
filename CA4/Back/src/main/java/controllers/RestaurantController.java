@@ -11,6 +11,7 @@ import services.RestaurantServiceImpl;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/restaurants")
 public class RestaurantController {
     private MizDooni mizDooni = MizDooni.getInstance();
@@ -39,11 +40,10 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity createRestaurant(@RequestBody Restaurant restaurantData) {
         try {
-            service.save(restaurantData);
+            service.addRestaurant(restaurantData);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
-            //TODO set correct status
             return new ResponseEntity(e.getMessage() + e.getStackTrace(), HttpStatus.NOT_FOUND);
         }
     }
@@ -51,7 +51,7 @@ public class RestaurantController {
     @PutMapping("/{name}")
     public ResponseEntity updateRestaurant(@PathVariable("name") String name, @RequestBody Restaurant updatedRestaurantData) {
         try {
-            service.save(updatedRestaurantData);
+            service.updateRestaurant(updatedRestaurantData);
             return new ResponseEntity(HttpStatus.OK);
         }
         catch (Exception e) {
