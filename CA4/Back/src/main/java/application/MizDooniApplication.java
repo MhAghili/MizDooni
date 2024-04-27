@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "controllers")
 public class MizDooniApplication {
     public static void main(String[] args) {
+        MizDooni.getInstance();
         SpringApplication.run(MizDooniApplication.class, args);
     }
 }

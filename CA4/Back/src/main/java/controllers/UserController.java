@@ -16,10 +16,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
-    private MizDooni mizDooni = MizDooni.getInstance();
-    public void setMizdooni(MizDooni miz) {
-        this.mizDooni = miz;
-    }
     private final UserService service;
     public UserController() {
         service = UserServiceImplementation.getInstance();

@@ -14,10 +14,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/restaurants")
 public class RestaurantController {
-    private MizDooni mizDooni = MizDooni.getInstance();
-    public void setMizdooni(MizDooni miz) {
-        this.mizDooni = miz;
-    }
     private final RestaurantService service;
     public RestaurantController() {
         service = RestaurantServiceImpl.getInstance();
