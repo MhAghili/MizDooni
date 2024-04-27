@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useData } from "../Data/DataContext";
 
 export const Login = () => {
-  const { userData } = useData();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,21 +15,24 @@ export const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const requestBody = JSON.stringify({ username, password });
+
+      const response = await fetch("http://127.0.0.1:8080/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: requestBody,
       });
-
       if (response.ok) {
+        localStorage.setItem("username", username);
         console.log("Login successful");
       } else {
-        console.error("Login failed");
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
       }
     } catch (error) {
-      console.error("Error occurred while logging in:", error);
+      console.log(error);
     }
     setUsername("");
     setPassword("");

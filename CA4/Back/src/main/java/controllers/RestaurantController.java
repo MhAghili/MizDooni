@@ -11,7 +11,6 @@ import services.RestaurantServiceImpl;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/restaurants")
 public class RestaurantController {
     private final RestaurantService service;

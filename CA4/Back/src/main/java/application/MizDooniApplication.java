@@ -1,6 +1,6 @@
 package application;
 
-import config.AppConfig;
+//import config.AppConfig;
 import models.Restaurant;
 import org.springframework.context.annotation.Import;
 import services.MizDooni;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 //@Import(AppConfig.class)
-@ComponentScan(basePackages = "controllers")
+@ComponentScan(basePackages = {"controllers","config"})
 public class MizDooniApplication {
     public static void main(String[] args) {
         MizDooni.getInstance();

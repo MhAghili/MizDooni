@@ -2,6 +2,7 @@ package controllers;
 
 import interfaces.UserService;
 import models.User;
+import utils.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import services.MizDooni;
 import services.RestaurantServiceImpl;
 import services.UserServiceImplementation;
-
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping("/users")
 public class UserController {
     private final UserService service;
@@ -48,8 +47,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam("username") String username,
-                                        @RequestParam("password") String password) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
         try {
             service.login(username, password);
             return new ResponseEntity<>("Login successful", HttpStatus.OK);
