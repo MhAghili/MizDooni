@@ -5,6 +5,7 @@ import models.Restaurant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import services.MizDooni;
 import services.RestaurantServiceImpl;
 
 import java.util.List;
@@ -12,6 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/restaurants")
 public class RestaurantController {
+    private MizDooni mizDooni = MizDooni.getInstance();
+    public void setMizdooni(MizDooni miz) {
+        this.mizDooni = miz;
+    }
     private final RestaurantService service;
     public RestaurantController() {
         service = RestaurantServiceImpl.getInstance();

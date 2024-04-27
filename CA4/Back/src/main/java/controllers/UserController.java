@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import services.MizDooni;
+import services.RestaurantServiceImpl;
 import services.UserServiceImplementation;
 
 import java.util.List;
@@ -13,8 +15,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserService service;
+    private MizDooni mizDooni = MizDooni.getInstance();
+    public void setMizdooni(MizDooni miz) {
+        this.mizDooni = miz;
+    }
+    private final UserService service;
+    public UserController() {
+        service = UserServiceImplementation.getInstance();
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
