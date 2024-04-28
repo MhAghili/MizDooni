@@ -5,7 +5,6 @@ import models.Restaurant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import services.MizDooni;
 import services.RestaurantServiceImpl;
 
 import java.util.List;
@@ -22,10 +21,20 @@ public class RestaurantController {
         return new ResponseEntity<>(service.fetchAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable("name") String name) {
+    @GetMapping("/name={name}")
+    public ResponseEntity<Restaurant> getRestaurantByName(@PathVariable("name") String name) {
         try {
             return new ResponseEntity<>(service.getRestaurantByName(name), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/type={type}")
+    public ResponseEntity<List<Restaurant>> getRestaurantByType(@PathVariable("type") String type) {
+        try {
+            return new ResponseEntity<>(service.getRestaurantByType(type), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
