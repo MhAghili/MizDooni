@@ -13,7 +13,7 @@ public interface RestaurantService {
     void updateRestaurant(Restaurant restaurant);
     void saveTables(List<Table> tables) throws Exception;
     int reserveTable(TableReservation reservation) throws Exception;
-    void cancelReservation(ReservationCancellationRequest request) throws Exception;
+    void cancelReservation(TableReservation reservation) throws Exception;
     List<Restaurant> getRestaurantByType(String type);
     Restaurant getRestaurantByName(String name) throws Exception;
     List<TableReservation> getReservationByUsername(String username);
