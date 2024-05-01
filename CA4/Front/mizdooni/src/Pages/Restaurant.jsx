@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../classes.css";
 import { Header } from "../components/Header";
 import ResBack from "../Statics/RestaurantBackground.png";
@@ -14,9 +15,65 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export const Restaurant = () => {
+  const [restaurant, setRestaurant] = useState([]);
+  const [restaurantReviews, setRestaurantReview] = useState([]);
+  const { restaurantName } = useLocation().state;
+  const [reviewItems, setReviewItems] = useState([
+    "foodRate",
+    "serviceRate",
+    "ambianceRate",
+    "overallRate",
+  ]);
+
+  const extractHour = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const hour = date.getHours();
+    return `${hour}`;
+  };
+  const calculateStarRating = (score) => {
+    const fullStars = Math.floor(score);
+    const stars = [];
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <FontAwesomeIcon icon={faStar} className="fa-sm fa" key={i} />
+      );
+    }
+    return stars;
+  };
+
+  const calculateAvarage = (scoreName) => {
+    let sum = 0;
+    restaurantReviews.forEach((review) => {
+      sum += review[scoreName];
+    });
+    return (sum / restaurantReviews.length).toFixed(1);
+  };
+
+  // const navigate = useNavigate();
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const restaurantResponse = await fetch(
+          `http://127.0.0.1:8080/restaurants/name=${restaurantName}`
+        );
+        const restaurantReviewRes = await fetch(
+          `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
+        ).then((res) => res.json());
+
+        const restaurantRes = await restaurantResponse.json();
+
+        setRestaurant(restaurantRes);
+        setRestaurantReview(restaurantReviewRes);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+    console.log("data fetched!");
+  }, []);
   return (
     <>
-      <Header name={"Reserve"} descreption={"history, plaedfs"} />
+      <Header name={"ReserveNow"} descreption={""} />
 
       <div className="container d-flex mt-4">
         <div className="col-6 me-3">
@@ -24,11 +81,15 @@ export const Restaurant = () => {
             <div className="container mt-4 position-relative">
               <div className="row">
                 <div className="col">
-                  <img src={ResBack} className="img-fluid" alt="" />
+                  <img
+                    src={restaurant.image}
+                    className="restaurantBackground img-fluid rounded-4"
+                    alt=""
+                  />
                 </div>
                 <div className="bg-white-opacity-92 bg-white-opacity-92 position-absolute bottom-0 end-0 w-100 d-flex justify-content-between">
                   <div className="col-7 title-font p-2 rounded">
-                    Dizy Ali Daei
+                    {restaurant.name}
                   </div>
                   <div className="col-4 col-md-2 py-2 px-3 bg-green text-center cardRadius m-3 d-flex align-items-center">
                     <span className="text-light m-auto">Open!</span>
@@ -40,40 +101,35 @@ export const Restaurant = () => {
               <div className="container d-flex">
                 <div className="col-5">
                   <img src={Clock} alt="" />
-                  <span className="darkGray fs-14">From 11 AM to 10 PM</span>
+                  <span className="darkGray ms-2 fs-14">
+                    From {extractHour(restaurant.startTime)} to{" "}
+                    {extractHour(restaurant.endTime)}
+                  </span>
                 </div>
                 <div className="col-4">
                   <img src={Reviewimg} alt="" />
-                  <span className="darkGray fs-14">160 Reviews</span>
+                  <span className="darkGray fs-14 ms-2">
+                    {restaurantReviews.length} Reviews
+                  </span>
                 </div>
                 <div className="col-3">
                   <img src={Type} alt="" />
-                  <span className="darkGray fs-14">Dizy</span>
+                  <span className="darkGray fs-14 ms-2">{restaurant.type}</span>
                 </div>
               </div>
             </div>
             <div className="row ms-1 mb-3">
               <i className="fa-solid fa-location-dot">
-                <span className="gray fs-14">
-                  Iran, Boshehr, Vali-e-Asr Square
-                </span>
+                {/* <span className="gray fs-14">
+                  {`${restaurant.address.street} ,
+                    ${restaurant.address.city} ,
+                    ${restaurant.address.country}`}
+                </span> */}
               </i>
               <span className="ms-1 gray fs-10"></span>
             </div>
             <div className="row ms-1 mb-3">
-              <p className="gray">
-                Ali Daei Dizy restaurant is a cultural oasis in the heart of the
-                city, serving up the best of traditional Iranian cuisine. With a
-                menu that boasts a diverse selection of flavorful dishes such as
-                kebabs, stews, and rice dishes, guests will experience the
-                richness and depth of Persian flavors. The ambiance of the
-                restaurant is warm and inviting, with intricate Persian rugs
-                adorning the walls and the soothing sounds of traditional
-                Iranian music playing in the background. Whether you're looking
-                to indulge in a delicious meal with friends or simply craving a
-                taste of Iran, Ali Daei Dizy restaurant is the perfect spot to
-                satisfy your culinary cravings.
-              </p>
+              <p className="gray">{restaurant.description}</p>
             </div>
           </div>
         </div>
@@ -128,23 +184,20 @@ export const Restaurant = () => {
         <div className="container-fluid d-flex justify-content-between pb-3 mb-3 lightPink cardRadius py-2">
           <div className="col-6">
             <div className="col fs-18 pb-2 mb-2">
-              What 160 people are saying
+              What {restaurantReviews.length} people are saying
             </div>
-            <div className="col-6">
-              <FontAwesomeIcon icon={faStar} className="fa-sm fa" />
-              <FontAwesomeIcon icon={faStar} className="fa-sm fa" />
-              <FontAwesomeIcon icon={faStar} className="fa-sm fa" />
-              <FontAwesomeIcon icon={faStar} className="fa-sm fa" />
-              <FontAwesomeIcon icon={faStar} className="fa-sm fa" />
-              <span className="gray fs-14">4 based on recent ratings</span>
+            <div className="col-6 text-warning">
+              {calculateStarRating(calculateAvarage("overallRate"))}
+              <span className="gray fs-14">
+                {calculateAvarage("overallRate")} based on recent ratings
+              </span>
             </div>
           </div>
           <div className="col-6">
             <div className="container-fluid d-flex">
-              <ReviewItem name={"Food"} rate={4.5} />
-              <ReviewItem name={"Service"} rate={4.5} />
-              <ReviewItem name={"Ambience"} rate={4.5} />
-              <ReviewItem name={"Overall"} rate={4.5} />
+              {reviewItems.map((item) => (
+                <ReviewItem name={item} rate={calculateAvarage(item)} />
+              ))}
             </div>
           </div>
         </div>
@@ -152,7 +205,9 @@ export const Restaurant = () => {
         <div className="container-fluid d-flex justify-content-between pb-3 mb-3">
           <div className="col-4">
             <div className="d-flex align-items-center">
-              <span className="align-middle ms-2">160 Reviews</span>
+              <span className="align-middle ms-2">
+                {restaurantReviews.length} Reviews
+              </span>
             </div>
           </div>
           <div className="col-4 text-end">
@@ -162,10 +217,18 @@ export const Restaurant = () => {
           </div>
         </div>
         <div className="container">
-          <Review />
-          <Review />
-          <Review />
-          <Review />
+          {restaurantReviews.map((review) => (
+            <Review
+              name={review.name}
+              scores={{
+                overall: review.overallRate,
+                ambience: review.ambianceRate,
+                food: review.foodRate,
+                service: review.serviceRate,
+              }}
+              comment={review.comment}
+            />
+          ))}
         </div>
         <div className="row justify-content-center">
           <div className="col-auto">

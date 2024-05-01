@@ -42,13 +42,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<SignUpIn />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="/Manager-Manage" element={<ManagerManage />} />
         <Route path="/Customer" element={<Customer />} />
         <Route path="/SearchResult" element={<SearchResult />} />
         <Route path="/Restaurant" element={<Restaurant />} />
         <Route path="/Manager-Restaurant" element={<MangerRestaurant />} />
-        <Route path="/SignUp_In" element={<SignUpIn />}></Route>
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>

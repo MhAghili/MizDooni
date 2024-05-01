@@ -23,7 +23,7 @@ public interface RestaurantService {
 
     List<Table> getTablesByRestaurant(String restaurantName) throws Exception;
 
-    Restaurant getRestaurantByManager(String managerUsername) throws Exception;
+    List<Restaurant> getRestaurantsByManager(String managerUsername) throws Exception;
     Feedback getAverageFeedbackOfRestaurant(String restaurnatName);
 
     List<TableReservation> getReservationsByUserName(String userName ) throws Exception;

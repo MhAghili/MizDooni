@@ -226,11 +226,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant getRestaurantByManager(String managerUsername) throws Exception {
-        return dataBase.getRestaurants()
-                .filter(i -> i.getManagerUsername().equals(managerUsername))
-                .findFirst()
-                .orElseThrow(RestaurantNotFound::new);
+    public List<Restaurant> getRestaurantsByManager(String managerUsername) throws Exception {
+        return dataBase.getRestaurants().filter(i -> i.getManagerUsername().equals(managerUsername)).toList();
     }
 
     @Override

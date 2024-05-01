@@ -14,11 +14,12 @@ export const Header = (props) => {
               alt="Mizdooni Logo"
             />
             <span className="align-middle ms-2 text-danger">
-              {props.descreption}
+              Reserve Table From Anywhere
             </span>
           </div>
         </div>
-        <div className="col-4 text-end">
+        <div className="col-4 text-end align-items-center">
+          <span className="text-danger me-2 ">{props.descreption}</span>
           <button type="button" className="btn btn-danger rounded-2">
             {props.name}
           </button>

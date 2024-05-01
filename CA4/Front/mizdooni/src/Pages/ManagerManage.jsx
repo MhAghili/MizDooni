@@ -4,8 +4,10 @@ import { ReserveCard } from "../components/ReserveCard";
 import Footer from "../components/Footer";
 import { ReserveTableItem } from "../components/ReserveTableItem";
 import "../classes.css";
+import { useLocation } from "react-router-dom";
 
 export const ManagerManage = () => {
+
   return (
     <>
       <Header />

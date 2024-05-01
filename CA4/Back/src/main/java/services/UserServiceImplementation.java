@@ -83,6 +83,13 @@ public class UserServiceImplementation implements UserService {
         return dataBase.getUsers().toList();
     }
 
+    @Override
+    public User getUserByNameAndPassword(String name, String password) throws Exception{
+        var user = dataBase.getUsers().filter(i -> i.getUsername().equals(name) && i.getPassword().equals(password)).findFirst();
+        if(user.isEmpty())
+            throw new UserNotFound();
+        return user.get();
+    }
     public boolean login(String username, String password) throws Exception {
         if (dataBase.getUsers().noneMatch(user -> user.getUsername().equals(username)))
             throw new UserNotFound();
@@ -107,4 +114,6 @@ public class UserServiceImplementation implements UserService {
         Matcher matcher = pattern.matcher(username);
         return matcher.matches();
     }
+
+
 }
