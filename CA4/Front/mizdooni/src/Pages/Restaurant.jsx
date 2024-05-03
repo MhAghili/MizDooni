@@ -120,11 +120,11 @@ export const Restaurant = () => {
             </div>
             <div className="row ms-1 mb-3">
               <i className="fa-solid fa-location-dot">
-                {/* <span className="gray fs-14">
-                  {`${restaurant.address.street} ,
-                    ${restaurant.address.city} ,
-                    ${restaurant.address.country}`}
-                </span> */}
+                <span className="gray fs-14">
+                  {`${restaurant.address?.street} ,
+                    ${restaurant.address?.city} ,
+                    ${restaurant.address?.country}`}
+                </span>
               </i>
               <span className="ms-1 gray fs-10"></span>
             </div>
@@ -194,7 +194,7 @@ export const Restaurant = () => {
             </div>
           </div>
           <div className="col-6">
-            <div className="container-fluid d-flex">
+            <div className="container-fluid d-flex justify-content-around">
               {reviewItems.map((item) => (
                 <ReviewItem name={item} rate={calculateAvarage(item)} />
               ))}

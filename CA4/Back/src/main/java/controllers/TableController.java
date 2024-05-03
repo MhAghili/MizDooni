@@ -56,6 +56,15 @@ public class TableController {
             return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/reservations/restaurantName={name}")
+    public ResponseEntity getReservationsByRestaurantName(@PathVariable("name") String name) {
+        try {
+            return new ResponseEntity<>(service.getReservationsByRestaurant(name), HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/reservations/username={username}")
     public ResponseEntity getReservationsByUsername(@PathVariable("username") String username) {

@@ -1,11 +1,17 @@
 import React from "react";
 
-export const ReserveTableItem = () => {
+export const ReserveTableItem = (props) => {
+  const extractHour = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    return `${hour}:${minute}`;
+  };
   return (
-    <tr className="text-decoration-line-through">
-      <td>17:00 Jul 24th</td>
-      <td>By Tom Holland</td>
-      <td>Table-2</td>
+    <tr className="">
+      <td>At: {extractHour(props.date)}</td>
+      <td>By {props.name}</td>
+      <td>Table-{props.tableNumber}</td>
     </tr>
   );
 };

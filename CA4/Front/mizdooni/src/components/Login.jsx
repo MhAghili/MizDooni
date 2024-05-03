@@ -33,6 +33,7 @@ export const Login = () => {
         if (User.role === "manager") {
           navigate("/Manager-Restaurant");
         } else {
+          navigate("/Home");
         }
         console.log("Login successful");
       } else {

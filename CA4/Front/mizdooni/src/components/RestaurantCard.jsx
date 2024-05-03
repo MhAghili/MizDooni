@@ -3,10 +3,11 @@ import "../App.css";
 import "../classes.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export const RestaurantCard = (props) => {
   const score = 3;
-
+  const navigate = useNavigate();
   const calculateStarRating = (score) => {
     const fullStars = Math.floor(score);
     const stars = [];
@@ -17,6 +18,12 @@ export const RestaurantCard = (props) => {
     }
 
     return stars;
+  };
+
+  const clickHndlr = () => {
+    navigate("/Restaurant", {
+      state: { restaurantName: props.name },
+    });
   };
 
   const extractHourMinute = (dateTimeString) => {
@@ -30,7 +37,11 @@ export const RestaurantCard = (props) => {
     <div className="col-2 border cardRadius m-3">
       <div className="container-fluid p-0">
         <div className="row p-0 mb-2">
-          <a href="/" className="p-0 position-relative text-warning">
+          <a
+            onClick={() => clickHndlr()}
+            className="p-0 position-relative text-warning"
+            style={{ cursor: "pointer" }}
+          >
             <img
               src={props.image}
               className="restaurantPic p-0 imgcustomBorderRadius"

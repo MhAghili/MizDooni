@@ -99,6 +99,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception {
+        return dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+    }
+
+    @Override
     public int reserveTable(TableReservation reservation) throws Exception {
 
         var user = dataBase.getUsers()
@@ -127,9 +132,9 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new OutsideBusinessHoursException();
         }
 
-        if (reservation.getDatetime().before(new Date())) {
-            throw new PastDateTimeException();
-        }
+//        if (reservation.getDatetime().before(new Date())) {
+//            throw new PastDateTimeException();
+//        }
 
         if (dataBase.getReservations().anyMatch(r ->
                 r.getRestaurantName().equals(reservation.getRestaurantName()) &&

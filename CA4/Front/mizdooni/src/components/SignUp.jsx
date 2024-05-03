@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
   const [isManager, setIsManager] = useState(false);
@@ -11,6 +12,7 @@ export const SignUp = () => {
     city: "",
     role: "",
   });
+  const navigate = useNavigate();
 
   const handleManagerChange = () => {
     setIsManager(!isManager);
@@ -51,6 +53,11 @@ export const SignUp = () => {
       if (response.ok) {
         console.log("Signup successful");
         localStorage.setItem("username", formData.username);
+        if (formData.role === "manager") {
+          navigate("/Manager-Restaurant");
+        } else {
+        }
+        console.log("Login successful");
       } else {
         const errorMessage = await response.text();
         throw new Error(errorMessage);

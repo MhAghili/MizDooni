@@ -54,6 +54,7 @@ const Home = () => {
               image={restaurant.image}
               type={restaurant.type}
               endTime={restaurant.endTime}
+              onClick={() => console.log("clicked")}
             />
           ))}
         </div>

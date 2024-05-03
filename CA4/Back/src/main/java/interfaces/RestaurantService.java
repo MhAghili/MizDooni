@@ -19,6 +19,7 @@ public interface RestaurantService {
     List<TableReservation> getReservationByUsername(String username);
     List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName) throws Exception;
 
+    List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception;
     Restaurant getCurrentRes(String restaurantName) throws Exception;
 
     List<Table> getTablesByRestaurant(String restaurantName) throws Exception;

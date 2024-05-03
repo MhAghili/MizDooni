@@ -9,7 +9,9 @@ export const MangerRestaurant = () => {
   const [restaurants, setRestaurants] = useState([]);
   const navigate = useNavigate();
   const manageButtonHndl = (restaurantName_) => {
-    navigate("/Restaurant", { state: { restaurantName: restaurantName_ } });
+    navigate("/Manager-Manage", {
+      state: { restaurantName: restaurantName_ },
+    });
   };
 
   useEffect(() => {
