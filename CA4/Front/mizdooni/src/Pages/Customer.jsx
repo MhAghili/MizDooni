@@ -20,12 +20,9 @@ export const Customer = () => {
     try {
       const reqBody = {
         username: reservationToCancel.username,
-        restaurantName: reservationToCancel.restaurantName,
-        numberOfPeople: reservationToCancel.numberOfPeople,
-        datetime: reservationToCancel.datetime,
-        tableNumber: reservationToCancel.tableNumber,
+        reservationNumber: reservationToCancel.number,
       };
-      const response = await fetch("http://localhost:8080/deleteReservation", {
+      const response = await fetch("http://127.0.0.1:8080/DeleteReservation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +107,8 @@ export const Customer = () => {
                     <td className="text-center">
                       <a
                         onClick={() => handleCancelClick(reservation)}
-                        className="text-decoration-none text-danger "
+                        className=" text-danger "
+                        style={{ cursor: "pointer" }}
                       >
                         Cancle
                       </a>

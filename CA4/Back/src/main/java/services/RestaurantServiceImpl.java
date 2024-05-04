@@ -189,8 +189,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (reservation == null)
             throw new InvalidReservationNumber();
 
-        if (reservation.getDatetime().before(new Date()))
-            throw new CannotCancelReservationBecauseOfDate();
+//        if (reservation.getDatetime().before(new Date()))
+//            throw new CannotCancelReservationBecauseOfDate();
 
         dataBase.deleteReservation(request.getUsername(), request.getReservationNumber());
     }
