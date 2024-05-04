@@ -28,6 +28,7 @@ export const ReserveTime = ({ time, onClick }) => {
         isSelected ? 'bg-danger' : 'bg-light'
       }`}
       onClick={handleClick}
+      style={{ cursor: "pointer" }}
     >
       <span className={`text-${isSelected ? 'light' : 'danger'} m-auto`}>
         {time} : 00

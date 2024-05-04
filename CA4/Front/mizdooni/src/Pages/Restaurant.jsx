@@ -13,6 +13,7 @@ import Pagination from "../Statics/pagination.png";
 import Footer from "../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import AddReviewModal from "../Modals/AddReviewModal";
 
 export const Restaurant = () => {
   const [restaurant, setRestaurant] = useState([]);
@@ -26,24 +27,34 @@ export const Restaurant = () => {
     "overallRate",
   ]);
   const [selectedResevationTime, setSelectedReservationTime] = useState(null);
-  const [numberOfPeople, setNumberOfPeople] = useState(2); // Default value for number of people
-  const currentDate = new Date().toISOString().split('T')[0];
-  const [selectedResevationDate, setSelectedReservationDate] = useState(currentDate); 
+  const [numberOfPeople, setNumberOfPeople] = useState(2);
+  const currentDate = new Date().toISOString().split("T")[0];
+  const [addReviewModal, showAddReviewModal] = useState(false);
+  const handleAddResClick = () => {
+    showAddReviewModal(true);
+  };
+
+  const handleCloseAddRes = () => {
+    fetchData();
+    showAddReviewModal(false);
+  };
+
+  const [selectedResevationDate, setSelectedReservationDate] =
+    useState(currentDate);
 
   const handleTimeClick = (time) => {
     setSelectedReservationTime(time);
   };
 
   const handleAddReservation = async () => {
-    // Check if all necessary data is available
     if (selectedResevationTime && selectedResevationDate && numberOfPeople) {
-      // Call the onSubmit function passed from the parent component
       try {
         const reqBody = {
           username: localStorage.getItem("username"),
           restaurantName: restaurantName,
           numberOfPeople: numberOfPeople,
-          datetime: selectedResevationDate + " " + selectedResevationTime +":00"
+          datetime:
+            selectedResevationDate + " " + selectedResevationTime + ":00",
         };
         const response = await fetch("http://localhost:8080/reservation", {
           method: "POST",
@@ -54,6 +65,7 @@ export const Restaurant = () => {
         });
         if (response.ok) {
           console.log("table reserved successfully");
+          fetchData();
         } else {
           const errorMessage = await response.text();
           throw new Error(errorMessage);
@@ -89,37 +101,35 @@ export const Restaurant = () => {
     });
     return (sum / restaurantReviews.length).toFixed(1);
   };
+  async function fetchData() {
+    try {
+      const restaurantResponse = await fetch(
+        `http://127.0.0.1:8080/restaurants/name=${restaurantName}`
+      );
+      const restaurantReviewRes = await fetch(
+        `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
+      ).then((res) => res.json());
+      const restaurantAvailableTimesResponse = await fetch(
+        `http://127.0.0.1:8080/tables/available/restaurnatName=${restaurantName},date=${selectedResevationDate}`
+      ).then((res) => res.json());
 
+      const restaurantRes = await restaurantResponse.json();
+
+      setRestaurant(restaurantRes);
+      setRestaurantReview(restaurantReviewRes);
+      setAvailableTimes(restaurantAvailableTimesResponse);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
   // const navigate = useNavigate();
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const restaurantResponse = await fetch(
-          `http://127.0.0.1:8080/restaurants/name=${restaurantName}`
-        );
-        const restaurantReviewRes = await fetch(
-          `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
-        ).then((res) => res.json());
-        const restaurantAvailableTimesResponse = await fetch(
-          `http://127.0.0.1:8080/tables/available/restaurnatName=${restaurantName},date=${selectedResevationDate}`
-        ).then((res) => res.json());
-
-        const restaurantRes = await restaurantResponse.json();
-
-        setRestaurant(restaurantRes);
-        setRestaurantReview(restaurantReviewRes);
-        setAvailableTimes(restaurantAvailableTimesResponse);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
     fetchData();
     console.log("data fetched!");
   }, []);
   return (
     <>
-      <Header name={"ReserveNow"} descreption={""} />
-
+      <Header name={"My Reserves"} descreption={""} />
       <div className="container d-flex mt-4">
         <div className="col-6 me-3">
           <div className="container-fluid p-0">
@@ -209,11 +219,13 @@ export const Restaurant = () => {
             Available Times for Table #1 (2 seats)
           </div>
           <div className="row">
-            {<Reservation
-              restaurantAvailableTimes={restaurantAvailableTimes}
-              handleTimeClick={handleTimeClick}
-              selectedTime={selectedResevationTime}
-            />}
+            {
+              <Reservation
+                restaurantAvailableTimes={restaurantAvailableTimes}
+                handleTimeClick={handleTimeClick}
+                selectedTime={selectedResevationTime}
+              />
+            }
           </div>
 
           <div className="row fs-14 text-danger pb-2 mb-2">
@@ -221,7 +233,11 @@ export const Restaurant = () => {
             contact the restaurant.
           </div>
           <div className="row">
-            <button type="submit" className="btn btn-danger rounded-5" onClick={handleAddReservation}>
+            <button
+              type="submit"
+              className="btn btn-danger rounded-5"
+              onClick={handleAddReservation}
+            >
               Complete the Reservation
             </button>
           </div>
@@ -243,7 +259,11 @@ export const Restaurant = () => {
           <div className="col-6">
             <div className="container-fluid d-flex justify-content-around">
               {reviewItems.map((item) => (
-                <ReviewItem name={item} rate={calculateAvarage(item)} />
+                <ReviewItem
+                  key={item}
+                  name={item}
+                  rate={calculateAvarage(item)}
+                />
               ))}
             </div>
           </div>
@@ -258,7 +278,11 @@ export const Restaurant = () => {
             </div>
           </div>
           <div className="col-4 text-end">
-            <button type="button" className="ms-1 btn btn-danger rounded-5">
+            <button
+              type="button"
+              className="ms-1 btn btn-danger rounded-5"
+              onClick={handleAddResClick}
+            >
               Add Review
             </button>
           </div>
@@ -267,6 +291,7 @@ export const Restaurant = () => {
           {restaurantReviews.map((review) => (
             <Review
               name={review.name}
+              key={review.name}
               scores={{
                 overall: review.overallRate,
                 ambience: review.ambianceRate,
@@ -285,8 +310,13 @@ export const Restaurant = () => {
           </div>
         </div>
       </div>
-
       <Footer />
+      <AddReviewModal
+        show={addReviewModal}
+        handleClose={handleCloseAddRes}
+        restaurantName={restaurantName}
+        username={localStorage.getItem("username")}
+      />{" "}
     </>
   );
 };

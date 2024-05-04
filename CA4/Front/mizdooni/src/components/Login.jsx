@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { useData } from "../Data/DataContext";
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setIsLogin } = useData();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -28,6 +29,7 @@ export const Login = () => {
       });
       if (response.ok) {
         localStorage.setItem("username", username);
+        setIsLogin(true);
         const UserRes = await fetch(`http://Localhost:8080/users/${username}`);
         const User = await UserRes.json();
         if (User.role === "manager") {

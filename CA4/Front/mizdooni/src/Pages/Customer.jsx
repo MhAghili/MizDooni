@@ -3,34 +3,70 @@ import "../classes.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../components/Footer";
 import { Header } from "../components/Header";
+import { Modal, Button, Form } from "react-bootstrap";
 
 export const Customer = () => {
   const userName = localStorage.getItem("username");
   const [reservations, setReservations] = useState([]);
   const [user, setUser] = useState("");
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const reservationsRes = await fetch(
-          `http://127.0.0.1:8080/reservations/username=${userName}`
-        ).then((res) => res.json());
-        setReservations(reservationsRes);
-        const userRes = await fetch(
-          `http://127.0.0.1:8080/users/${userName}`
-        ).then((res) => res.json());
-        setUser(userRes);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const [reservationToCancel, setReservationToCancel] = useState(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const handleCancelClick = (reservation) => {
+    setReservationToCancel(reservation);
+    setShowCancelModal(true);
+  };
+
+  const handleCancelConfirmation = async () => {
+    try {
+      const reqBody = {
+        username: reservationToCancel.username,
+        restaurantName: reservationToCancel.restaurantName,
+        numberOfPeople: reservationToCancel.numberOfPeople,
+        datetime: reservationToCancel.datetime,
+        tableNumber: reservationToCancel.tableNumber,
+      };
+      const response = await fetch("http://localhost:8080/deleteReservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reqBody),
+      });
+      if (response.ok) {
+        console.log("reserved removed successfully");
+        fetchData();
+      } else {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+    setShowCancelModal(false);
+    setReservationToCancel(null);
+  };
+  async function fetchData() {
+    try {
+      const reservationsRes = await fetch(
+        `http://127.0.0.1:8080/reservations/username=${userName}`
+      ).then((res) => res.json());
+      setReservations(reservationsRes);
+      const userRes = await fetch(
+        `http://127.0.0.1:8080/users/${userName}`
+      ).then((res) => res.json());
+      setUser(userRes);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  useEffect(() => {
     fetchData();
     console.log("data fetched!");
   }, []);
   const extractHour = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const hour = date.getHours();
-    const minute = date.getMinutes();
-    return `${hour}:${minute}`;
+    return `${hour}: 00`;
   };
 
   return (
@@ -72,7 +108,10 @@ export const Customer = () => {
                       {reservation.numberOfPeople}-seats
                     </td>
                     <td className="text-center">
-                      <a href="" className="text-decoration-none text-danger">
+                      <a
+                        onClick={() => handleCancelClick(reservation)}
+                        className="text-decoration-none text-danger "
+                      >
                         Cancle
                       </a>
                     </td>
@@ -88,6 +127,27 @@ export const Customer = () => {
         </div>
       </div>
       <Footer />
+      {/* Cancel Reservation Modal */}
+      <Modal show={showCancelModal} onHide={() => setShowCancelModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cancel Reservation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure?</p>
+          <Form.Check
+            type="checkbox"
+            label="Yes, I want to cancel this reservation."
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowCancelModal(false)}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={handleCancelConfirmation}>
+            Cancel Reservation
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

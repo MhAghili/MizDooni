@@ -180,14 +180,19 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void cancelReservation(TableReservation reservation) throws Exception {
+    public void cancelReservation(ReservationCancellationRequest request) throws Exception {
+        var reservation = dataBase.getReservations()
+                .filter(i -> i.getUsername().equals(request.getUsername()) && i.getNumber() == request.getReservationNumber())
+                .findFirst()
+                .orElse(null);
+
         if (reservation == null)
             throw new InvalidReservationNumber();
 
         if (reservation.getDatetime().before(new Date()))
             throw new CannotCancelReservationBecauseOfDate();
 
-        dataBase.deleteReservation(reservation);
+        dataBase.deleteReservation(request.getUsername(), request.getReservationNumber());
     }
 
     @Override

@@ -12,21 +12,11 @@ import Error from "./Pages/Error";
 import { SignUpIn } from "./Pages/SignUpIn";
 
 function App() {
-  const {
-    userData,
-    restaurantData,
-    setUserData,
-    setTableData,
-    setRestaurantData,
-  } = useData();
+  const { setRestaurantData } = useData();
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const userDataResponse = await fetch("http://localhost:8080/users");
-        const userData = await userDataResponse.json();
-        setUserData(userData);
-
         const restaurantDataResponse = await fetch(
           "http://localhost:8080/restaurants"
         );

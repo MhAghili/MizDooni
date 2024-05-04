@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import services.RestaurantServiceImpl;
+import utils.ReservationCancellationRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,11 +39,11 @@ public class TableController {
         }
     }
 
-    @DeleteMapping("/reservation")
-    public ResponseEntity cancelReservation(@RequestBody TableReservation reservation) {
+    @PostMapping("/DeleteReservation")
+    public ResponseEntity cancelReservation(@RequestBody ReservationCancellationRequest reservation) {
         try {
             service.cancelReservation(reservation);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity("reservation Removed",HttpStatus.OK);
         }
         catch (Exception ex) {
             return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);

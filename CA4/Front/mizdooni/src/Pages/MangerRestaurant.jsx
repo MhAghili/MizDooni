@@ -2,31 +2,40 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import AddRestaurantModal from "../Modals/AddRestaurantModal";
 import "../classes.css";
 
 export const MangerRestaurant = () => {
   const loggedInUser = localStorage.getItem("username");
   const [restaurants, setRestaurants] = useState([]);
+  const [addRestaurantModal, showAddRestaurantModal] = useState(false); // State for managing modal visibility
+  const handleAddResClick = () => {
+    showAddRestaurantModal(true);
+  };
+
+  const handleCloseAddRes = () => {
+    fetchData();
+    showAddRestaurantModal(false);
+  };
   const navigate = useNavigate();
   const manageButtonHndl = (restaurantName_) => {
     navigate("/Manager-Manage", {
       state: { restaurantName: restaurantName_ },
     });
   };
+  async function fetchData() {
+    try {
+      const restaurantsResponse = await fetch(
+        `http://localhost:8080/restaurants/managerName=${loggedInUser}`
+      );
+      const restaurantsList = await restaurantsResponse.json();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const restaurantsResponse = await fetch(
-          `http://localhost:8080/restaurants/managerName=${loggedInUser}`
-        );
-        const restaurantsList = await restaurantsResponse.json();
-
-        setRestaurants(restaurantsList);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      setRestaurants(restaurantsList);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  }
+  useEffect(() => {
     fetchData();
     console.log("data fetched!");
   }, []);
@@ -39,7 +48,11 @@ export const MangerRestaurant = () => {
             <div className="row bg-light rounded-top align-items-center">
               <div className="col py-3">My Restaurant</div>
               <div className="col text-end">
-                <button type="button" className="btn btn-danger rounded-5">
+                <button
+                  type="button"
+                  className="btn btn-danger rounded-5 "
+                  onClick={handleAddResClick}
+                >
                   Add
                 </button>
               </div>
@@ -74,6 +87,10 @@ export const MangerRestaurant = () => {
         </div>
       </div>
       <Footer />
+      <AddRestaurantModal
+        show={addRestaurantModal}
+        handleClose={handleCloseAddRes}
+      />{" "}
     </>
   );
 };

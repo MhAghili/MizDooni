@@ -4,8 +4,7 @@ export const ReserveTableItem = (props) => {
   const extractHour = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const hour = date.getHours();
-    const minute = date.getMinutes();
-    return `${hour}:${minute}`;
+    return `${hour}: 00`;
   };
   return (
     <tr className="">

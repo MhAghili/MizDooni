@@ -65,7 +65,7 @@ const Home = () => {
 
   return (
     <>
-      <Header name={"My Reserves"}  />
+      <Header name={"My Reserves"} />
       <div className="position-relative overflow-hidden">
         <div className="container-fluid position-absolute searchForm">
           <div className="row">
@@ -115,7 +115,7 @@ const Home = () => {
       <div className="container mt-4">
         <span className="ms-5">Top Restaurants in Mizdooni</span>
         <div className="row justify-content-center">
-          {sortedRestaurantData.map((restaurant) => (
+          {sortedRestaurantData.slice(0, 5).map((restaurant) => (
             <RestaurantCard
               key={restaurant.name}
               name={restaurant.name}

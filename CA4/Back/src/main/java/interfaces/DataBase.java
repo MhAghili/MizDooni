@@ -13,7 +13,7 @@ public interface DataBase {
     void saveTable(Table table);
     Stream<TableReservation> getReservations();
     void saveReservation(TableReservation reservation);
-    void deleteReservation(TableReservation reservation);
+    void deleteReservation(String username, int reservationNumber);
 
     int getReservationCounter();
 

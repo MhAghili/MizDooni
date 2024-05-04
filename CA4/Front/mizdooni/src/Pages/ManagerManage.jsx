@@ -6,7 +6,7 @@ import { ReserveTableItem } from "../components/ReserveTableItem";
 import "../classes.css";
 import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import AddTableModal from "../Modals/AddTableModal"; // Import the AddTableModal component
+import AddTableModal from "../Modals/AddTableModal";
 
 export const ManagerManage = () => {
   const { restaurantName } = useLocation().state;
@@ -46,7 +46,7 @@ export const ManagerManage = () => {
   };
   return (
     <>
-      <Header />
+      <Header name={"My Restaurants"} />
       <div className="h-100">
         <div className="container-fluid text-bg-danger bg-danger d-flex justify-content-between text-light">
           <div className="col-auto ms-5">{restaurant.name}</div>
@@ -117,7 +117,6 @@ export const ManagerManage = () => {
         restaurantName={restaurantName}
         managerUsername={restaurant.managerUsername}
       />{" "}
-      {/* Render the AddTableModal */}
     </>
   );
 };
