@@ -3,6 +3,7 @@ package interfaces;
 import models.*;
 import utils.ReservationCancellationRequest;
 
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -33,5 +34,5 @@ public interface RestaurantService {
     List<Restaurant> getRestaurantsByCity(String cityName);
     List<Restaurant> fetchAll();
     void delete(String restaurantName) throws Exception;
-
+    List<Integer> getAvailableTimesByRestaurant(String restaurantName) throws Exception;
 }

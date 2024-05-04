@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../classes.css";
 import { Header } from "../components/Header";
 import ResBack from "../Statics/RestaurantBackground.png";
-import { ReserveTime } from "../components/ReserveTime";
+import { Reservation, ReserveTime } from "../components/ReserveTime";
 import Type from "../Statics/Type.png";
 import Reviewimg from "../Statics/review.png";
 import Clock from "../Statics/Clock.png";
@@ -18,6 +18,7 @@ export const Restaurant = () => {
   const [restaurant, setRestaurant] = useState([]);
   const [restaurantReviews, setRestaurantReview] = useState([]);
   const { restaurantName } = useLocation().state;
+  const [restaurantAvailableTimes, setAvailableTimes] = useState([]);
   const [reviewItems, setReviewItems] = useState([
     "foodRate",
     "serviceRate",
@@ -59,11 +60,15 @@ export const Restaurant = () => {
         const restaurantReviewRes = await fetch(
           `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
         ).then((res) => res.json());
+        const restaurantAvailableTimesResponse = await fetch(
+          `http://127.0.0.1:8080/tables/available/restaurnatName=${restaurantName}`
+        ).then((res) => res.json());
 
         const restaurantRes = await restaurantResponse.json();
 
         setRestaurant(restaurantRes);
         setRestaurantReview(restaurantReviewRes);
+        setAvailableTimes(restaurantAvailableTimesResponse);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -160,15 +165,9 @@ export const Restaurant = () => {
             Available Times for Table #1 (2 seats)
           </div>
           <div className="row">
-            <ReserveTime />
-            <ReserveTime />
-            <ReserveTime />
-            <ReserveTime />
-            <ReserveTime />
-            <ReserveTime />
-            <ReserveTime />
-            <ReserveTime />
+            {<Reservation restaurantAvailableTimes={restaurantAvailableTimes} />}
           </div>
+
           <div className="row fs-14 text-danger pb-2 mb-2">
             You will reserve this table only for one hour, for more time please
             contact the restaurant.

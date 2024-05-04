@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import utils.CustomDateDeserializer;
@@ -15,6 +16,7 @@ public class TableReservation {
     private String username;
     private String restaurantName;
     private int tableNumber;
+    private Integer numberOfPeople;
 
     @JsonDeserialize(using = CustomDateDeserializer.class)
     private Date datetime;

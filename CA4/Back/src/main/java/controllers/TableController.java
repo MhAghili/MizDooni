@@ -77,10 +77,10 @@ public class TableController {
     }
 
     //ToDo fix mapping of this api
-    @GetMapping("/tables/available/restaurnatname={name}")
-    public ResponseEntity getAvailableTablesByRestaurantName(@PathVariable("name") String name) {
+    @GetMapping("/tables/available/restaurnatName={name}")
+    public ResponseEntity getAvailableTimesByRestaurantName(@PathVariable("name") String name) {
         try {
-            return new ResponseEntity(service.getAvailableTablesByRestaurant(name), HttpStatus.OK);
+            return new ResponseEntity(service.getAvailableTimesByRestaurant(name), HttpStatus.OK);
         }
         catch (Exception ex) {
             return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
