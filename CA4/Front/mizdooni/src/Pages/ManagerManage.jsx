@@ -5,36 +5,45 @@ import Footer from "../components/Footer";
 import { ReserveTableItem } from "../components/ReserveTableItem";
 import "../classes.css";
 import { useLocation } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import AddTableModal from "../Modals/AddTableModal"; // Import the AddTableModal component
 
 export const ManagerManage = () => {
   const { restaurantName } = useLocation().state;
   const [restaurant, setRestaurant] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [tables, setTables] = useState([]);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const restaurantResponse = await fetch(
-          `http://127.0.0.1:8080/restaurants/name=${restaurantName}`
-        );
-        const tableRses = await fetch(
-          `http://127.0.0.1:8080/tables/restaurantName=${restaurantName}`
-        ).then((res) => res.json());
-        const reservationsRes = await fetch(
-          `http://127.0.0.1:8080/reservations/restaurantName=${restaurantName}`
-        ).then((res) => res.json());
-        setReservations(reservationsRes);
-        setRestaurant(restaurantResponse);
-        setTables(tableRses);
-        const restaurantRes = await restaurantResponse.json();
-        console.log(restaurantRes, tableRses);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const [showAddTableModal, setShowAddTableModal] = useState(false); // State for managing modal visibility
+  async function fetchData() {
+    try {
+      const restaurantResponse = await fetch(
+        `http://127.0.0.1:8080/restaurants/name=${restaurantName}`
+      ).then((res) => res.json());
+      const tableRses = await fetch(
+        `http://127.0.0.1:8080/tables/restaurantName=${restaurantName}`
+      ).then((res) => res.json());
+      const reservationsRes = await fetch(
+        `http://127.0.0.1:8080/reservations/restaurantName=${restaurantName}`
+      ).then((res) => res.json());
+      setReservations(reservationsRes);
+      setRestaurant(restaurantResponse);
+      setTables(tableRses);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  }
+  useEffect(() => {
     fetchData();
     console.log("data fetched!");
   }, []);
+  const handleAddTableClick = () => {
+    setShowAddTableModal(true);
+  };
+
+  const handleCloseAddTableModal = () => {
+    fetchData();
+    setShowAddTableModal(false);
+  };
   return (
     <>
       <Header />
@@ -78,9 +87,13 @@ export const ManagerManage = () => {
           <div className="col lightPink">
             <div className="container bg-light">
               <div className="row d-flex justify-content-start align-items-start">
-                <a href="/" className="text-decoration-none text-danger">
+                <Button
+                  onClick={handleAddTableClick}
+                  variant="link"
+                  className="text-decoration-none text-danger"
+                >
                   +Add Table
-                </a>
+                </Button>
               </div>
               <div className="container align-self-center">
                 <div className="row justify-content-center">
@@ -97,8 +110,14 @@ export const ManagerManage = () => {
           </div>
         </div>
       </div>
-
       <Footer />
+      <AddTableModal
+        show={showAddTableModal}
+        handleClose={handleCloseAddTableModal}
+        restaurantName={restaurantName}
+        managerUsername={restaurant.managerUsername}
+      />{" "}
+      {/* Render the AddTableModal */}
     </>
   );
 };
