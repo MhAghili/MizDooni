@@ -11,6 +11,8 @@ import utils.Utils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -109,12 +111,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public int reserveTable(TableReservation reservation) throws Exception {
         var availableTableInfos =
-                getAvailableTablesByRestaurant(reservation.getRestaurantName())
+                getAvailableTablesByRestaurant(reservation.getRestaurantName(), reservation.getDatetime())
                         .stream()
                         .filter(i -> i.getSeatsNumber() >= reservation.getNumberOfPeople().intValue())
                         .sorted(Comparator.comparingInt(AvailableTableInfo::getSeatsNumber)
                                 .thenComparing(AvailableTableInfo::getSeatsNumber))
                         .collect(Collectors.toList());
+
+        if (availableTableInfos.size() == 0)
+            throw new TableNotFoundException();
 
 
         var user = dataBase.getUsers()
@@ -135,9 +140,6 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .filter(t -> t.getRestaurantName().equals(reservation.getRestaurantName()))
                 .toList();
 
-        if (!tables.stream().anyMatch(i -> i.getTableNumber() == reservation.getTableNumber())) {
-            throw new TableNotFoundException();
-        }
 
         if (!(reservation.getDatetime().getHours()>restaurant.getStartTime().getHours() && reservation.getDatetime().getHours()<restaurant.getEndTime().getHours())) {
             throw new OutsideBusinessHoursException();
@@ -164,9 +166,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 
     @Override
-    public List<Integer> getAvailableTimesByRestaurant(String restaurantName) throws Exception {
+    public List<Integer> getAvailableTimesByRestaurant(String restaurantName, Date date) throws Exception {
         var availableTimes = new HashSet<Date>();
-        var availableTableInfos = getAvailableTablesByRestaurant(restaurantName);
+        var availableTableInfos = getAvailableTablesByRestaurant(restaurantName, date);
 
         for (var availableTableInfo : availableTableInfos) {
             for (var availableTime : availableTableInfo.getAvailableTimes()) {
@@ -206,32 +208,39 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName) throws Exception{
+    public List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName, Date date) throws Exception{
         if (!dataBase.getRestaurants().anyMatch(i -> i.getName().equals(restaurantName)))
             throw new InvalidRestaurantName();
 
-        LocalDateTime currentDate = LocalDateTime.now();
+        var instant = date.toInstant();
+
+        // Convert Instant to ZonedDateTime with default time zone
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+
+        // Extract LocalDate from ZonedDateTime
+        LocalDate currentDate = zonedDateTime.toLocalDate();
+
         var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
         var tables = dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
 
 
         var result = new ArrayList<AvailableTableInfo>();
         for (var table: tables) {
-            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber());
+            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber() && isTwoDateEqual(i.getDatetime(), currentDate));
 
             var availableTimes = new ArrayList<Date>();
-            for (int i = 1; i <= 24 ; i++) {
-                if(currentDate.getHour() + i <= restaurant.getEndTime().getHours()
-                        && currentDate.getHour() + i >= restaurant.getStartTime().getHours()
-                        && currentDate.getHour() + i <= 24
-                        && !tableReservations.get().anyMatch(j -> isTwoDateEqual(j.getDatetime(), currentDate))
+            for (int i = 0; i <= 23 ; i++) {
+                int finalI = i;
+                if(i <= restaurant.getEndTime().getHours()
+                        && i >= restaurant.getStartTime().getHours()
+                        && !tableReservations.get().anyMatch(j -> j.getDatetime().getHours() == finalI)
                     ) {
                     Calendar calendar = Calendar.getInstance();
 
                     calendar.set(Calendar.YEAR, currentDate.getYear());
                     calendar.set(Calendar.MONTH, currentDate.getMonthValue() - 1);
                     calendar.set(Calendar.DAY_OF_MONTH, currentDate.getDayOfMonth());
-                    calendar.set(Calendar.HOUR_OF_DAY, currentDate.getHour() + i);
+                    calendar.set(Calendar.HOUR_OF_DAY, i);
                     calendar.set(Calendar.MINUTE, 0);
                     calendar.set(Calendar.SECOND, 0);
                     calendar.set(Calendar.MILLISECOND, 0);
@@ -307,11 +316,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         dataBase.deleteRestaurant(restaurant.get());
     }
-    private boolean isTwoDateEqual(Date date1, LocalDateTime date2) {
+    private boolean isTwoDateEqual(Date date1, LocalDate date2) {
         return date1.getYear() == date2.getYear()
                 && date1.getMonth() == date2.getMonthValue()
-                && date1.getDay() == date2.getDayOfMonth()
-                && date1.getHours() == date2.getHour();
+                && date1.getDay() == date2.getDayOfMonth();
     }
     private boolean addressIsInInvalidFormat(RestaurantAddress address) {
         return Utils.isNullOrEmptyString(address.getCity())

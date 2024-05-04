@@ -20,7 +20,7 @@ public interface RestaurantService {
     List<Restaurant> getRestaurantsByName(String city);
     Restaurant getRestaurantByName(String name) throws Exception;
     List<TableReservation> getReservationByUsername(String username);
-    List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName) throws Exception;
+    List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName, Date date) throws Exception;
 
     List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception;
     Restaurant getCurrentRes(String restaurantName) throws Exception;
@@ -36,5 +36,5 @@ public interface RestaurantService {
     List<Restaurant> getRestaurantsByCity(String cityName);
     List<Restaurant> fetchAll();
     void delete(String restaurantName) throws Exception;
-    List<Integer> getAvailableTimesByRestaurant(String restaurantName) throws Exception;
+    List<Integer> getAvailableTimesByRestaurant(String restaurantName, Date date) throws Exception;
 }

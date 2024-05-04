@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import services.RestaurantServiceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @RestController
 public class TableController {
     private final RestaurantService service;
@@ -28,8 +31,7 @@ public class TableController {
     @PostMapping("/reservation")
     public ResponseEntity addReservation(@RequestBody TableReservation reservation) {
         try {
-            service.reserveTable(reservation);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity(service.reserveTable(reservation), HttpStatus.OK);
         }
         catch (Exception ex) {
             return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
@@ -77,10 +79,12 @@ public class TableController {
     }
 
     //ToDo fix mapping of this api
-    @GetMapping("/tables/available/restaurnatName={name}")
-    public ResponseEntity getAvailableTimesByRestaurantName(@PathVariable("name") String name) {
+    @GetMapping("/tables/available/restaurnatName={name},date={date}")
+    public ResponseEntity getAvailableTimesByRestaurantName(@PathVariable("name") String name, @PathVariable("date") String dateString) {
         try {
-            return new ResponseEntity(service.getAvailableTimesByRestaurant(name), HttpStatus.OK);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = sdf.parse(dateString);
+            return new ResponseEntity(service.getAvailableTimesByRestaurant(name, date), HttpStatus.OK);
         }
         catch (Exception ex) {
             return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);

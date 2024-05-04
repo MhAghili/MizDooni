@@ -25,6 +25,46 @@ export const Restaurant = () => {
     "ambianceRate",
     "overallRate",
   ]);
+  const [selectedResevationTime, setSelectedReservationTime] = useState(null);
+  const [numberOfPeople, setNumberOfPeople] = useState(2); // Default value for number of people
+  const currentDate = new Date().toISOString().split('T')[0];
+  const [selectedResevationDate, setSelectedReservationDate] = useState(currentDate); 
+
+  const handleTimeClick = (time) => {
+    setSelectedReservationTime(time);
+  };
+
+  const handleAddReservation = async () => {
+    // Check if all necessary data is available
+    if (selectedResevationTime && selectedResevationDate && numberOfPeople) {
+      // Call the onSubmit function passed from the parent component
+      try {
+        const reqBody = {
+          username: localStorage.getItem("username"),
+          restaurantName: restaurantName,
+          numberOfPeople: numberOfPeople,
+          datetime: selectedResevationDate + " " + selectedResevationTime +":00"
+        };
+        const response = await fetch("http://localhost:8080/reservation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reqBody),
+        });
+        if (response.ok) {
+          console.log("table reserved successfully");
+        } else {
+          const errorMessage = await response.text();
+          throw new Error(errorMessage);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Please fill all the required fields."); // Or display a message to the user
+    }
+  };
 
   const extractHour = (dateTimeString) => {
     const date = new Date(dateTimeString);
@@ -61,7 +101,7 @@ export const Restaurant = () => {
           `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
         ).then((res) => res.json());
         const restaurantAvailableTimesResponse = await fetch(
-          `http://127.0.0.1:8080/tables/available/restaurnatName=${restaurantName}`
+          `http://127.0.0.1:8080/tables/available/restaurnatName=${restaurantName},date=${selectedResevationDate}`
         ).then((res) => res.json());
 
         const restaurantRes = await restaurantResponse.json();
@@ -151,12 +191,16 @@ export const Restaurant = () => {
                   className="col-2 bg-light buttonRound"
                   min="0"
                   max="10"
+                  value={numberOfPeople}
+                  onChange={(e) => setNumberOfPeople(e.target.value)}
                 />
                 people, on date
                 <input
                   type="date"
                   placeholder="2024-02-18"
                   className="col-3 bg-light buttonRound"
+                  value={selectedResevationDate}
+                  onChange={(e) => setSelectedReservationDate(e.target.value)}
                 />
               </div>
             </div>
@@ -165,7 +209,11 @@ export const Restaurant = () => {
             Available Times for Table #1 (2 seats)
           </div>
           <div className="row">
-            {<Reservation restaurantAvailableTimes={restaurantAvailableTimes} />}
+            {<Reservation
+              restaurantAvailableTimes={restaurantAvailableTimes}
+              handleTimeClick={handleTimeClick}
+              selectedTime={selectedResevationTime}
+            />}
           </div>
 
           <div className="row fs-14 text-danger pb-2 mb-2">
@@ -173,7 +221,7 @@ export const Restaurant = () => {
             contact the restaurant.
           </div>
           <div className="row">
-            <button type="submit" className="btn btn-danger rounded-5">
+            <button type="submit" className="btn btn-danger rounded-5" onClick={handleAddReservation}>
               Complete the Reservation
             </button>
           </div>

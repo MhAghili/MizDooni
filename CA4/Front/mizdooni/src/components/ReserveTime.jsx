@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export const Reservation = ({ restaurantAvailableTimes }) => {
-  const [selectedTime, setSelectedTime] = useState(null);
-
-  const handleTimeClick = (time) => {
-    setSelectedTime(time);
-  };
-
+export const Reservation = ({ restaurantAvailableTimes, handleTimeClick }) => {
   return (
-    <div className="row">
+    <>
       {restaurantAvailableTimes.map((item) => (
         <ReserveTime
           key={item.time}
           time={item}
-          isSelected={selectedTime === item}
           onClick={() => handleTimeClick(item)}
         />
       ))}
-    </div>
+    </>
   );
 };
 
-export const ReserveTime = ({ time, isSelected, onClick }) => {
+export const ReserveTime = ({ time, onClick }) => {
+  const [isSelected, setIsSelected] = React.useState(false);
+
+  const handleClick = () => {
+    setIsSelected(!isSelected);
+    onClick(time); // Pass the time back to the parent component
+  };
+
   return (
     <div
-      className={`col-4 col-md-2 py-1 text-center border border-danger cardRadius m-1 d-flex align-items-center ${
+      className={`cursor-pointer col-4 col-md-2 py-1 text-center border border-danger cardRadius m-1 d-flex align-items-center ${
         isSelected ? 'bg-danger' : 'bg-light'
       }`}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <span className={`text-${isSelected ? 'light' : 'danger'} m-auto`}>
         {time} : 00
