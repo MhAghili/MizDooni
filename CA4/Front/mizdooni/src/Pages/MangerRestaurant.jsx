@@ -33,35 +33,35 @@ export const MangerRestaurant = () => {
   return (
     <>
       <Header descreption="Welcome_Admin" name="My Restaurant" />
-      <div class="col-6 mx-auto py-5">
-        <div class="row mt-3">
-          <div class="container mb-4">
-            <div class="row bg-light rounded-top align-items-center">
-              <div class="col py-3">My Restaurant</div>
-              <div class="col text-end">
-                <button type="button" class="btn btn-danger rounded-5">
+      <div className="col-6 mx-auto py-5">
+        <div className="row mt-3">
+          <div className="container mb-4">
+            <div className="row bg-light rounded-top align-items-center">
+              <div className="col py-3">My Restaurant</div>
+              <div className="col text-end">
+                <button type="button" className="btn btn-danger rounded-5">
                   Add
                 </button>
               </div>
             </div>
           </div>
-          <table class="table">
+          <table className="table">
             <tbody>
               {restaurants.map((restaurant) => (
-                <tr key={restaurant.name} class="align-items-center">
+                <tr key={restaurant.name} className="align-items-center">
                   {" "}
-                  <th scope="row" class="text-success align-middle">
+                  <th scope="row" className="text-success align-middle">
                     {restaurant.name}
                   </th>
-                  <td class="text-danger align-middle">
+                  <td className="text-danger align-middle">
                     {restaurant.address.city}, {restaurant.address.country}
                   </td>
-                  <td class="text-end">
-                    <div class="text-decoration-none text-danger">
+                  <td className="text-end">
+                    <div className="text-decoration-none text-danger">
                       <button
                         onClick={() => manageButtonHndl(restaurant.name)}
                         type="button"
-                        class="btn btn-danger rounded-5"
+                        className="btn btn-danger rounded-5"
                       >
                         Manage
                       </button>

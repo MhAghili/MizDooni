@@ -31,6 +31,16 @@ public class RestaurantController {
         }
     }
 
+    @GetMapping("/RestaurantName={name}")
+    public ResponseEntity<List<Restaurant>> getRestaurantsByName(@PathVariable("name") String name) {
+        try {
+            return new ResponseEntity<>(service.getRestaurantsByName(name), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 @GetMapping("/managerName={name}")
     public ResponseEntity<List<Restaurant>> getRestaurantByManagerName(@PathVariable("name") String name) {
         try {

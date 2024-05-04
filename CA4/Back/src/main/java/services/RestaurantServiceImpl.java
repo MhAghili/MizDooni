@@ -97,7 +97,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Table> getTablesByRestaurant(String restaurantName) throws Exception {
         return dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
     }
-
+    @Override
+    public List<Restaurant> getRestaurantsByName(String name) {
+        return dataBase.getRestaurants().filter(i -> i.getName().equals(name)).toList();
+    }
     @Override
     public List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception {
         return dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();

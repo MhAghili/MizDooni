@@ -16,6 +16,8 @@ public interface RestaurantService {
     int reserveTable(TableReservation reservation) throws Exception;
     void cancelReservation(TableReservation reservation) throws Exception;
     List<Restaurant> getRestaurantByType(String type);
+
+    List<Restaurant> getRestaurantsByName(String city);
     Restaurant getRestaurantByName(String name) throws Exception;
     List<TableReservation> getReservationByUsername(String username);
     List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName) throws Exception;

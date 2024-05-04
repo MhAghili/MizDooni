@@ -56,6 +56,7 @@ export const SignUp = () => {
         if (formData.role === "manager") {
           navigate("/Manager-Restaurant");
         } else {
+          navigate("/Home");
         }
         console.log("Login successful");
       } else {

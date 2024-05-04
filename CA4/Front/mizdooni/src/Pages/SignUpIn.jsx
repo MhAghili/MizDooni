@@ -6,7 +6,7 @@ import { Login } from "../components/Login";
 import { SignUp } from "../components/SignUp";
 
 export const SignUpIn = () => {
-  const [showSignup, setShowSignup] = useState(true);
+  const [showSignup, setShowSignup] = useState(false);
 
   const toggleForm = () => {
     setShowSignup(!showSignup);

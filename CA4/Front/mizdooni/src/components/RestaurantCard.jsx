@@ -6,7 +6,6 @@ import { faStar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 export const RestaurantCard = (props) => {
-  const score = 3;
   const navigate = useNavigate();
   const calculateStarRating = (score) => {
     const fullStars = Math.floor(score);
@@ -47,9 +46,9 @@ export const RestaurantCard = (props) => {
               className="restaurantPic p-0 imgcustomBorderRadius"
               alt=""
             />
-            <div className="position-absolute bg-light col-4 pe-2 radiusEnd badgeTop">
+            <div className="position-absolute bg-light col-5 pe-2 radiusEnd badgeTop">
               <div className="row">
-                <div className="col">{calculateStarRating(score)}</div>
+                <div className="col">{calculateStarRating(props.score)}</div>
               </div>
             </div>
           </a>
@@ -60,7 +59,7 @@ export const RestaurantCard = (props) => {
         <div className="row ms-1">
           <div className="col-12 p-0">
             <FontAwesomeIcon icon={faLocationDot} className="fa-xs fa" />
-            <span className="ms-1 darkGray fs-10">{props.address.city}</span>
+            <span className="ms-1 darkGray fs-10">{props.address?.city}</span>
           </div>
         </div>
         <div className="row ms-1 mb-1 align-items-center">
