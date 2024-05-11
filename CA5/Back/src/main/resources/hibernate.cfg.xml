@@ -6,7 +6,7 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Mohammads-MacBook-Pro.local</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Mizdooni</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">Mh@818289</property>
 
@@ -24,5 +24,11 @@
 
         <!-- Mapping files -->
         <!-- Add mappings for your entity classes here -->
+        <mapping class="models.User"/>
+        <mapping class="models.Restaurant"/>
+        <mapping class="models.RestaurantTable"/>
+        <mapping class="models.TableReservation"/>
+        <mapping class="models.Feedback"/>
+
     </session-factory>
 </hibernate-configuration>

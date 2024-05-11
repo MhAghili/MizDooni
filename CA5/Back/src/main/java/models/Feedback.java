@@ -14,29 +14,29 @@ import lombok.Setter;
 @Entity
 @Table(name = "feedbacks")
 public class Feedback {
-    @Id // Indicates the primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Specifies auto-increment strategy for primary key
-    private Long id; // Assuming you have an ID field in your Feedback table
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "username") // Specifies column name in the database
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "restaurant_name") // Specifies column name in the database
+    @Column(name = "restaurant_name")
     private String restaurantName;
 
-    @Column(name = "food_rate") // Specifies column name in the database
+    @Column(name = "food_rate")
     private double foodRate;
 
-    @Column(name = "service_rate") // Specifies column name in the database
+    @Column(name = "service_rate")
     private double serviceRate;
 
-    @Column(name = "ambiance_rate") // Specifies column name in the database
+    @Column(name = "ambiance_rate")
     private double ambianceRate;
 
-    @Column(name = "overall_rate") // Specifies column name in the database
+    @Column(name = "overall_rate")
     private double overallRate;
 
-    @Column(name = "comment") // Specifies column name in the database
+    @Column(name = "comment")
     private String comment;
 
     public Feedback(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment) {

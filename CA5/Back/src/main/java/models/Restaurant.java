@@ -37,7 +37,8 @@ public class Restaurant {
     @Column(name = "end_time")
     private Date endTime;
 
-    @Column(name = "description")
+    @Lob
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Embedded
