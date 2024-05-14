@@ -30,12 +30,5 @@ public class User {
     @Embedded
     private UserAddress address;
 
-    public User(UserType role, String username, String password, String email, UserAddress address) {
-        this.role = role;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.address = address;
-    }
 
 }

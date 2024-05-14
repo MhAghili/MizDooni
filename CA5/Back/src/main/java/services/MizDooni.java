@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import utils.DTO.RestaurantDTO;
 
 import java.net.URL;
 import java.util.Dictionary;
@@ -48,7 +49,7 @@ public class MizDooni {
         try {
             var users = mapper.readValue(usersResponse, new TypeReference<List<User>>() {});
             UserServiceImplementation.getInstance().save(users);
-            var restaurants = mapper.readValue(restaurantsResponse, new TypeReference<List<Restaurant>>() {});
+            var restaurants = mapper.readValue(restaurantsResponse, new TypeReference<List<RestaurantDTO>>() {});
             RestaurantServiceImpl.getInstance().save(restaurants);
             var reviews = mapper.readValue(reviewsResponse, new TypeReference<List<Feedback>>() {});
             FeedbackServiceImpl.getInstance().save(reviews);

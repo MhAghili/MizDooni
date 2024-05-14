@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utils.CustomDateDeserializer;
 
 import java.text.SimpleDateFormat;
@@ -20,10 +21,17 @@ public class TableReservation {
     @Column(name = "number")
     private int number; // Unique reservation number
 
-    @Column(name = "username")
+    @ManyToOne
+    @JoinColumn(name = "user_name", referencedColumnName = "username")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_name", referencedColumnName = "name")
+    private Restaurant restaurant;
+
+
     private String username;
 
-    @Column(name = "restaurant_name")
     private String restaurantName;
 
     @Column(name = "table_number")
@@ -37,12 +45,14 @@ public class TableReservation {
     @Column(name = "datetime")
     private Date datetime;
 
-    public TableReservation(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime) {
+    public TableReservation(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime,User user, Restaurant restaurant){
         this.number = reservationNumber;
         this.username = username;
         this.restaurantName = restaurantName;
         this.tableNumber = tableNumber;
         this.datetime = datetime;
+        this.user = user;
+        this.restaurant = restaurant;
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(force = true)
@@ -19,10 +20,19 @@ public class RestaurantTable {
     @Column(name = "table_number")
     private int tableNumber;
 
-    @Column(name = "restaurant_name")
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "manager_username", referencedColumnName = "username")
+    private User user;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "restaurant_name", referencedColumnName = "name")
+    private Restaurant restaurant;
+
     private String restaurantName;
 
-    @Column(name = "manager_username")
+
     private String managerUsername;
 
     @Column(name = "seats_number")

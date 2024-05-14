@@ -9,6 +9,7 @@ import models.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import jakarta.persistence.*;
 
@@ -23,15 +24,19 @@ public class MemoryDataBase implements DataBase {
     private ArrayList<Feedback> feedbacks;
     private int reservationCounter = 0;
 
-    Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
-    SessionFactory sessionFactory = configuration.buildSessionFactory();
 
+    private final SessionFactory sessionFactory;
+
+    private final AtomicBoolean isClosed = new AtomicBoolean(false);
     private MemoryDataBase() {
+        Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+        sessionFactory = configuration.buildSessionFactory();
         users = new ArrayList<>();
         restaurants = new ArrayList<>();
         tables = new ArrayList<>();
         reservations = new ArrayList<>();
         feedbacks = new ArrayList<>();
+        Runtime.getRuntime().addShutdownHook(new Thread(this::closeSessionFactory));
     }
 
     public static DataBase getInstance() {
@@ -231,5 +236,12 @@ public class MemoryDataBase implements DataBase {
     public void deleteFeedback(Feedback feedback) { feedbacks.remove(feedback); }
     @Override
     public void deleteRestaurant(Restaurant restaurant) { restaurants.remove(restaurant); }
+
+    private void closeSessionFactory() {
+        if (sessionFactory != null && !sessionFactory.isClosed()) {
+            sessionFactory.close();
+            isClosed.set(true);
+        }
+    }
 }
 

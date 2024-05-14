@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Value;
 import utils.CustomTimeDeserializer;
 
@@ -15,14 +16,19 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor(force = true)
 @Entity
-@Table(name = "retaurants")
+@Table(name = "restaurants")
 public class Restaurant {
     @Id
     @Column(name = "name")
     private String name;
 
-    @Column(name = "manager_username")
     private String managerUsername;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "manager_username", referencedColumnName = "username")
+    private User manager;
+
 
     @Column(name = "type")
     private String type;
@@ -47,9 +53,11 @@ public class Restaurant {
     @Column(name = "image")
     private String image;
 
-    public Restaurant(String name, String managerUsername, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
+
+    public Restaurant(String name, String managerUsername,User manager, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
         this.name = name;
         this.managerUsername = managerUsername;
+        this.manager = manager;
         this.type = type;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -57,4 +65,5 @@ public class Restaurant {
         this.address = address;
         this.image = image;
     }
+
 }

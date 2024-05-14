@@ -7,14 +7,13 @@ import interfaces.RestaurantService;
 import models.*;
 import org.springframework.stereotype.Service;
 import utils.ReservationCancellationRequest;
+import utils.DTO.RestaurantDTO;
 import utils.Utils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,28 +34,35 @@ public class RestaurantServiceImpl implements RestaurantService {
         return instance;
     }
     @Override
-    public void addRestaurant(Restaurant restaurant) throws Exception {
-        if (dataBase.getRestaurants().anyMatch(i-> i.getName().equals(restaurant.getName())))
+    public void addRestaurant(RestaurantDTO restaurantData) throws Exception {
+        if (dataBase.getRestaurants().anyMatch(i-> i.getName().equals(restaurantData.getName())))
             throw new RestaurantNameAlreadyTaken();
 
-        var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurant.getManagerUsername())).findFirst().orElse(null);
+        var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurantData.getManagerUsername())).findFirst().orElse(null);
         if(managerUser == null || managerUser.getRole() != UserType.manager)
             throw new InvalidManagerUsername();
 
-        if(restaurant.getStartTime().getMinutes() != 0 || restaurant.getEndTime().getMinutes() != 0)
+        if(restaurantData.getStartTime().getMinutes() != 0 || restaurantData.getEndTime().getMinutes() != 0)
             throw new TimeOfRestaurantShouldBeRound();
 
-        if(addressIsInInvalidFormat(restaurant.getAddress()))
+        if(addressIsInInvalidFormat(restaurantData.getAddress()))
             throw new AddressShouldContainsCityAndCountryAndStreet();
+
+
+        var restaurant = new Restaurant(restaurantData.getName(), restaurantData.getManagerUsername(),managerUser, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
+
 
         dataBase.saveRestaurant(restaurant);
 
     }
     
     @Override
-    public void save(List<Restaurant> restaurants) throws Exception {
+    public void save(List<RestaurantDTO> restaurants) throws Exception {
         for (var restaurant : restaurants) {
-            dataBase.saveRestaurant(restaurant);
+//            var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurant.getManagerUsername())).findFirst().orElse(null);
+//            restaurant.setManager(managerUser);
+//            dataBase.saveRestaurant(restaurant);
+            addRestaurant(restaurant);
         }
     }
 
@@ -85,11 +91,16 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new TableNumberAlreadyTaken();
 
         var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(table.getManagerUsername())).findFirst().orElse(null);
+        var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(table.getRestaurantName())).findFirst().orElse(null);
         if(managerUser == null || managerUser.getRole() != UserType.manager)
             throw new InvalidManagerUsername();
 
         if(!(dataBase.getRestaurants().anyMatch(a -> a.getName().equals(table.getRestaurantName()))))
             throw new RestaurantNotFound();
+
+        table.setUser( managerUser);
+        table.setRestaurant(restaurant);
+
 
         dataBase.saveTable(table);
 
@@ -158,7 +169,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         int reservationNumber = generateUniqueReservationNumber(); // Generate a unique reservation number
         TableReservation newReservation = new TableReservation(reservationNumber, reservation.getUsername(),
-                reservation.getRestaurantName(), availableTableInfos.get(0).getTableNumber(), reservation.getDatetime());
+                reservation.getRestaurantName(), availableTableInfos.get(0).getTableNumber(), reservation.getDatetime(),user, restaurant);
 
         dataBase.saveReservation(newReservation);
         return newReservation.getNumber();

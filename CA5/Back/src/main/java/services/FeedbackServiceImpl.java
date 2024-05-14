@@ -33,6 +33,8 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .findFirst()
                 .orElseThrow(UserNotFound::new);
 
+
+
         if (user.getRole() == UserType.manager) {
             throw new RoleException();
         }
@@ -42,13 +44,13 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .findFirst()
                 .orElseThrow(RestaurantNotFound::new);
 
-        if (!dataBase
-                .getReservations()
-                .anyMatch(i -> i.getUsername().equals(feedback.getUsername()) && i.getRestaurantName().equals(feedback.getRestaurantName())))
-//                && i.getDatetime().before(new Date())))  // not work
-        {
-            throw new MustHavePastReservationForAddFeedback();
-        }
+//        if (!dataBase
+//                .getReservations()
+//                .anyMatch(i -> i.getUsername().equals(feedback.getUsername()) && i.getRestaurantName().equals(feedback.getRestaurantName())))
+////                && i.getDatetime().before(new Date())))  // not work
+//        {
+//            throw new MustHavePastReservationForAddFeedback();
+//        }
 
 
         if((feedback.getServiceRate() < MIN_RATE || feedback.getServiceRate() > MAX_RATE) ||
@@ -70,13 +72,30 @@ public class FeedbackServiceImpl implements FeedbackService {
             dataBase.deleteFeedback(previousFeedBack);
         }
 
+        feedback.setRestaurant_name(restaurant);
+        feedback.setUser_name(user);
         dataBase.saveFeedback(feedback);
     }
 
     @Override
     public void save(List<Feedback> feedbacks) throws Exception {
+//        for (var feedback : feedbacks) {
+//            var user = dataBase.getUsers()
+//                    .filter(u -> u.getUsername().equals(feedback.getUsername()))
+//                    .findFirst()
+//                    .orElseThrow(UserNotFound::new);
+//            var restaurant = dataBase.getRestaurants()
+//                    .filter(r -> r.getName().equals(feedback.getRestaurantName()))
+//                    .findFirst()
+//                    .orElseThrow(RestaurantNotFound::new);
+//
+//            feedback.setRestaurant_name(restaurant);
+//            feedback.setUser_name(user);
+//
+//            dataBase.saveFeedback(feedback);
+//        }
         for (var feedback : feedbacks) {
-            dataBase.saveFeedback(feedback);
+            addReview(feedback);
         }
     }
 

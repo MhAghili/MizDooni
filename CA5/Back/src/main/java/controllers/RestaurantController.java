@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import services.RestaurantServiceImpl;
+import utils.DTO.RestaurantDTO;
 
 import java.util.List;
 
@@ -62,8 +63,10 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity createRestaurant(@RequestBody Restaurant restaurantData) {
+    public ResponseEntity createRestaurant(@RequestBody RestaurantDTO restaurantData) {
         try {
+
+
             service.addRestaurant(restaurantData);
             return new ResponseEntity<>(HttpStatus.OK);
         }

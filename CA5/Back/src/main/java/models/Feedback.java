@@ -18,10 +18,18 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "user_name", referencedColumnName = "username")
+    private User user_name;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "restaurant_name", referencedColumnName = "name")
+    private Restaurant restaurant_name;
+
     private String username;
 
-    @Column(name = "restaurant_name")
     private String restaurantName;
 
     @Column(name = "food_rate")

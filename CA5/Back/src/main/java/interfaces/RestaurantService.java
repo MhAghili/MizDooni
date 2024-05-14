@@ -2,15 +2,15 @@ package interfaces;
 
 import models.*;
 import utils.ReservationCancellationRequest;
+import utils.DTO.RestaurantDTO;
 
 import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 
 public interface RestaurantService {
-    void addRestaurant(Restaurant restaurant) throws Exception;
+    void addRestaurant(RestaurantDTO restaurantData) throws Exception;
     void addTable(RestaurantTable table) throws Exception;
-    void save(List<Restaurant> restaurants) throws Exception;
+    void save(List<RestaurantDTO> restaurants) throws Exception;
     void updateRestaurant(Restaurant restaurant);
     void saveTables(List<RestaurantTable> tables) throws Exception;
     int reserveTable(TableReservation reservation) throws Exception;
