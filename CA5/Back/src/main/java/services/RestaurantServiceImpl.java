@@ -4,7 +4,7 @@ import enums.UserType;
 import exceptions.*;
 import interfaces.RestaurantService;
 import models.*;
-import models.TableReservationDTO;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
