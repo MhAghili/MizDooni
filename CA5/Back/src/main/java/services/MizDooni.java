@@ -2,21 +2,14 @@ package services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import interfaces.FeedbackService;
-import interfaces.RestaurantService;
-import interfaces.UserService;
-import lombok.Getter;
 import models.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import utils.DTO.FeedbackDTO;
 import utils.DTO.RestaurantDTO;
 import utils.DTO.RestaurantTableDTO;
+import utils.Response;
 
-import java.net.URL;
-import java.util.Dictionary;
 import java.util.List;
 
 @ComponentScan

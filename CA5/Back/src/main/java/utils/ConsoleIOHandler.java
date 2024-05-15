@@ -1,8 +1,5 @@
 package utils;
 
-import models.Request;
-
-import java.io.Console;
 import java.util.Scanner;
 
 public class ConsoleIOHandler {
