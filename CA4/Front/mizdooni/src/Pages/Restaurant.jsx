@@ -55,6 +55,7 @@ export const Restaurant = () => {
           numberOfPeople: numberOfPeople,
           datetime:
             selectedResevationDate + " " + selectedResevationTime + ":00",
+          
         };
         const response = await fetch("http://localhost:8080/reservation", {
           method: "POST",
@@ -63,6 +64,7 @@ export const Restaurant = () => {
           },
           body: JSON.stringify(reqBody),
         });
+        console.log(reqBody);
         if (response.ok) {
           console.log("table reserved successfully");
           fetchData();

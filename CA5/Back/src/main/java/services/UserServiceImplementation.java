@@ -2,13 +2,16 @@ package services;
 
 import enums.UserType;
 import exceptions.*;
-import interfaces.DataBase;
 import interfaces.UserService;
 import models.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
 import utils.Utils;
-import DataBase.*;
-
+import models.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.Session;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,9 +19,12 @@ import java.util.regex.Pattern;
 @Service
 public class UserServiceImplementation implements UserService {
     private static UserService instance;
-    private DataBase dataBase;
+
+    private final SessionFactory sessionFactory;
     private UserServiceImplementation() {
-        this.dataBase = MemoryDataBase.getInstance();
+
+        Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+        sessionFactory = configuration.buildSessionFactory();
     }
 
     public static UserService getInstance() {
@@ -28,78 +34,117 @@ public class UserServiceImplementation implements UserService {
     }
     @Override
     public void addUser(User user) throws Exception {
-        if (dataBase.getUsers().anyMatch(user1 -> user1.getUsername().equals(user.getUsername())))
-            throw new UsernameAlreadyTaken();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
-        if (dataBase.getUsers().anyMatch(user1 -> user1.getEmail().equals(user.getEmail())))
-            throw new EmailAlreadyTaken();
+            User existingUser = session.createQuery("FROM User WHERE username = :username", User.class)
+                    .setParameter("username", user.getUsername())
+                    .uniqueResultOptional()
+                    .orElse(null);
 
-        if (user.getRole() == UserType.other)
-            throw new InvalidUserType();
+            if (existingUser != null) {
+                throw new UsernameAlreadyTaken();
+            }
 
-        if (!isValidEmail(user.getEmail()))
-            throw new InvalidEmailFormat();
+            existingUser = session.createQuery("FROM User WHERE email = :email", User.class)
+                    .setParameter("email", user.getEmail())
+                    .uniqueResultOptional()
+                    .orElse(null);
 
-        if (!isValidUsername(user.getUsername()))
-            throw new InvalidUsernameFormat();
+            if (existingUser != null) {
+                throw new EmailAlreadyTaken();
+            }
 
-        if (Utils.isNullOrEmptyString(user.getAddress().getCity()) || Utils.isNullOrEmptyString(user.getAddress().getCountry()))
-            throw new AddressShouldContainsCityAndCountry();
+            if (user.getRole() == UserType.other) {
+                throw new InvalidUserType();
+            }
 
-        dataBase.saveUser(user);
+            if (!isValidEmail(user.getEmail())) {
+                throw new InvalidEmailFormat();
+            }
 
+            if (!isValidUsername(user.getUsername())) {
+                throw new InvalidUsernameFormat();
+            }
+
+            if (Utils.isNullOrEmptyString(user.getAddress().getCity()) || Utils.isNullOrEmptyString(user.getAddress().getCountry())) {
+                throw new AddressShouldContainsCityAndCountry();
+            }
+
+            session.save(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
     public void save(List<User> users) throws Exception {
         for (var user : users) {
-            dataBase.saveUser(user);
+            addUser(user);
         }
     }
 
-    @Override
-    public void updateUser(User user) throws Exception {
-        var existingUser = dataBase.getUsers().filter(i -> i.getUsername().equals(user.getUsername())).findFirst();
-        if(existingUser.isEmpty())
-            dataBase.saveUser(user);
-        else {
-            dataBase.deleteUser(existingUser.get());
-            dataBase.saveUser(user);
-        }
-    }
 
     @Override
     public void delete(String username) throws Exception {
-        var user = dataBase.getUsers().filter(i -> i.getUsername().equals(username)).findFirst();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
-        if(user.isEmpty())
-            throw new InvalidUsernameFormat();
+            User user = session.createQuery("FROM User WHERE username = :username", User.class)
+                    .setParameter("username", username)
+                    .uniqueResultOptional()
+                    .orElse(null);
 
-        dataBase.deleteUser(user.get());
+            if (user == null) {
+                throw new InvalidUsernameFormat();
+            }
+
+            session.delete(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
+        }
     }
+
 
     @Override
     public List<User> getAllUsers() {
-        return dataBase.getUsers().toList();
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM User", User.class)
+                    .list();
+        }
+    }
+
+
+    @Override
+    public User getUserByNameAndPassword(String name, String password) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            User user = session.createQuery("FROM User WHERE username = :name AND password = :password", User.class)
+                    .setParameter("name", name)
+                    .setParameter("password", password)
+                    .uniqueResultOptional()
+                    .orElseThrow(UserNotFound::new);
+            return user;
+        }
     }
 
     @Override
-    public User getUserByNameAndPassword(String name, String password) throws Exception{
-        var user = dataBase.getUsers().filter(i -> i.getUsername().equals(name) && i.getPassword().equals(password)).findFirst();
-        if(user.isEmpty())
-            throw new UserNotFound();
-        return user.get();
-    }
     public boolean login(String username, String password) throws Exception {
-        if (dataBase.getUsers().noneMatch(user -> user.getUsername().equals(username)))
-            throw new UserNotFound();
+        try (Session session = sessionFactory.openSession()) {
+            User user = session.createQuery("FROM User WHERE username = :username", User.class)
+                    .setParameter("username", username)
+                    .uniqueResultOptional()
+                    .orElseThrow(UserNotFound::new);
 
-        if (dataBase.getUsers().noneMatch(user -> user.getUsername().equals(username) && user.getPassword().equals(password)))
-            throw new InvalidPassword();
+            if (!user.getPassword().equals(password)) {
+                throw new InvalidPassword();
+            }
 
-        return true;
-
+            return true;
+        }
     }
+
 
     private boolean isValidEmail(String email) {
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";

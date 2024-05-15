@@ -2,10 +2,13 @@ package services;
 
 import enums.UserType;
 import exceptions.*;
-import interfaces.DataBase;
 import interfaces.RestaurantService;
 import models.*;
 import models.TableReservationDTO;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
 import utils.DTO.FeedbackDTO;
 import utils.DTO.RestaurantTableDTO;
@@ -21,14 +24,15 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import DataBase.*;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private static RestaurantService instance = null;
-    private DataBase dataBase;
+
+    private final SessionFactory sessionFactory;
 
     private RestaurantServiceImpl() {
-        this.dataBase = MemoryDataBase.getInstance();
+        Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+        sessionFactory = configuration.buildSessionFactory();
     }
 
     public static RestaurantService getInstance() {
@@ -38,48 +42,64 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
     @Override
     public void addRestaurant(RestaurantDTO restaurantData) throws Exception {
-        if (dataBase.getRestaurants().anyMatch(i-> i.getName().equals(restaurantData.getName())))
-            throw new RestaurantNameAlreadyTaken();
 
-        var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurantData.getManagerUsername())).findFirst().orElse(null);
-        if(managerUser == null || managerUser.getRole() != UserType.manager)
-            throw new InvalidManagerUsername();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            String hql = "SELECT COUNT(r) FROM Restaurant r WHERE r.name = :restaurantName";
+            Long count = session.createQuery(hql, Long.class)
+                    .setParameter("restaurantName", restaurantData.getName())
+                    .uniqueResult();
+            if (count > 0) {
+                throw new RestaurantNameAlreadyTaken();
+            }
 
-        if(restaurantData.getStartTime().getMinutes() != 0 || restaurantData.getEndTime().getMinutes() != 0)
-            throw new TimeOfRestaurantShouldBeRound();
+            hql = "SELECT u FROM User u WHERE u.username = :managerUsername";
+            User manager = session.createQuery(hql, User.class)
+                    .setParameter("managerUsername", restaurantData.getManagerUsername())
+                    .uniqueResult();
+            if (manager == null || manager.getRole() != UserType.manager) {
+                throw new InvalidManagerUsername();
+            }
+            if(restaurantData.getStartTime().getMinutes() != 0 || restaurantData.getEndTime().getMinutes() != 0)
+                throw new TimeOfRestaurantShouldBeRound();
 
-        if(addressIsInInvalidFormat(restaurantData.getAddress()))
-            throw new AddressShouldContainsCityAndCountryAndStreet();
+            if(addressIsInInvalidFormat(restaurantData.getAddress()))
+                throw new AddressShouldContainsCityAndCountryAndStreet();
+
+            var restaurant = new Restaurant(restaurantData.getName(),manager, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
+
+            transaction.commit();
+            session.save(restaurant);
 
 
-        var restaurant = new Restaurant(restaurantData.getName(),managerUser, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
 
-        dataBase.saveRestaurant(restaurant);
+
+
+
 
     }
     
     @Override
     public void save(List<RestaurantDTO> restaurants) throws Exception {
         for (var restaurant : restaurants) {
-//            var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(restaurant.getManagerUsername())).findFirst().orElse(null);
-//            restaurant.setManager(managerUser);
-//            dataBase.saveRestaurant(restaurant);
             addRestaurant(restaurant);
         }
     }
 
-    @Override
-    public void updateRestaurant(Restaurant restaurant) {
-        var existingRestaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurant.getName())).findFirst();
-
-        if(existingRestaurant.isEmpty())
-            dataBase.saveRestaurant(restaurant);
-        else {
-            dataBase.deleteRestaurant(existingRestaurant.get());
-            dataBase.saveRestaurant(restaurant);
-        }
-    }
 
     @Override
     public void saveTables(List<RestaurantTableDTO> tables) throws Exception {
@@ -88,253 +108,419 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
+
     @Override
     public void addTable(RestaurantTableDTO table) throws Exception {
-        if (dataBase.getTables().anyMatch(a -> a.getRestaurant().getName().equals(table.getRestaurantName()) && a.getTableNumber() == table.getTableNumber()))
-            throw new TableNumberAlreadyTaken();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
 
-        var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(table.getManagerUsername())).findFirst().orElse(null);
-        var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(table.getRestaurantName())).findFirst().orElse(null);
-        if(managerUser == null || managerUser.getRole() != UserType.manager)
-            throw new InvalidManagerUsername();
+            // Check if the table number already exists for the given restaurant
+            String hql = "SELECT COUNT(t) FROM RestaurantTable t WHERE t.restaurant.name = :restaurantName AND t.tableNumber = :tableNumber";
+            Long count = session.createQuery(hql, Long.class)
+                    .setParameter("restaurantName", table.getRestaurantName())
+                    .setParameter("tableNumber", table.getTableNumber())
+                    .uniqueResult();
+            if (count > 0) {
+                throw new TableNumberAlreadyTaken();
+            }
 
-        if(!(dataBase.getRestaurants().anyMatch(a -> a.getName().equals(table.getRestaurantName()))))
-            throw new RestaurantNotFound();
+            // Fetch the manager user
+            hql = "SELECT u FROM User u WHERE u.username = :managerUsername";
+            User managerUser = session.createQuery(hql, User.class)
+                    .setParameter("managerUsername", table.getManagerUsername())
+                    .uniqueResult();
+            if (managerUser == null || managerUser.getRole() != UserType.manager) {
+                throw new InvalidManagerUsername();
+            }
 
-        var newTable = new RestaurantTable(table.getTableNumber(),table.getSeatsNumber(),managerUser,restaurant);
+            // Fetch the restaurant
+            hql = "SELECT r FROM Restaurant r WHERE r.name = :restaurantName";
+            Restaurant restaurant = session.createQuery(hql, Restaurant.class)
+                    .setParameter("restaurantName", table.getRestaurantName())
+                    .uniqueResult();
+            if (restaurant == null) {
+                throw new RestaurantNotFound();
+            }
+
+            // Create and save the new table
+            var newTable = new RestaurantTable(table.getTableNumber(), table.getSeatsNumber(), managerUser, restaurant);
+            session.save(newTable);
+
+            // Commit the transaction
+            transaction.commit();
 
 
-
-        dataBase.saveTable(newTable);
-
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            throw e; // Rethrow the exception to ensure the caller knows about it
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
+
 
     @Override
     public List<RestaurantTable> getTablesByRestaurant(String restaurantName) throws Exception {
-        return dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
-    }
-    @Override
-    public List<Restaurant> getRestaurantsByName(String name) {
-        return dataBase.getRestaurants().filter(i -> i.getName().equals(name)).toList();
-    }
-    @Override
-    public List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception {
-        return dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
-    }
-
-    @Override
-    public int reserveTable(TableReservationDTO reservation) throws Exception {
-        var availableTableInfos =
-                getAvailableTablesByRestaurant(reservation.getRestaurantName(), reservation.getDatetime())
-                        .stream()
-                        .filter(i -> i.getSeatsNumber() >= reservation.getNumberOfPeople().intValue())
-                        .sorted(Comparator.comparingInt(AvailableTableInfo::getSeatsNumber)
-                                .thenComparing(AvailableTableInfo::getSeatsNumber))
-                        .collect(Collectors.toList());
-
-        if (availableTableInfos.size() == 0)
-            throw new TableNotFoundException();
-
-
-        var user = dataBase.getUsers()
-                .filter(u -> u.getUsername().equals(reservation.getUsername()))
-                .findFirst()
-                .orElseThrow(UserNotFound::new);
-
-        if (user.getRole() == UserType.manager) {
-            throw new RoleException();
-        }
-
-        var restaurant = dataBase.getRestaurants()
-                .filter(r -> r.getName().equals(reservation.getRestaurantName()))
-                .findFirst()
-                .orElseThrow(RestaurantNotFound::new);
-
-        var tables = dataBase.getTables()
-                .filter(t -> t.getRestaurant().getName().equals(reservation.getRestaurantName()))
-                .toList();
-
-
-        if (!(reservation.getDatetime().getHours()>restaurant.getStartTime().getHours() && reservation.getDatetime().getHours()<restaurant.getEndTime().getHours())) {
-            throw new OutsideBusinessHoursException();
-        }
-
-//        if (reservation.getDatetime().before(new Date())) {
-//            throw new PastDateTimeException();
-//        }
-
-        if (dataBase.getReservations().anyMatch(r ->
-                r.getRestaurant().getName().equals(reservation.getRestaurantName()) &&
-                        r.getTableNumber() == reservation.getTableNumber() &&
-                        r.getDatetime().equals(reservation.getDatetime()))) {
-            throw new TimeSlotAlreadyBookedException();
-        }
-
-        int reservationNumber = generateUniqueReservationNumber(); // Generate a unique reservation number
-        TableReservation newReservation = new TableReservation(reservationNumber, reservation.getUsername(),
-                reservation.getRestaurantName(), availableTableInfos.get(0).getTableNumber(), reservation.getDatetime(),user, restaurant);
-
-        dataBase.saveReservation(newReservation);
-        return newReservation.getNumber();
-    }
-
-
-    @Override
-    public List<Integer> getAvailableTimesByRestaurant(String restaurantName, Date date) throws Exception {
-        var availableTimes = new HashSet<Date>();
-        var availableTableInfos = getAvailableTablesByRestaurant(restaurantName, date);
-
-        for (var availableTableInfo : availableTableInfos) {
-            for (var availableTime : availableTableInfo.getAvailableTimes()) {
-                availableTimes.add(availableTime);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM RestaurantTable t WHERE t.restaurant.name = :restaurantName";
+            return session.createQuery(hql, RestaurantTable.class)
+                    .setParameter("restaurantName", restaurantName)
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; // Rethrow the exception to ensure the caller knows about it
+        } finally {
+            if (session != null) {
+                session.close();
             }
         }
-
-        return availableTimes.stream().map(Date::getHours).sorted().collect(Collectors.toList());
     }
+
+
+    @Override
+    public List<Restaurant> getRestaurantsByName(String name) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM Restaurant r WHERE r.name = :name";
+            return session.createQuery(hql, Restaurant.class)
+                    .setParameter("name", name)
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; // Rethrow the exception to ensure the caller knows about it
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM TableReservation tr WHERE tr.restaurant.name = :restaurantName";
+            return session.createQuery(hql, TableReservation.class)
+                    .setParameter("restaurantName", restaurantName)
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; // Rethrow the exception to ensure the caller knows about it
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+
+//    @Override
+//    public int reserveTable(TableReservationDTO reservation) throws Exception {
+//        var availableTableInfos =
+//                getAvailableTablesByRestaurant(reservation.getRestaurantName(), reservation.getDatetime())
+//                        .stream()
+//                        .filter(i -> i.getSeatsNumber() >= reservation.getNumberOfPeople().intValue())
+//                        .sorted(Comparator.comparingInt(AvailableTableInfo::getSeatsNumber)
+//                                .thenComparing(AvailableTableInfo::getSeatsNumber))
+//                        .collect(Collectors.toList());
+//
+//        if (availableTableInfos.size() == 0)
+//            throw new TableNotFoundException();
+//
+//
+//        var user = dataBase.getUsers()
+//                .filter(u -> u.getUsername().equals(reservation.getUsername()))
+//                .findFirst()
+//                .orElseThrow(UserNotFound::new);
+//
+//        if (user.getRole() == UserType.manager) {
+//            throw new RoleException();
+//        }
+//
+//        var restaurant = dataBase.getRestaurants()
+//                .filter(r -> r.getName().equals(reservation.getRestaurantName()))
+//                .findFirst()
+//                .orElseThrow(RestaurantNotFound::new);
+//
+//        var tables = dataBase.getTables()
+//                .filter(t -> t.getRestaurant().getName().equals(reservation.getRestaurantName()))
+//                .toList();
+//
+//
+//        if (!(reservation.getDatetime().getHours()>restaurant.getStartTime().getHours() && reservation.getDatetime().getHours()<restaurant.getEndTime().getHours())) {
+//            throw new OutsideBusinessHoursException();
+//        }
+//
+////        if (reservation.getDatetime().before(new Date())) {
+////            throw new PastDateTimeException();
+////        }
+//
+//        if (dataBase.getReservations().anyMatch(r ->
+//                r.getRestaurant().getName().equals(reservation.getRestaurantName()) &&
+//                        r.getTableNumber() == reservation.getTableNumber() &&
+//                        r.getDatetime().equals(reservation.getDatetime()))) {
+//            throw new TimeSlotAlreadyBookedException();
+//        }
+//
+//        int reservationNumber = generateUniqueReservationNumber(); // Generate a unique reservation number
+//        TableReservation newReservation = new TableReservation(reservationNumber, reservation.getUsername(),
+//                reservation.getRestaurantName(), availableTableInfos.get(0).getTableNumber(), reservation.getDatetime(),user, restaurant);
+//
+//        dataBase.saveReservation(newReservation);
+//        return newReservation.getNumber();
+//    }
+
+
+//    @Override
+//    public List<Integer> getAvailableTimesByRestaurant(String restaurantName, Date date) throws Exception {
+//        var availableTimes = new HashSet<Date>();
+//        var availableTableInfos = getAvailableTablesByRestaurant(restaurantName, date);
+//
+//        for (var availableTableInfo : availableTableInfos) {
+//            for (var availableTime : availableTableInfo.getAvailableTimes()) {
+//                availableTimes.add(availableTime);
+//            }
+//        }
+//
+//        return availableTimes.stream().map(Date::getHours).sorted().collect(Collectors.toList());
+//    }
+
+//    @Override
+//    public void cancelReservation(ReservationCancellationRequest request) throws Exception {
+//        var reservation = dataBase.getReservations()
+//                .filter(i -> i.getUser().getUsername().equals(request.getUsername()) && i.getNumber() == request.getReservationNumber())
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (reservation == null)
+//            throw new InvalidReservationNumber();
+//
+////        if (reservation.getDatetime().before(new Date()))
+////            throw new CannotCancelReservationBecauseOfDate();
+//
+//        dataBase.deleteReservation(request.getUsername(), request.getReservationNumber());
+//    }
 
     @Override
     public void cancelReservation(ReservationCancellationRequest request) throws Exception {
-        var reservation = dataBase.getReservations()
-                .filter(i -> i.getUser().getUsername().equals(request.getUsername()) && i.getNumber() == request.getReservationNumber())
-                .findFirst()
-                .orElse(null);
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
 
-        if (reservation == null)
-            throw new InvalidReservationNumber();
+            // Find the reservation
+            String hql = "FROM TableReservation tr WHERE tr.user.username = :username AND tr.number = :reservationNumber";
+            TableReservation reservation = session.createQuery(hql, TableReservation.class)
+                    .setParameter("username", request.getUsername())
+                    .setParameter("reservationNumber", request.getReservationNumber())
+                    .uniqueResult();
 
-//        if (reservation.getDatetime().before(new Date()))
-//            throw new CannotCancelReservationBecauseOfDate();
+            if (reservation == null) {
+                throw new InvalidReservationNumber();
+            }
 
-        dataBase.deleteReservation(request.getUsername(), request.getReservationNumber());
+            // Delete the reservation
+            session.delete(reservation);
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
+
 
     @Override
     public Restaurant getRestaurantByName(String name) throws Exception {
-        var result = dataBase.getRestaurants()
-                        .filter(i -> i.getName().equals(name))
-                        .findFirst()
-                        .orElse(null);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM Restaurant r WHERE r.name = :name";
+            Restaurant restaurant = session.createQuery(hql, Restaurant.class)
+                    .setParameter("name", name)
+                    .uniqueResult();
+            return restaurant;
 
-//        if (result == null)
-//            throw new InvalidRestaurantName();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; // Rethrow the exception to ensure the caller knows about it
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
-        return result;
     }
     @Override
     public List<Restaurant> getRestaurantByType(String type) {
-        return dataBase.getRestaurants().filter(i -> i.getType().equals(type)).toList();
-    }
-
-    @Override
-    public List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName, Date date) throws Exception{
-        if (!dataBase.getRestaurants().anyMatch(i -> i.getName().equals(restaurantName)))
-            throw new InvalidRestaurantName();
-
-        var instant = date.toInstant();
-
-        // Convert Instant to ZonedDateTime with default time zone
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
-
-        // Extract LocalDate from ZonedDateTime
-        LocalDate currentDate = zonedDateTime.toLocalDate();
-
-        var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
-        var tables = dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
-
-
-        var result = new ArrayList<AvailableTableInfo>();
-        for (var table: tables) {
-            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber() && isTwoDateEqual(i.getDatetime(), currentDate));
-
-            var availableTimes = new ArrayList<Date>();
-            for (int i = 0; i <= 23 ; i++) {
-                int finalI = i;
-                if(i <= restaurant.getEndTime().getHours()
-                        && i >= restaurant.getStartTime().getHours()
-                        && !tableReservations.get().anyMatch(j -> j.getDatetime().getHours() == finalI)
-                    ) {
-                    Calendar calendar = Calendar.getInstance();
-
-                    calendar.set(Calendar.YEAR, currentDate.getYear());
-                    calendar.set(Calendar.MONTH, currentDate.getMonthValue() - 1);
-                    calendar.set(Calendar.DAY_OF_MONTH, currentDate.getDayOfMonth());
-                    calendar.set(Calendar.HOUR_OF_DAY, i);
-                    calendar.set(Calendar.MINUTE, 0);
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
-
-                    availableTimes.add(calendar.getTime());
-                }
-            }
-            result.add(new AvailableTableInfo(table.getTableNumber(), table.getSeatsNumber(), availableTimes));
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "FROM Restaurant WHERE type = :type";
+            return session.createQuery(hql, Restaurant.class)
+                    .setParameter("type", type)
+                    .list();
         }
-        dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName));
-        return result;
     }
 
-    @Override
-    public Restaurant getCurrentRes(String restaurantName) throws Exception {
-        return dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
-    }
+
+//    @Override
+//    public List<AvailableTableInfo> getAvailableTablesByRestaurant(String restaurantName, Date date) throws Exception{
+//        if (!dataBase.getRestaurants().anyMatch(i -> i.getName().equals(restaurantName)))
+//            throw new InvalidRestaurantName();
+//
+//        var instant = date.toInstant();
+//
+//        // Convert Instant to ZonedDateTime with default time zone
+//        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+//
+//        // Extract LocalDate from ZonedDateTime
+//        LocalDate currentDate = zonedDateTime.toLocalDate();
+//
+//        var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
+//        var tables = dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
+//
+//
+//        var result = new ArrayList<AvailableTableInfo>();
+//        for (var table: tables) {
+//            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber() && isTwoDateEqual(i.getDatetime(), currentDate));
+//
+//            var availableTimes = new ArrayList<Date>();
+//            for (int i = 0; i <= 23 ; i++) {
+//                int finalI = i;
+//                if(i <= restaurant.getEndTime().getHours()
+//                        && i >= restaurant.getStartTime().getHours()
+//                        && !tableReservations.get().anyMatch(j -> j.getDatetime().getHours() == finalI)
+//                    ) {
+//                    Calendar calendar = Calendar.getInstance();
+//
+//                    calendar.set(Calendar.YEAR, currentDate.getYear());
+//                    calendar.set(Calendar.MONTH, currentDate.getMonthValue() - 1);
+//                    calendar.set(Calendar.DAY_OF_MONTH, currentDate.getDayOfMonth());
+//                    calendar.set(Calendar.HOUR_OF_DAY, i);
+//                    calendar.set(Calendar.MINUTE, 0);
+//                    calendar.set(Calendar.SECOND, 0);
+//                    calendar.set(Calendar.MILLISECOND, 0);
+//
+//                    availableTimes.add(calendar.getTime());
+//                }
+//            }
+//            result.add(new AvailableTableInfo(table.getTableNumber(), table.getSeatsNumber(), availableTimes));
+//        }
+//        dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName));
+//        return result;
+//    }
+
 
     @Override
     public List<TableReservation> getReservationByUsername(String username) {
-        return dataBase.getReservations()
-                .filter(i -> i.getUser().getUsername().equals(username))
-                .toList();
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "FROM TableReservation WHERE user.username = :username";
+            return session.createQuery(hql, TableReservation.class)
+                    .setParameter("username", username)
+                    .list();
+        }
     }
+
 
     @Override
     public List<Restaurant> getRestaurantsByManager(String managerUsername) throws Exception {
-        return dataBase.getRestaurants().filter(i -> i.getManager().getUsername().equals(managerUsername)).toList();
-    }
-
-    @Override
-    public FeedbackDTO getAverageFeedbackOfRestaurant(String restaurnatName) {
-        var feedbacks = dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName));
-        long count = feedbacks.count(); // Count the number of feedbacks
-
-        if (count == 0) {
-            return new FeedbackDTO("", restaurnatName, 0, 0, 0, 0, "");
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT r FROM Restaurant r JOIN FETCH r.manager WHERE r.manager.username = :managerUsername";
+            return session.createQuery(hql, Restaurant.class)
+                    .setParameter("managerUsername", managerUsername)
+                    .list();
         }
-
-        return new FeedbackDTO( "", restaurnatName,
-                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getFoodRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getServiceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getAmbianceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getOverallRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-            "");
     }
 
     @Override
-    public List<TableReservation> getReservationsByUserName(String userName ) throws Exception {
-        return dataBase.getReservations().filter(i -> i.getUser().getUsername().equals(userName)).toList();
+    public FeedbackDTO getAverageFeedbackOfRestaurant(String restaurantName) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT " +
+                    "AVG(f.foodRate), AVG(f.serviceRate), AVG(f.ambianceRate), AVG(f.overallRate) " +
+                    "FROM Feedback f " +
+                    "WHERE f.restaurant.name = :restaurantName";
+            Object[] result = (Object[]) session.createQuery(hql)
+                    .setParameter("restaurantName", restaurantName)
+                    .uniqueResult();
+
+            double foodRateAvg = result[0] != null ? ((Number) result[0]).doubleValue() : 0.0;
+            double serviceRateAvg = result[1] != null ? ((Number) result[1]).doubleValue() : 0.0;
+            double ambianceRateAvg = result[2] != null ? ((Number) result[2]).doubleValue() : 0.0;
+            double overallRateAvg = result[3] != null ? ((Number) result[3]).doubleValue() : 0.0;
+
+            return new FeedbackDTO("", restaurantName, foodRateAvg, serviceRateAvg, ambianceRateAvg, overallRateAvg, "");
+        }
     }
 
-    @Override
-    public List<RestaurantTable> getTablesByRestaurantName(String restaurantName) throws Exception {
-        return dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
-    }
 
     @Override
-    public List<Restaurant> getRestaurantsByCity(String cityName) {
-        return dataBase.getRestaurants().filter(i -> i.getAddress().getCity().equals(cityName)).toList();
+    public List<TableReservation> getReservationsByUserName(String userName) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "FROM TableReservation WHERE user.username = :username";
+            return session.createQuery(hql, TableReservation.class)
+                    .setParameter("username", userName)
+                    .list();
+        }
     }
 
+
     @Override
-    public List<Restaurant> fetchAll() { return dataBase.getRestaurants().toList(); }
+    public List<RestaurantTable> getTablesByRestaurantName(String restaurantName) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "FROM RestaurantTable WHERE restaurant.name = :restaurantName";
+            return session.createQuery(hql, RestaurantTable.class)
+                    .setParameter("restaurantName", restaurantName)
+                    .list();
+        }
+    }
+
+
+
+    @Override
+    public List<Restaurant> fetchAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Restaurant", Restaurant.class).list();
+        }
+    }
+
 
     @Override
     public void delete(String restaurantName) throws Exception {
-        var restaurant =
-            dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst();
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
 
-        if (restaurant.isEmpty())
-            throw new InvalidRestaurantName();
+            Restaurant restaurant = session.createQuery("FROM Restaurant WHERE name = :name", Restaurant.class)
+                    .setParameter("name", restaurantName)
+                    .uniqueResult();
 
-        dataBase.deleteRestaurant(restaurant.get());
+            if (restaurant == null) {
+                throw new InvalidRestaurantName();
+            }
+
+            session.delete(restaurant);
+            transaction.commit();
+        }
     }
+
     private boolean isTwoDateEqual(Date date1, LocalDate date2) {
         return date1.getYear() == date2.getYear()
                 && date1.getMonth() == date2.getMonthValue()
@@ -345,9 +531,9 @@ public class RestaurantServiceImpl implements RestaurantService {
                 || Utils.isNullOrEmptyString(address.getCountry())
                 || Utils.isNullOrEmptyString((address.getStreet()));
     }
-    private int generateUniqueReservationNumber() {
-        return dataBase.getReservationCounter();
-    }
+//    private int generateUniqueReservationNumber() {
+//        return dataBase.getReservationCounter();
+//    }
 
 
 }

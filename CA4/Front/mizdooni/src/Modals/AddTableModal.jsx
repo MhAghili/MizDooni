@@ -24,6 +24,7 @@ const AddTableModal = ({
         },
         body: JSON.stringify(reqBody),
       });
+      console.log(reqBody);
       if (response.ok) {
         console.log("Table added successfully");
         handleClose();

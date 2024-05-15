@@ -75,17 +75,6 @@ public class RestaurantController {
         }
     }
 
-    @PutMapping("/{name}")
-    public ResponseEntity updateRestaurant(@PathVariable("name") String name, @RequestBody Restaurant updatedRestaurantData) {
-        try {
-            service.updateRestaurant(updatedRestaurantData);
-            return new ResponseEntity(HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @DeleteMapping("/{name}")
     public ResponseEntity deleteRestaurant(@PathVariable("name") String name) {
         try {

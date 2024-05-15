@@ -59,18 +59,6 @@ public class UserController {
     }
 
 
-    @PutMapping
-    public ResponseEntity updateUser(@RequestBody User user) {
-        try {
-            service.updateUser(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity(e.getMessage() + e.getStackTrace(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
 
     @DeleteMapping("/{username}")
     public ResponseEntity deleteUser(@PathVariable("username") String username) {

@@ -31,15 +31,15 @@ public class TableController {
         }
     }
 
-    @PostMapping("/reservation")
-    public ResponseEntity addReservation(@RequestBody TableReservationDTO reservation) {
-        try {
-            return new ResponseEntity(service.reserveTable(reservation), HttpStatus.OK);
-        }
-        catch (Exception ex) {
-            return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping("/reservation")
+//    public ResponseEntity addReservation(@RequestBody TableReservationDTO reservation) {
+//        try {
+//            return new ResponseEntity(service.reserveTable(reservation), HttpStatus.OK);
+//        }
+//        catch (Exception ex) {
+//            return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     @PostMapping("/DeleteReservation")
     public ResponseEntity cancelReservation(@RequestBody ReservationCancellationRequest reservation) {
@@ -82,15 +82,15 @@ public class TableController {
     }
 
     //ToDo fix mapping of this api
-    @GetMapping("/tables/available/restaurnatName={name},date={date}")
-    public ResponseEntity getAvailableTimesByRestaurantName(@PathVariable("name") String name, @PathVariable("date") String dateString) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = sdf.parse(dateString);
-            return new ResponseEntity(service.getAvailableTimesByRestaurant(name, date), HttpStatus.OK);
-        }
-        catch (Exception ex) {
-            return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @GetMapping("/tables/available/restaurnatName={name},date={date}")
+//    public ResponseEntity getAvailableTimesByRestaurantName(@PathVariable("name") String name, @PathVariable("date") String dateString) {
+//        try {
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            Date date = sdf.parse(dateString);
+//            return new ResponseEntity(service.getAvailableTimesByRestaurant(name, date), HttpStatus.OK);
+//        }
+//        catch (Exception ex) {
+//            return new ResponseEntity(ex.getMessage() + "\n" + ex.getStackTrace(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }
