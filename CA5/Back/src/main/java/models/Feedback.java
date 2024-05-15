@@ -43,7 +43,8 @@ public class Feedback {
     @Column(name = "comment")
     private String comment;
 
-    public Feedback(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment, User user, Restaurant restaurant) {
+    public Feedback( double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment, User user, Restaurant restaurant) {
+
         this.foodRate = foodRate;
         this.serviceRate = serviceRate;
         this.ambianceRate = ambianceRate;

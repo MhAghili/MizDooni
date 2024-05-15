@@ -73,10 +73,8 @@ public class FeedbackServiceImpl implements FeedbackService {
             }
 
             Feedback newFeedback = new Feedback(
-                    feedback.getUsername(),
-                    feedback.getRestaurantName(),
-                    feedback.getServiceRate(),
                     feedback.getFoodRate(),
+                    feedback.getServiceRate(),
                     feedback.getAmbianceRate(),
                     feedback.getOverallRate(),
                     feedback.getComment(),
