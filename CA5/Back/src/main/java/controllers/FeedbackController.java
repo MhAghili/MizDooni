@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import services.FeedbackServiceImpl;
+import utils.DTO.FeedbackDTO;
 
 @RestController
 @RequestMapping("/reviews")
@@ -14,7 +15,7 @@ public class FeedbackController {
     public FeedbackController() { service = FeedbackServiceImpl.getInstance(); }
 
     @PostMapping
-    public ResponseEntity addFeedback(@RequestBody Feedback feedback) {
+    public ResponseEntity addFeedback(@RequestBody FeedbackDTO feedback) {
         try {
             service.addReview(feedback);
             return ResponseEntity.ok().build();

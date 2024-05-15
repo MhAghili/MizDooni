@@ -21,16 +21,12 @@ public class Feedback {
     @Setter
     @ManyToOne
     @JoinColumn(name = "user_name", referencedColumnName = "username")
-    private User user_name;
+    private User user;
 
     @Setter
     @ManyToOne
     @JoinColumn(name = "restaurant_name", referencedColumnName = "name")
-    private Restaurant restaurant_name;
-
-    private String username;
-
-    private String restaurantName;
+    private Restaurant restaurant;
 
     @Column(name = "food_rate")
     private double foodRate;
@@ -47,13 +43,13 @@ public class Feedback {
     @Column(name = "comment")
     private String comment;
 
-    public Feedback(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment) {
-        this.username = username;
-        this.restaurantName = restaurantName;
+    public Feedback(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment, User user, Restaurant restaurant) {
         this.foodRate = foodRate;
         this.serviceRate = serviceRate;
         this.ambianceRate = ambianceRate;
         this.overallRate = overallRate;
         this.comment = comment;
+        this.user = user;
+        this.restaurant = restaurant;
     }
 }

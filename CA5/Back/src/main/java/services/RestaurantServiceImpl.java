@@ -5,7 +5,10 @@ import exceptions.*;
 import interfaces.DataBase;
 import interfaces.RestaurantService;
 import models.*;
+import models.TableReservationDTO;
 import org.springframework.stereotype.Service;
+import utils.DTO.FeedbackDTO;
+import utils.DTO.RestaurantTableDTO;
 import utils.ReservationCancellationRequest;
 import utils.DTO.RestaurantDTO;
 import utils.Utils;
@@ -49,7 +52,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new AddressShouldContainsCityAndCountryAndStreet();
 
 
-        var restaurant = new Restaurant(restaurantData.getName(), restaurantData.getManagerUsername(),managerUser, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
+        var restaurant = new Restaurant(restaurantData.getName(),managerUser, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
 
 
         dataBase.saveRestaurant(restaurant);
@@ -79,15 +82,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void saveTables(List<RestaurantTable> tables) throws Exception {
+    public void saveTables(List<RestaurantTableDTO> tables) throws Exception {
         for (var table : tables) {
             addTable(table);
         }
     }
 
     @Override
-    public void addTable(RestaurantTable table) throws Exception {
-        if (dataBase.getTables().anyMatch(a -> a.getRestaurantName().equals(table.getRestaurantName()) && a.getTableNumber() == table.getTableNumber()))
+    public void addTable(RestaurantTableDTO table) throws Exception {
+        if (dataBase.getTables().anyMatch(a -> a.getRestaurant().getName().equals(table.getRestaurantName()) && a.getTableNumber() == table.getTableNumber()))
             throw new TableNumberAlreadyTaken();
 
         var managerUser = dataBase.getUsers().filter(i -> i.getUsername().equals(table.getManagerUsername())).findFirst().orElse(null);
@@ -98,17 +101,17 @@ public class RestaurantServiceImpl implements RestaurantService {
         if(!(dataBase.getRestaurants().anyMatch(a -> a.getName().equals(table.getRestaurantName()))))
             throw new RestaurantNotFound();
 
-        table.setUser( managerUser);
-        table.setRestaurant(restaurant);
+        var newTable = new RestaurantTable(table.getTableNumber(),table.getSeatsNumber(),managerUser,restaurant);
 
 
-        dataBase.saveTable(table);
+
+        dataBase.saveTable(newTable);
 
     }
 
     @Override
     public List<RestaurantTable> getTablesByRestaurant(String restaurantName) throws Exception {
-        return dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+        return dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
     }
     @Override
     public List<Restaurant> getRestaurantsByName(String name) {
@@ -116,11 +119,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
     @Override
     public List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception {
-        return dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+        return dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
     }
 
     @Override
-    public int reserveTable(TableReservation reservation) throws Exception {
+    public int reserveTable(TableReservationDTO reservation) throws Exception {
         var availableTableInfos =
                 getAvailableTablesByRestaurant(reservation.getRestaurantName(), reservation.getDatetime())
                         .stream()
@@ -148,7 +151,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(RestaurantNotFound::new);
 
         var tables = dataBase.getTables()
-                .filter(t -> t.getRestaurantName().equals(reservation.getRestaurantName()))
+                .filter(t -> t.getRestaurant().getName().equals(reservation.getRestaurantName()))
                 .toList();
 
 
@@ -161,7 +164,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 //        }
 
         if (dataBase.getReservations().anyMatch(r ->
-                r.getRestaurantName().equals(reservation.getRestaurantName()) &&
+                r.getRestaurant().getName().equals(reservation.getRestaurantName()) &&
                         r.getTableNumber() == reservation.getTableNumber() &&
                         r.getDatetime().equals(reservation.getDatetime()))) {
             throw new TimeSlotAlreadyBookedException();
@@ -193,7 +196,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void cancelReservation(ReservationCancellationRequest request) throws Exception {
         var reservation = dataBase.getReservations()
-                .filter(i -> i.getUsername().equals(request.getUsername()) && i.getNumber() == request.getReservationNumber())
+                .filter(i -> i.getUser().getUsername().equals(request.getUsername()) && i.getNumber() == request.getReservationNumber())
                 .findFirst()
                 .orElse(null);
 
@@ -237,12 +240,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         LocalDate currentDate = zonedDateTime.toLocalDate();
 
         var restaurant = dataBase.getRestaurants().filter(i -> i.getName().equals(restaurantName)).findFirst().orElse(null);
-        var tables = dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+        var tables = dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
 
 
         var result = new ArrayList<AvailableTableInfo>();
         for (var table: tables) {
-            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber() && isTwoDateEqual(i.getDatetime(), currentDate));
+            Supplier<Stream<TableReservation>> tableReservations = () -> dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName) && i.getTableNumber() == table.getTableNumber() && isTwoDateEqual(i.getDatetime(), currentDate));
 
             var availableTimes = new ArrayList<Date>();
             for (int i = 0; i <= 23 ; i++) {
@@ -266,7 +269,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
             result.add(new AvailableTableInfo(table.getTableNumber(), table.getSeatsNumber(), availableTimes));
         }
-        dataBase.getReservations().filter(i -> i.getRestaurantName().equals(restaurantName));
+        dataBase.getReservations().filter(i -> i.getRestaurant().getName().equals(restaurantName));
         return result;
     }
 
@@ -278,40 +281,40 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<TableReservation> getReservationByUsername(String username) {
         return dataBase.getReservations()
-                .filter(i -> i.getUsername().equals(username))
+                .filter(i -> i.getUser().getUsername().equals(username))
                 .toList();
     }
 
     @Override
     public List<Restaurant> getRestaurantsByManager(String managerUsername) throws Exception {
-        return dataBase.getRestaurants().filter(i -> i.getManagerUsername().equals(managerUsername)).toList();
+        return dataBase.getRestaurants().filter(i -> i.getManager().getUsername().equals(managerUsername)).toList();
     }
 
     @Override
-    public Feedback getAverageFeedbackOfRestaurant(String restaurnatName) {
-        var feedbacks = dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName));
+    public FeedbackDTO getAverageFeedbackOfRestaurant(String restaurnatName) {
+        var feedbacks = dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName));
         long count = feedbacks.count(); // Count the number of feedbacks
 
         if (count == 0) {
-            return new Feedback("", restaurnatName, 0, 0, 0, 0, "");
+            return new FeedbackDTO("", restaurnatName, 0, 0, 0, 0, "");
         }
 
-        return new Feedback( "", restaurnatName,
-                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getFoodRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getServiceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getAmbianceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
-                dataBase.getFeedbacks().filter(i -> i.getRestaurantName().equals(restaurnatName)).map(i -> i.getOverallRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+        return new FeedbackDTO( "", restaurnatName,
+                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getFoodRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getServiceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getAmbianceRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
+                dataBase.getFeedbacks().filter(i -> i.getRestaurant().getName().equals(restaurnatName)).map(i -> i.getOverallRate()).mapToDouble(Double::doubleValue).average().orElse(0.0),
             "");
     }
 
     @Override
     public List<TableReservation> getReservationsByUserName(String userName ) throws Exception {
-        return dataBase.getReservations().filter(i -> i.getUsername().equals(userName)).toList();
+        return dataBase.getReservations().filter(i -> i.getUser().getUsername().equals(userName)).toList();
     }
 
     @Override
     public List<RestaurantTable> getTablesByRestaurantName(String restaurantName) throws Exception {
-        return dataBase.getTables().filter(i -> i.getRestaurantName().equals(restaurantName)).toList();
+        return dataBase.getTables().filter(i -> i.getRestaurant().getName().equals(restaurantName)).toList();
     }
 
     @Override

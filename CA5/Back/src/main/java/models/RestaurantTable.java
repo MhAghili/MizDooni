@@ -30,18 +30,15 @@ public class RestaurantTable {
     @JoinColumn(name = "restaurant_name", referencedColumnName = "name")
     private Restaurant restaurant;
 
-    private String restaurantName;
-
-
-    private String managerUsername;
 
     @Column(name = "seats_number")
     private int seatsNumber;
 
-    public RestaurantTable(int tableNumber, String restaurantName, String managerUsername, int seatsNumber) {
+    public RestaurantTable(int tableNumber, int seatsNumber, User user, Restaurant restaurant) {
         this.tableNumber = tableNumber;
-        this.restaurantName = restaurantName;
-        this.managerUsername = managerUsername;
         this.seatsNumber = seatsNumber;
+        this.user = user;
+        this.restaurant = restaurant;
+
     }
 }

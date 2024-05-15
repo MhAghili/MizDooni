@@ -3,11 +3,13 @@ package controllers;
 import interfaces.RestaurantService;
 import models.RestaurantTable;
 import models.TableReservation;
+import models.TableReservationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import services.RestaurantServiceImpl;
+import utils.DTO.RestaurantTableDTO;
 import utils.ReservationCancellationRequest;
 
 import java.text.SimpleDateFormat;
@@ -19,7 +21,7 @@ public class TableController {
     public TableController() { service = RestaurantServiceImpl.getInstance(); }
 
     @PostMapping("/table")
-    public ResponseEntity addTable(@RequestBody RestaurantTable table) {
+    public ResponseEntity addTable(@RequestBody RestaurantTableDTO table) {
         try {
             service.addTable(table);
             return new ResponseEntity(HttpStatus.OK);
@@ -30,7 +32,7 @@ public class TableController {
     }
 
     @PostMapping("/reservation")
-    public ResponseEntity addReservation(@RequestBody TableReservation reservation) {
+    public ResponseEntity addReservation(@RequestBody TableReservationDTO reservation) {
         try {
             return new ResponseEntity(service.reserveTable(reservation), HttpStatus.OK);
         }

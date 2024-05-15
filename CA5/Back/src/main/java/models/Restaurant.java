@@ -22,7 +22,6 @@ public class Restaurant {
     @Column(name = "name")
     private String name;
 
-    private String managerUsername;
 
     @Setter
     @ManyToOne
@@ -54,9 +53,8 @@ public class Restaurant {
     private String image;
 
 
-    public Restaurant(String name, String managerUsername,User manager, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
+    public Restaurant(String name, User manager, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
         this.name = name;
-        this.managerUsername = managerUsername;
         this.manager = manager;
         this.type = type;
         this.startTime = startTime;

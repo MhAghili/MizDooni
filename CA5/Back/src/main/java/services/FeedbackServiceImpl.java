@@ -9,6 +9,7 @@ import models.Feedback;
 import static defines.AllowedRateRange.*;
 import DataBase.*;
 import org.springframework.stereotype.Service;
+import utils.DTO.FeedbackDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -27,22 +28,23 @@ public class FeedbackServiceImpl implements FeedbackService {
         return instance;
     }
     @Override
-    public void addReview(Feedback feedback) throws Exception{
+    public void addReview(FeedbackDTO feedback) throws Exception{
         var user = dataBase.getUsers()
                 .filter(u -> u.getUsername().equals(feedback.getUsername()))
                 .findFirst()
                 .orElseThrow(UserNotFound::new);
 
+        var restaurant = dataBase.getRestaurants()
+                .filter(r -> r.getName().equals(feedback.getRestaurantName()))
+                .findFirst()
+                .orElseThrow(RestaurantNotFound::new);
 
 
         if (user.getRole() == UserType.manager) {
             throw new RoleException();
         }
 
-        var restaurant = dataBase.getRestaurants()
-                .filter(r -> r.getName().equals(feedback.getRestaurantName()))
-                .findFirst()
-                .orElseThrow(RestaurantNotFound::new);
+
 
 //        if (!dataBase
 //                .getReservations()
@@ -66,34 +68,29 @@ public class FeedbackServiceImpl implements FeedbackService {
         var previousFeedBack =
                 dataBase
                     .getFeedbacks()
-                    .filter(i -> i.getUsername().equals(feedback.getUsername()) && i.getRestaurantName().equals(feedback.getRestaurantName()))
+                    .filter(i -> i.getUser().getUsername().equals(feedback.getUsername()) && i.getRestaurant().getName().equals(feedback.getRestaurantName()))
                         .findFirst().orElse(null);
         if (previousFeedBack != null) {
             dataBase.deleteFeedback(previousFeedBack);
         }
 
-        feedback.setRestaurant_name(restaurant);
-        feedback.setUser_name(user);
-        dataBase.saveFeedback(feedback);
+        var newFeedback = new Feedback(
+                feedback.getUsername(),
+                feedback.getRestaurantName(),
+                feedback.getServiceRate(),
+                feedback.getFoodRate(),
+                feedback.getAmbianceRate(),
+                feedback.getOverallRate(),
+                feedback.getComment(),
+                user,
+                restaurant
+        );
+
+        dataBase.saveFeedback(newFeedback);
     }
 
     @Override
-    public void save(List<Feedback> feedbacks) throws Exception {
-//        for (var feedback : feedbacks) {
-//            var user = dataBase.getUsers()
-//                    .filter(u -> u.getUsername().equals(feedback.getUsername()))
-//                    .findFirst()
-//                    .orElseThrow(UserNotFound::new);
-//            var restaurant = dataBase.getRestaurants()
-//                    .filter(r -> r.getName().equals(feedback.getRestaurantName()))
-//                    .findFirst()
-//                    .orElseThrow(RestaurantNotFound::new);
-//
-//            feedback.setRestaurant_name(restaurant);
-//            feedback.setUser_name(user);
-//
-//            dataBase.saveFeedback(feedback);
-//        }
+    public void save(List<FeedbackDTO> feedbacks) throws Exception {
         for (var feedback : feedbacks) {
             addReview(feedback);
         }
@@ -101,7 +98,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<Feedback> getReviewsByRestaurantName(String restaurantName) throws Exception {
-        return dataBase.getFeedbacks().filter(f -> f.getRestaurantName().equals(restaurantName)).toList();
+        return dataBase.getFeedbacks().filter(f -> f.getRestaurant().getName().equals(restaurantName)).toList();
     }
 
 }

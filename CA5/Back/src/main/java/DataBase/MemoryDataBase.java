@@ -185,7 +185,7 @@ public class MemoryDataBase implements DataBase {
 
     @Override
     public void deleteReservation(String username, int reservationNumber) {
-        reservations.removeIf(i -> i.getUsername().equals(username) && i.getNumber() == reservationNumber);
+        reservations.removeIf(i -> i.getUser().getUsername().equals(username) && i.getNumber() == reservationNumber);
     }
     @Override
     public void deleteUser(User user) { users.remove(user); }

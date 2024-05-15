@@ -30,10 +30,6 @@ public class TableReservation {
     private Restaurant restaurant;
 
 
-    private String username;
-
-    private String restaurantName;
-
     @Column(name = "table_number")
     private int tableNumber;
 
@@ -47,20 +43,11 @@ public class TableReservation {
 
     public TableReservation(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime,User user, Restaurant restaurant){
         this.number = reservationNumber;
-        this.username = username;
-        this.restaurantName = restaurantName;
         this.tableNumber = tableNumber;
         this.datetime = datetime;
         this.user = user;
         this.restaurant = restaurant;
     }
 
-    @Override
-    public String toString() {
-        return "reservationNumber: " + number
-              + "restaurantName: " + restaurantName
-              + "tableNumber: " + tableNumber
-              + "datetime: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(datetime);
-    }
 }
 
