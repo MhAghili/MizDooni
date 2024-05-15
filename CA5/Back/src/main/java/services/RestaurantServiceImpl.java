@@ -116,7 +116,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
 
-            // Check if the table number already exists for the given restaurant
+
             String hql = "SELECT COUNT(t) FROM RestaurantTable t WHERE t.restaurant.name = :restaurantName AND t.tableNumber = :tableNumber";
             Long count = session.createQuery(hql, Long.class)
                     .setParameter("restaurantName", table.getRestaurantName())
@@ -126,7 +126,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 throw new TableNumberAlreadyTaken();
             }
 
-            // Fetch the manager user
+
             hql = "SELECT u FROM User u WHERE u.username = :managerUsername";
             User managerUser = session.createQuery(hql, User.class)
                     .setParameter("managerUsername", table.getManagerUsername())
@@ -135,7 +135,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 throw new InvalidManagerUsername();
             }
 
-            // Fetch the restaurant
+
             hql = "SELECT r FROM Restaurant r WHERE r.name = :restaurantName";
             Restaurant restaurant = session.createQuery(hql, Restaurant.class)
                     .setParameter("restaurantName", table.getRestaurantName())
@@ -144,11 +144,11 @@ public class RestaurantServiceImpl implements RestaurantService {
                 throw new RestaurantNotFound();
             }
 
-            // Create and save the new table
+
             var newTable = new RestaurantTable(table.getTableNumber(), table.getSeatsNumber(), managerUser, restaurant);
             session.save(newTable);
 
-            // Commit the transaction
+
             transaction.commit();
 
 
@@ -157,7 +157,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 transaction.rollback();
             }
             e.printStackTrace();
-            throw e; // Rethrow the exception to ensure the caller knows about it
+            throw e;
         } finally {
             if (session != null) {
                 session.close();
@@ -177,7 +177,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                     .list();
         } catch (Exception e) {
             e.printStackTrace();
-            throw e; // Rethrow the exception to ensure the caller knows about it
+            throw e;
         } finally {
             if (session != null) {
                 session.close();
@@ -191,19 +191,20 @@ public class RestaurantServiceImpl implements RestaurantService {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            String hql = "FROM Restaurant r WHERE r.name = :name";
+            String hql = "FROM Restaurant r WHERE r.name LIKE :name";
             return session.createQuery(hql, Restaurant.class)
-                    .setParameter("name", name)
+                    .setParameter("name", "%" + name + "%")
                     .list();
         } catch (Exception e) {
             e.printStackTrace();
-            throw e; // Rethrow the exception to ensure the caller knows about it
+            throw e;
         } finally {
             if (session != null) {
                 session.close();
             }
         }
     }
+
 
     @Override
     public List<TableReservation> getReservationsByRestaurant(String restaurantName) throws Exception {
@@ -320,7 +321,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
 
-            // Find the reservation
+
             String hql = "FROM TableReservation tr WHERE tr.user.username = :username AND tr.number = :reservationNumber";
             TableReservation reservation = session.createQuery(hql, TableReservation.class)
                     .setParameter("username", request.getUsername())
@@ -331,7 +332,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 throw new InvalidReservationNumber();
             }
 
-            // Delete the reservation
+
             session.delete(reservation);
             transaction.commit();
 
@@ -362,7 +363,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw e; // Rethrow the exception to ensure the caller knows about it
+            throw e;
         } finally {
             if (session != null) {
                 session.close();
