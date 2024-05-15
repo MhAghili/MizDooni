@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const AddReviewModal = ({ show, handleClose, restaurantName, username }) => {
-  const [ambienceScore, setAmbienceScore] = useState("");
+  const [ambianceScore, setAmbianceScore] = useState("");
   const [serviceScore, setServiceScore] = useState("");
   const [foodScore, setFoodScore] = useState("");
   const [overallScore, setOverallScore] = useState("");
@@ -11,7 +11,7 @@ const AddReviewModal = ({ show, handleClose, restaurantName, username }) => {
   const submitHandler = async () => {
     try {
       const requestBody = {
-        ambienceRate: ambienceScore,
+        ambianceRate: ambianceScore,
         serviceRate: serviceScore,
         foodRate: foodScore,
         overallRate: overallScore,
@@ -31,7 +31,7 @@ const AddReviewModal = ({ show, handleClose, restaurantName, username }) => {
 
       if (response.ok) {
         console.log("Review added successfully");
-        setAmbienceScore("");
+        setAmbianceScore("");
         setServiceScore("");
         setFoodScore("");
         setOverallScore("");
@@ -53,13 +53,13 @@ const AddReviewModal = ({ show, handleClose, restaurantName, username }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3" controlId="ambienceScore">
-            <Form.Label>Ambience Score</Form.Label>
+          <Form.Group className="mb-3" controlId="ambianceScore">
+            <Form.Label>Ambiance Score</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Enter ambience score"
-              value={ambienceScore}
-              onChange={(e) => setAmbienceScore(e.target.value)}
+              placeholder="Enter Ambiance score"
+              value={ambianceScore}
+              onChange={(e) => setAmbianceScore(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="serviceScore">

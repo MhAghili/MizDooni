@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useData } from "../Data/DataContext";
 export const SignUp = () => {
   const [isManager, setIsManager] = useState(false);
   const [isCustomer, setIsCustomer] = useState(false);
@@ -12,6 +12,9 @@ export const SignUp = () => {
     city: "",
     role: "",
   });
+
+  const { setIsLogin } = useData();
+
   const navigate = useNavigate();
 
   const handleManagerChange = () => {
@@ -53,6 +56,7 @@ export const SignUp = () => {
       if (response.ok) {
         console.log("Signup successful");
         localStorage.setItem("username", formData.username);
+        setIsLogin(true);
         if (formData.role === "manager") {
           navigate("/Manager-Restaurant");
         } else {

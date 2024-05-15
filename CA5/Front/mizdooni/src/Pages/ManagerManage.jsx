@@ -28,6 +28,7 @@ export const ManagerManage = () => {
       setReservations(reservationsRes);
       setRestaurant(restaurantResponse);
       setTables(tableRses);
+      console.log(restaurantResponse);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -71,14 +72,14 @@ export const ManagerManage = () => {
               </div>
               <table className="table">
                 <tbody>
-                  {reservations.map((reservation) => (
+                  {/* {reservations.map((reservation) => (
                     <ReserveTableItem
                       date={reservation.datetime}
-                      name={reservation.username}
+                      name={reservation.user.username}
                       tableNumber={reservation.tableNumber}
                       key={reservation.number}
                     />
-                  ))}
+                  ))} */}
                 </tbody>
               </table>
             </div>
@@ -115,8 +116,9 @@ export const ManagerManage = () => {
         show={showAddTableModal}
         handleClose={handleCloseAddTableModal}
         restaurantName={restaurantName}
-        managerUsername={restaurant.managerUsername}
-      />{" "}
+        managerUsername={restaurant.manager?.username}
+      />
+      {console.log(restaurant)}
     </>
   );
 };

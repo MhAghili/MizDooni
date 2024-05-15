@@ -55,6 +55,7 @@ export const Restaurant = () => {
           numberOfPeople: numberOfPeople,
           datetime:
             selectedResevationDate + " " + selectedResevationTime + ":00",
+          
         };
         const response = await fetch("http://localhost:8080/reservation", {
           method: "POST",
@@ -63,6 +64,7 @@ export const Restaurant = () => {
           },
           body: JSON.stringify(reqBody),
         });
+        console.log(reqBody);
         if (response.ok) {
           console.log("table reserved successfully");
           fetchData();
@@ -218,7 +220,7 @@ export const Restaurant = () => {
           <div className="row fs-14">
             Available Times for Table #1 (2 seats)
           </div>
-          <div className="row">
+          {/* <div className="row">
             {
               <Reservation
                 restaurantAvailableTimes={restaurantAvailableTimes}
@@ -226,7 +228,7 @@ export const Restaurant = () => {
                 selectedTime={selectedResevationTime}
               />
             }
-          </div>
+          </div> */}
 
           <div className="row fs-14 text-danger pb-2 mb-2">
             You will reserve this table only for one hour, for more time please
