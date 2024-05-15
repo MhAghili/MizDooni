@@ -71,9 +71,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
             var restaurant = new Restaurant(restaurantData.getName(),manager, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
 
-            transaction.commit();
             session.save(restaurant);
-
+            transaction.commit();
 
         } catch (Exception e) {
             if (transaction != null) {
