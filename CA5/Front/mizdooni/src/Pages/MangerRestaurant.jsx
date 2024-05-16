@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import AddRestaurantModal from "../Modals/AddRestaurantModal";
 import "../classes.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const MangerRestaurant = () => {
   const loggedInUser = localStorage.getItem("username");
@@ -91,6 +93,7 @@ export const MangerRestaurant = () => {
         show={addRestaurantModal}
         handleClose={handleCloseAddRes}
       />{" "}
+      <ToastContainer />
     </>
   );
 };

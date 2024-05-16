@@ -10,6 +10,7 @@ import lombok.Setter;
 import utils.CustomDateDeserializer;
 
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Getter
@@ -27,23 +28,7 @@ public class TableReservationDTO {
 
     private Integer numberOfPeople;
 
-    private Date datetime;
+    private ZonedDateTime datetime;
 
-    public TableReservationDTO(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime,User user, Restaurant restaurant, int numberOfPeople){
-        this.number = reservationNumber;
-        this.username = username;
-        this.restaurantName = restaurantName;
-        this.numberOfPeople = numberOfPeople;
-        this.tableNumber = tableNumber;
-        this.datetime = datetime;
-    }
-
-    @Override
-    public String toString() {
-        return "reservationNumber: " + number
-              + "restaurantName: " + restaurantName
-              + "tableNumber: " + tableNumber
-              + "datetime: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(datetime);
-    }
 }
 

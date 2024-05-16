@@ -7,6 +7,8 @@ import "../classes.css";
 import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import AddTableModal from "../Modals/AddTableModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const ManagerManage = () => {
   const { restaurantName } = useLocation().state;
@@ -28,7 +30,6 @@ export const ManagerManage = () => {
       setReservations(reservationsRes);
       setRestaurant(restaurantResponse);
       setTables(tableRses);
-      console.log(restaurantResponse);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -72,14 +73,14 @@ export const ManagerManage = () => {
               </div>
               <table className="table">
                 <tbody>
-                  {/* {reservations.map((reservation) => (
+                  {reservations.map((reservation) => (
                     <ReserveTableItem
                       date={reservation.datetime}
                       name={reservation.user.username}
                       tableNumber={reservation.tableNumber}
-                      key={reservation.number}
+                      key={reservation.reservationNumber}
                     />
-                  ))} */}
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -118,7 +119,7 @@ export const ManagerManage = () => {
         restaurantName={restaurantName}
         managerUsername={restaurant.manager?.username}
       />
-      {console.log(restaurant)}
+      <ToastContainer />
     </>
   );
 };

@@ -14,6 +14,8 @@ import Footer from "../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import AddReviewModal from "../Modals/AddReviewModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Restaurant = () => {
   const [restaurant, setRestaurant] = useState([]);
@@ -53,11 +55,10 @@ export const Restaurant = () => {
           username: localStorage.getItem("username"),
           restaurantName: restaurantName,
           numberOfPeople: numberOfPeople,
-          datetime:
-            selectedResevationDate + " " + selectedResevationTime + ":00",
-          
+          datetime: selectedResevationTime,
+          tableNumber: 1,
         };
-        const response = await fetch("http://localhost:8080/reservation", {
+        const response = await fetch("http://localhost:8080/reserveTable", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -66,17 +67,16 @@ export const Restaurant = () => {
         });
         console.log(reqBody);
         if (response.ok) {
-          console.log("table reserved successfully");
+          toast.success("Table reserved successfully");
           fetchData();
         } else {
           const errorMessage = await response.text();
+          toast.error(errorMessage);
           throw new Error(errorMessage);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else {
-      console.log("Please fill all the required fields."); // Or display a message to the user
+      console.log("Please fill all the required fields.");
     }
   };
 
@@ -111,8 +111,9 @@ export const Restaurant = () => {
       const restaurantReviewRes = await fetch(
         `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
       ).then((res) => res.json());
+
       const restaurantAvailableTimesResponse = await fetch(
-        `http://127.0.0.1:8080/tables/available/restaurnatName=${restaurantName},date=${selectedResevationDate}`
+        `http://127.0.0.1:8080/tables/available/restaurantName=${restaurantName},tableNumber=${1},date=${selectedResevationDate}`
       ).then((res) => res.json());
 
       const restaurantRes = await restaurantResponse.json();
@@ -128,7 +129,7 @@ export const Restaurant = () => {
   useEffect(() => {
     fetchData();
     console.log("data fetched!");
-  }, []);
+  }, [selectedResevationDate]);
   return (
     <>
       <Header name={"My Reserves"} descreption={""} />
@@ -220,7 +221,7 @@ export const Restaurant = () => {
           <div className="row fs-14">
             Available Times for Table #1 (2 seats)
           </div>
-          {/* <div className="row">
+          <div className="row">
             {
               <Reservation
                 restaurantAvailableTimes={restaurantAvailableTimes}
@@ -228,7 +229,7 @@ export const Restaurant = () => {
                 selectedTime={selectedResevationTime}
               />
             }
-          </div> */}
+          </div>
 
           <div className="row fs-14 text-danger pb-2 mb-2">
             You will reserve this table only for one hour, for more time please
@@ -318,7 +319,8 @@ export const Restaurant = () => {
         handleClose={handleCloseAddRes}
         restaurantName={restaurantName}
         username={localStorage.getItem("username")}
-      />{" "}
+      />
+      <ToastContainer />
     </>
   );
 };

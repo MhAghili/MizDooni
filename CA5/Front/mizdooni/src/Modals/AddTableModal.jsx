@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddTableModal = ({
   show,
@@ -27,55 +29,60 @@ const AddTableModal = ({
       console.log(reqBody);
       if (response.ok) {
         console.log("Table added successfully");
+        toast.success("Table added successfully");
         handleClose();
       } else {
         const errorMessage = await response.text();
+        toast.error(errorMessage);
+        handleClose();
         throw new Error(errorMessage);
       }
     } catch (error) {
-      console.log(error);
     }
     setTableNumber("");
     setSeatsNumber("");
   };
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add Table</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="tableNumber">
-            <Form.Label>Table Number</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter table number"
-              value={tableNumber}
-              onChange={(e) => setTableNumber(e.target.value)}
-              pattern="[0-9]*"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="seatsNumber">
-            <Form.Label>Number of Seats</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter number of seats"
-              onChange={(e) => setSeatsNumber(e.target.value)}
-              value={seatsNumber}
-              pattern="[0-9]*"
-            />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="danger" onClick={submitHndlr}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <>
+      {" "}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Table</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="tableNumber">
+              <Form.Label>Table Number</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter table number"
+                value={tableNumber}
+                onChange={(e) => setTableNumber(e.target.value)}
+                pattern="[0-9]*"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="seatsNumber">
+              <Form.Label>Number of Seats</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter number of seats"
+                onChange={(e) => setSeatsNumber(e.target.value)}
+                value={seatsNumber}
+                pattern="[0-9]*"
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={submitHndlr}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

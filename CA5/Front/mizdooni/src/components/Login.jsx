@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useData } from "../Data/DataContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +36,7 @@ export const Login = () => {
         const UserRes = await fetch(`http://Localhost:8080/users/${username}`);
         const User = await UserRes.json();
         if (User.role === "manager") {
+          toast.success("Login successful");
           navigate("/Manager-Restaurant");
         } else {
           navigate("/Home");
@@ -43,7 +47,7 @@ export const Login = () => {
         throw new Error(errorMessage);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
     setUsername("");
     setPassword("");
@@ -82,6 +86,7 @@ export const Login = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 };

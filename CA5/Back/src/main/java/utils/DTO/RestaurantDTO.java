@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import models.RestaurantAddress;
 import utils.CustomTimeDeserializer;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Getter
@@ -21,11 +22,11 @@ public class RestaurantDTO {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     @JsonDeserialize(using = CustomTimeDeserializer.class)
-    private Date startTime;
+    private ZonedDateTime startTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     @JsonDeserialize(using = CustomTimeDeserializer.class)
-    private Date endTime;
+    private ZonedDateTime endTime;
 
     private String description;
 

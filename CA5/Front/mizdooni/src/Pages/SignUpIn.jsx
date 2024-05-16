@@ -4,6 +4,8 @@ import "../classes.css";
 import Footer from "../components/Footer";
 import { Login } from "../components/Login";
 import { SignUp } from "../components/SignUp";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const SignUpIn = () => {
   const [showSignup, setShowSignup] = useState(false);
@@ -40,6 +42,7 @@ export const SignUpIn = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer />
     </>
   );
 };

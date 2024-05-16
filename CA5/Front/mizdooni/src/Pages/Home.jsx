@@ -9,11 +9,13 @@ import { About } from "../components/About";
 import { useData } from "../Data/DataContext";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const { restaurantData } = useData();
   const [sortedRestaurantData, setSortedRestaurantData] = useState([]);
-  const [searchBy, setSearchBy] = useState("");
+  const [searchBy, setSearchBy] = useState("Name");
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -130,6 +132,7 @@ const Home = () => {
       </div>
       <About />
       <Footer />
+      <ToastContainer />
     </>
   );
 };

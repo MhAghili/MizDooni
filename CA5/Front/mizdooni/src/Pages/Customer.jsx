@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../components/Footer";
 import { Header } from "../components/Header";
 import { Modal, Button, Form } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Customer = () => {
   const userName = localStorage.getItem("username");
@@ -11,16 +13,16 @@ export const Customer = () => {
   const [user, setUser] = useState("");
   const [reservationToCancel, setReservationToCancel] = useState(null);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [isCancelChecked, setIsCancelChecked] = useState(false);
   const handleCancelClick = (reservation) => {
     setReservationToCancel(reservation);
     setShowCancelModal(true);
   };
-
   const handleCancelConfirmation = async () => {
     try {
       const reqBody = {
-        username: reservationToCancel.username,
-        reservationNumber: reservationToCancel.number,
+        username: reservationToCancel.user.username,
+        reservationNumber: reservationToCancel.reservationNumber,
       };
       const response = await fetch("http://127.0.0.1:8080/DeleteReservation", {
         method: "POST",
@@ -30,14 +32,15 @@ export const Customer = () => {
         body: JSON.stringify(reqBody),
       });
       if (response.ok) {
-        console.log("reserved removed successfully");
+        toast.success("Reservation canceled successfully");
+
         fetchData();
       } else {
         const errorMessage = await response.text();
         throw new Error(errorMessage);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      toast.error(error);
     }
     setShowCancelModal(false);
     setReservationToCancel(null);
@@ -91,12 +94,12 @@ export const Customer = () => {
             <tbody>
               {reservations.length !== 0 ? (
                 reservations.map((reservation) => (
-                  <tr key={reservation.number}>
+                  <tr key={reservation.reservationNumber}>
                     <th scope="row" className="text-muted">
                       {extractHour(reservation.datetime)}
                     </th>
                     <td className="text-danger">
-                      {reservation.restaurantName}
+                      {reservation.restaurant.name}
                     </td>
                     <td className="text-muted">
                       Table-{reservation.tableNumber}
@@ -135,17 +138,24 @@ export const Customer = () => {
           <Form.Check
             type="checkbox"
             label="Yes, I want to cancel this reservation."
+            checked={isCancelChecked}
+            onChange={(e) => setIsCancelChecked(e.target.checked)}
           />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowCancelModal(false)}>
             Close
           </Button>
-          <Button variant="danger" onClick={handleCancelConfirmation}>
+          <Button
+            variant="danger"
+            onClick={handleCancelConfirmation}
+            disabled={!isCancelChecked}
+          >
             Cancel Reservation
           </Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer />
     </>
   );
 };

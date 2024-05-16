@@ -66,7 +66,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             if (manager == null || manager.getRole() != UserType.manager) {
                 throw new InvalidManagerUsername();
             }
-            if(restaurantData.getStartTime().getMinutes() != 0 || restaurantData.getEndTime().getMinutes() != 0)
+            if(restaurantData.getStartTime().getMinute() != 0 || restaurantData.getEndTime().getMinute() != 0)
                 throw new TimeOfRestaurantShouldBeRound();
 
             if(addressIsInInvalidFormat(restaurantData.getAddress()))
@@ -392,25 +392,23 @@ public class RestaurantServiceImpl implements RestaurantService {
                 throw new RestaurantNotFound();
             }
 
-            // Fetch all tables for the restaurant
+
             String tableHql = "FROM RestaurantTable t WHERE t.restaurant.name = :restaurantName";
             List<RestaurantTable> tables = session.createQuery(tableHql, RestaurantTable.class)
                     .setParameter("restaurantName", restaurantName)
                     .list();
 
-            // Fetch all reservations for the given date
             String reservationHql = "FROM TableReservation tr WHERE tr.restaurant.name = :restaurantName AND DATE(tr.datetime) = :date";
             List<TableReservation> reservations = session.createQuery(reservationHql, TableReservation.class)
                     .setParameter("restaurantName", restaurantName)
                     .setParameter("date", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
                     .list();
 
-            // Generate available time slots
 
             List<AvailableTableInfo> availableTableInfos = new ArrayList<>();
             for (RestaurantTable table : tables) {
                 List<ZonedDateTime> availableTimes = new ArrayList<>();
-                for (int hour = restaurant.getStartTime().getHours(); hour < restaurant.getEndTime().getHours(); hour++) {
+                for (int hour = restaurant.getStartTime().getHour(); hour < restaurant.getEndTime().getHour(); hour++) {
                     ZonedDateTime dateTime = date.atTime(hour, 0).atZone(ZoneId.systemDefault());
                     boolean isAvailable = reservations.stream()
                             .noneMatch(reservation -> reservation.getTableNumber()==table.getTableNumber()
@@ -455,7 +453,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
 
             LocalDateTime dateTime = reservation.getDatetime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            if (dateTime.getHour() < restaurant.getStartTime().getHours() || dateTime.getHour() >= restaurant.getEndTime().getHours()) {
+            if (dateTime.getHour() < restaurant.getStartTime().getHour() || dateTime.getHour() >= restaurant.getEndTime().getHour()) {
                 throw new OutsideBusinessHoursException();
             }
 

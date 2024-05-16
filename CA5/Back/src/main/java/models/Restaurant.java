@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.Value;
 import utils.CustomTimeDeserializer;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Getter
@@ -35,12 +37,12 @@ public class Restaurant {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     @JsonDeserialize(using = CustomTimeDeserializer.class)
     @Column(name = "start_time")
-    private Date startTime;
+    private ZonedDateTime startTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     @JsonDeserialize(using = CustomTimeDeserializer.class)
     @Column(name = "end_time")
-    private Date endTime;
+    private ZonedDateTime endTime;
 
     @Lob
     @Column(name = "description", columnDefinition = "TEXT")
@@ -53,7 +55,7 @@ public class Restaurant {
     private String image;
 
 
-    public Restaurant(String name, User manager, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
+    public Restaurant(String name, User manager, String type, ZonedDateTime startTime, ZonedDateTime endTime, String description, RestaurantAddress address, String image) {
         this.name = name;
         this.manager = manager;
         this.type = type;

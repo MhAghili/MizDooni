@@ -10,6 +10,7 @@ import lombok.Setter;
 import utils.CustomDateDeserializer;
 
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Getter
@@ -40,9 +41,9 @@ public class TableReservation {
     @JsonDeserialize(using = CustomDateDeserializer.class)
 
     @Column(name = "datetime")
-    private Date datetime;
+    private ZonedDateTime datetime;
 
-    public TableReservation(int tableNumber, Date datetime,User user, Restaurant restaurant,int numberOfPeople){
+    public TableReservation(int tableNumber, ZonedDateTime datetime,User user, Restaurant restaurant,int numberOfPeople){
         this.tableNumber = tableNumber;
         this.datetime = datetime;
         this.user = user;

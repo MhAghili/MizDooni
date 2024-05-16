@@ -17,10 +17,5 @@ public class RestaurantTableDTO {
 
     private int seatsNumber;
 
-    public RestaurantTableDTO(int tableNumber, String restaurantName, String managerUsername, int seatsNumber) {
-        this.tableNumber = tableNumber;
-        this.restaurantName = restaurantName;
-        this.managerUsername = managerUsername;
-        this.seatsNumber = seatsNumber;
-    }
+
 }
