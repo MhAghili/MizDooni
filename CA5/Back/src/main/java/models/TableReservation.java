@@ -17,9 +17,10 @@ import java.util.Date;
 @Entity
 @Table(name = "table_reservations")
 public class TableReservation {
+
     @Id
-    @Column(name = "number")
-    private int number; // Unique reservation number
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reservationNumber;
 
     @ManyToOne
     @JoinColumn(name = "user_name", referencedColumnName = "username")
@@ -41,12 +42,12 @@ public class TableReservation {
     @Column(name = "datetime")
     private Date datetime;
 
-    public TableReservation(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime,User user, Restaurant restaurant){
-        this.number = reservationNumber;
+    public TableReservation(int tableNumber, Date datetime,User user, Restaurant restaurant,int numberOfPeople){
         this.tableNumber = tableNumber;
         this.datetime = datetime;
         this.user = user;
         this.restaurant = restaurant;
+        this.numberOfPeople = numberOfPeople;
     }
 
 }

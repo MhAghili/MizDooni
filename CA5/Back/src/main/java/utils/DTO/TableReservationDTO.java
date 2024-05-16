@@ -29,10 +29,11 @@ public class TableReservationDTO {
 
     private Date datetime;
 
-    public TableReservationDTO(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime,User user, Restaurant restaurant){
+    public TableReservationDTO(int reservationNumber, String username, String restaurantName, int tableNumber, Date datetime,User user, Restaurant restaurant, int numberOfPeople){
         this.number = reservationNumber;
         this.username = username;
         this.restaurantName = restaurantName;
+        this.numberOfPeople = numberOfPeople;
         this.tableNumber = tableNumber;
         this.datetime = datetime;
     }

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddRestaurantModal = ({ show, handleClose }) => {
   const [name, setName] = useState("");
@@ -35,7 +37,7 @@ const AddRestaurantModal = ({ show, handleClose }) => {
         body: JSON.stringify(requestBody),
       });
       if (response.ok) {
-        console.log("Restaurant added successfully");
+        toast.success("Restaurant added successfully");
         setName("");
         setType("");
         setDescription("");
@@ -48,12 +50,11 @@ const AddRestaurantModal = ({ show, handleClose }) => {
         handleClose();
       } else {
         const errorMessage = await response.text();
+        toast.error(errorMessage);
         throw new Error(errorMessage);
       }
       console.log(requestBody);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
