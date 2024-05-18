@@ -66,13 +66,13 @@ public class RestaurantServiceImpl implements RestaurantService {
             if (manager == null || manager.getRole() != UserType.manager) {
                 throw new InvalidManagerUsername();
             }
-            if(restaurantData.getStartTime().getMinute() != 0 || restaurantData.getEndTime().getMinute() != 0)
+            if(restaurantData.getStartTime().getMinutes() != 0 || restaurantData.getEndTime().getMinutes() != 0)
                 throw new TimeOfRestaurantShouldBeRound();
 
             if(addressIsInInvalidFormat(restaurantData.getAddress()))
                 throw new AddressShouldContainsCityAndCountryAndStreet();
 
-            var restaurant = new Restaurant(restaurantData.getName(),manager, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
+            var restaurant = new Restaurant(restaurantData.getName(),manager, restaurantData.getType(), restaurantData.getStartTime().toInstant().atZone(ZoneId.systemDefault()), restaurantData.getEndTime().toInstant().atZone(ZoneId.systemDefault()), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
 
             session.save(restaurant);
             transaction.commit();

@@ -22,11 +22,11 @@ public class RestaurantDTO {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     @JsonDeserialize(using = CustomTimeDeserializer.class)
-    private ZonedDateTime startTime;
+    private Date startTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     @JsonDeserialize(using = CustomTimeDeserializer.class)
-    private ZonedDateTime endTime;
+    private Date endTime;
 
     private String description;
 
