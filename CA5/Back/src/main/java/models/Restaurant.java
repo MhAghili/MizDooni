@@ -2,6 +2,7 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
@@ -34,15 +35,12 @@ public class Restaurant {
     @Column(name = "type")
     private String type;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
-    @JsonDeserialize(using = CustomTimeDeserializer.class)
     @Column(name = "start_time")
-    private ZonedDateTime startTime;
+    private Date startTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
-    @JsonDeserialize(using = CustomTimeDeserializer.class)
+
     @Column(name = "end_time")
-    private ZonedDateTime endTime;
+    private Date endTime;
 
     @Lob
     @Column(name = "description", columnDefinition = "TEXT")
@@ -55,7 +53,7 @@ public class Restaurant {
     private String image;
 
 
-    public Restaurant(String name, User manager, String type, ZonedDateTime startTime, ZonedDateTime endTime, String description, RestaurantAddress address, String image) {
+    public Restaurant(String name, User manager, String type, Date startTime, Date endTime, String description, RestaurantAddress address, String image) {
         this.name = name;
         this.manager = manager;
         this.type = type;

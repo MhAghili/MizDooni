@@ -1,4 +1,4 @@
-package models;
+package utils.DTO;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.Entity;
@@ -28,7 +28,7 @@ public class TableReservationDTO {
 
     private Integer numberOfPeople;
 
-    private ZonedDateTime datetime;
+    private Date datetime;
 
 }
 

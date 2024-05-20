@@ -6,8 +6,16 @@ export const ReserveTableItem = (props) => {
     const hour = date.getHours();
     return `${hour}:00`;
   };
+  const isPastReservation = (dateTimeString) => {
+    const reservationDate = new Date(dateTimeString);
+    return reservationDate < new Date();
+  };
   return (
-    <tr className="">
+    <tr
+      className={
+        isPastReservation(props.date) ? "text-decoration-line-through" : ""
+      }
+    >
       <td>
         At: <span className="text-danger">{extractHour(props.date)}</span>
       </td>

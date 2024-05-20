@@ -5,7 +5,7 @@ import exceptions.*;
 import interfaces.RestaurantService;
 import models.*;
 
-import models.TableReservationDTO;
+import utils.DTO.TableReservationDTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -72,7 +72,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             if(addressIsInInvalidFormat(restaurantData.getAddress()))
                 throw new AddressShouldContainsCityAndCountryAndStreet();
 
-            var restaurant = new Restaurant(restaurantData.getName(),manager, restaurantData.getType(), restaurantData.getStartTime().toInstant().atZone(ZoneId.systemDefault()), restaurantData.getEndTime().toInstant().atZone(ZoneId.systemDefault()), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
+            var restaurant = new Restaurant(restaurantData.getName(),manager, restaurantData.getType(), restaurantData.getStartTime(), restaurantData.getEndTime(), restaurantData.getDescription(),restaurantData.getAddress(),restaurantData.getImage()  );
 
             session.save(restaurant);
             transaction.commit();
@@ -408,7 +408,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             List<AvailableTableInfo> availableTableInfos = new ArrayList<>();
             for (RestaurantTable table : tables) {
                 List<ZonedDateTime> availableTimes = new ArrayList<>();
-                for (int hour = restaurant.getStartTime().getHour(); hour < restaurant.getEndTime().getHour(); hour++) {
+                for (int hour = restaurant.getStartTime().getHours(); hour < restaurant.getEndTime().getHours(); hour++) {
                     ZonedDateTime dateTime = date.atTime(hour, 0).atZone(ZoneId.systemDefault());
                     boolean isAvailable = reservations.stream()
                             .noneMatch(reservation -> reservation.getTableNumber()==table.getTableNumber()
@@ -453,7 +453,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
 
             LocalDateTime dateTime = reservation.getDatetime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            if (dateTime.getHour() < restaurant.getStartTime().getHour() || dateTime.getHour() >= restaurant.getEndTime().getHour()) {
+            if (dateTime.getHour() < restaurant.getStartTime().getHours() || dateTime.getHour() >= restaurant.getEndTime().getHours()) {
                 throw new OutsideBusinessHoursException();
             }
 

@@ -1,10 +1,7 @@
 package controllers;
 
 import interfaces.RestaurantService;
-import models.RestaurantTable;
-import models.TableReservation;
-import models.TableReservationDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import utils.DTO.TableReservationDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +10,6 @@ import utils.AvailableTableInfo;
 import utils.DTO.RestaurantTableDTO;
 import utils.ReservationCancellationRequest;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

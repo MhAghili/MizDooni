@@ -1,10 +1,11 @@
 package interfaces;
 
 import models.*;
-import models.TableReservationDTO;
+import utils.*;
 import utils.AvailableTableInfo;
 import utils.DTO.FeedbackDTO;
 import utils.DTO.RestaurantTableDTO;
+import utils.DTO.TableReservationDTO;
 import utils.ReservationCancellationRequest;
 import utils.DTO.RestaurantDTO;
 

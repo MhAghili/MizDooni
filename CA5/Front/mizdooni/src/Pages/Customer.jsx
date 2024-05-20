@@ -63,6 +63,11 @@ export const Customer = () => {
     fetchData();
     console.log("data fetched!");
   }, []);
+
+  const isPastReservation = (dateTimeString) => {
+    const reservationDate = new Date(dateTimeString);
+    return reservationDate < new Date();
+  };
   const extractHour = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const hour = date.getHours();
@@ -94,7 +99,14 @@ export const Customer = () => {
             <tbody>
               {reservations.length !== 0 ? (
                 reservations.map((reservation) => (
-                  <tr key={reservation.reservationNumber}>
+                  <tr
+                    key={reservation.reservationNumber}
+                    className={
+                      isPastReservation(reservation.datetime)
+                        ? "text-decoration-line-through"
+                        : ""
+                    }
+                  >
                     <th scope="row" className="text-muted">
                       {extractHour(reservation.datetime)}
                     </th>
