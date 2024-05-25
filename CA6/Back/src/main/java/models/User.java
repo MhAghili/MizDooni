@@ -5,11 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.Value;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Value
 @NoArgsConstructor(force = true)
 @Entity
 @Table(name = "users")
@@ -21,6 +21,7 @@ public class User {
     @Column(name = "role")
     private UserType role;
 
+    @Setter
     @Column(name = "password")
     private String password;
 

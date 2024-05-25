@@ -4,14 +4,14 @@ import enums.UserType;
 import exceptions.*;
 import interfaces.UserService;
 import models.User;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import utils.Utils;
-import models.User;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.Session;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,10 +21,13 @@ public class UserServiceImplementation implements UserService {
     private static UserService instance;
 
     private final SessionFactory sessionFactory;
-    private UserServiceImplementation() {
 
+    private PasswordEncoder passwordEncoder;
+
+    private UserServiceImplementation() {
         Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
         sessionFactory = configuration.buildSessionFactory();
+        passwordEncoder  = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
     }
 
     public static UserService getInstance() {
@@ -32,6 +35,7 @@ public class UserServiceImplementation implements UserService {
             instance = new UserServiceImplementation();
         return instance;
     }
+
     @Override
     public void addUser(User user) throws Exception {
         try (Session session = sessionFactory.openSession()) {
@@ -71,6 +75,7 @@ public class UserServiceImplementation implements UserService {
                 throw new AddressShouldContainsCityAndCountry();
             }
 
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -84,7 +89,6 @@ public class UserServiceImplementation implements UserService {
             addUser(user);
         }
     }
-
 
     @Override
     public void delete(String username) throws Exception {
@@ -107,24 +111,25 @@ public class UserServiceImplementation implements UserService {
         }
     }
 
-
     @Override
     public List<User> getAllUsers() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM User", User.class)
-                    .list();
+            return session.createQuery("FROM User", User.class).list();
         }
     }
-
 
     @Override
     public User getUserByNameAndPassword(String name, String password) throws Exception {
         try (Session session = sessionFactory.openSession()) {
-            User user = session.createQuery("FROM User WHERE username = :name AND password = :password", User.class)
+            User user = session.createQuery("FROM User WHERE username = :name", User.class)
                     .setParameter("name", name)
-                    .setParameter("password", password)
                     .uniqueResultOptional()
                     .orElseThrow(UserNotFound::new);
+
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                throw new InvalidPassword();
+            }
+
             return user;
         }
     }
@@ -137,14 +142,13 @@ public class UserServiceImplementation implements UserService {
                     .uniqueResultOptional()
                     .orElseThrow(UserNotFound::new);
 
-            if (!user.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new InvalidPassword();
             }
 
             return true;
         }
     }
-
 
     private boolean isValidEmail(String email) {
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -159,6 +163,4 @@ public class UserServiceImplementation implements UserService {
         Matcher matcher = pattern.matcher(username);
         return matcher.matches();
     }
-
-
 }

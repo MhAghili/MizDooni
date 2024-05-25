@@ -1,6 +1,4 @@
 package services;
-
-import defines.AllowedRateRange;
 import enums.UserType;
 import exceptions.*;
 import interfaces.FeedbackService;
@@ -12,11 +10,6 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
 import utils.DTO.FeedbackDTO;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-
-import java.util.Date;
 import java.util.List;
 @Service
 public class FeedbackServiceImpl implements FeedbackService {

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 //@Import(AppConfig.class)
-@ComponentScan(basePackages = {"controllers","config"})
+@ComponentScan(basePackages = {"config","controllers","services"})
 public class MizDooniApplication {
     public static void main(String[] args) {
         MizDooni.getInstance();

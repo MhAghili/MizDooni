@@ -1,19 +1,11 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Value;
-import utils.CustomTimeDeserializer;
-
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Getter

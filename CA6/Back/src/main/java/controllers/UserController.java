@@ -2,13 +2,9 @@ package controllers;
 
 import interfaces.UserService;
 import models.User;
-import utils.LoginRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import services.MizDooni;
-import services.RestaurantServiceImpl;
 import services.UserServiceImplementation;
 import java.util.List;
 
@@ -33,29 +29,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return  new ResponseEntity<>(user.get(), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity addUser(@RequestBody User user) {
-        try {
-            service.addUser(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity(e.getMessage() + e.getStackTrace(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
-        try {
-            service.login(username, password);
-            return new ResponseEntity<>("Login successful", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
     }
 
 
