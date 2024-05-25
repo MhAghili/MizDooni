@@ -23,6 +23,7 @@ const AddTableModal = ({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(reqBody),
       });
@@ -37,8 +38,7 @@ const AddTableModal = ({
         handleClose();
         throw new Error(errorMessage);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
     setTableNumber("");
     setSeatsNumber("");
   };

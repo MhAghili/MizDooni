@@ -41,7 +41,11 @@ const Home = () => {
 
   async function calculateAverageOverallScore(restaurantName) {
     const reviewsForRestaurant = await fetch(
-      `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
+      `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      }
     ).then((res) => res.json());
 
     const totalReviews = reviewsForRestaurant.length;

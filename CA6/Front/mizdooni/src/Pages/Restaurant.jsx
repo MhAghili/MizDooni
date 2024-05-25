@@ -62,6 +62,7 @@ export const Restaurant = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(reqBody),
         });
@@ -106,14 +107,29 @@ export const Restaurant = () => {
   async function fetchData() {
     try {
       const restaurantResponse = await fetch(
-        `http://127.0.0.1:8080/restaurants/name=${restaurantName}`
+        `http://127.0.0.1:8080/restaurants/name=${restaurantName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const restaurantReviewRes = await fetch(
-        `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`
+        `http://127.0.0.1:8080/reviews/restaurantName=${restaurantName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        }
       ).then((res) => res.json());
 
       const restaurantAvailableTimesResponse = await fetch(
-        `http://127.0.0.1:8080/tables/available/restaurantName=${restaurantName},tableNumber=${1},date=${selectedResevationDate}`
+        `http://127.0.0.1:8080/tables/available/restaurantName=${restaurantName},tableNumber=${1},date=${selectedResevationDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        }
       ).then((res) => res.json());
 
       const restaurantRes = await restaurantResponse.json();

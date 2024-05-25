@@ -49,14 +49,19 @@ export const SignUp = () => {
         role: formData.role,
         email: formData.email,
       };
-      const response = await fetch("http://localhost:8080/users", {
+      console.log(reqBody);
+      const response = await fetch("http://127.0.0.1:8080/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(reqBody),
+        credentials: "include",
       });
       if (response.ok) {
+        const token = response?.headers?.get("Authorization").split(" ")[1];
+        localStorage.setItem("token", token);
+
         toast.success("Signup successful");
         localStorage.setItem("username", formData.username);
         setIsLogin(true);
@@ -70,6 +75,7 @@ export const SignUp = () => {
         throw new Error(errorMessage);
       }
     } catch (error) {
+      console.log(error);
       toast.error(error);
     }
 

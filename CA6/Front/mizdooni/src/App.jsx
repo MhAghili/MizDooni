@@ -19,6 +19,12 @@ function App() {
       try {
         const restaurantDataResponse = await fetch(
           "http://localhost:8080/restaurants"
+          ,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+          }
         );
         const restaurantData = await restaurantDataResponse.json();
         setRestaurantData(restaurantData);

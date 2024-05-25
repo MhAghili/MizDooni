@@ -23,17 +23,27 @@ export const Login = () => {
     try {
       const requestBody = JSON.stringify({ username, password });
 
-      const response = await fetch("http://127.0.0.1:8080/users/login", {
+      const response = await fetch("http://127.0.0.1:8080/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: requestBody,
+        credentials: "include",
       });
+
+      console.log(requestBody);
       if (response.ok) {
+        const token = response?.headers?.get("Authorization").split(" ")[1];
+        localStorage.setItem("token", token);
         localStorage.setItem("username", username);
         setIsLogin(true);
-        const UserRes = await fetch(`http://Localhost:8080/users/${username}`);
+        const UserRes = await fetch(`http://127.0.0.1:8080/users/${username}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         const User = await UserRes.json();
         if (User.role === "manager") {
           toast.success("Login successful");
@@ -47,6 +57,7 @@ export const Login = () => {
         throw new Error(errorMessage);
       }
     } catch (error) {
+      console.log(error);
       toast.error(error);
     }
     setUsername("");

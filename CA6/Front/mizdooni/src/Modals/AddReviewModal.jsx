@@ -27,6 +27,7 @@ const AddReviewModal = ({ show, handleClose, restaurantName, username }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(requestBody),
       });

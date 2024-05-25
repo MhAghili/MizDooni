@@ -28,6 +28,7 @@ export const Customer = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(reqBody),
       });
@@ -48,11 +49,20 @@ export const Customer = () => {
   async function fetchData() {
     try {
       const reservationsRes = await fetch(
-        `http://127.0.0.1:8080/reservations/username=${userName}`
+        `http://127.0.0.1:8080/reservations/username=${userName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       ).then((res) => res.json());
       setReservations(reservationsRes);
       const userRes = await fetch(
-        `http://127.0.0.1:8080/users/${userName}`
+        `http://127.0.0.1:8080/users/${userName}`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       ).then((res) => res.json());
       setUser(userRes);
     } catch (error) {

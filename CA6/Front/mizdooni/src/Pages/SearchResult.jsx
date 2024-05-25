@@ -14,12 +14,22 @@ export const SearchResult = () => {
         let searchedRes = [];
         if (searchBy === "name") {
           searchedRes = await fetch(
-            `http://localhost:8080/restaurants/RestaurantName=${searchInput}`
+            `http://localhost:8080/restaurants/RestaurantName=${searchInput}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           ).then((res) => res.json());
           console.log(searchedRes);
         } else {
           searchedRes = await fetch(
-            `http://127.0.0.1:8080/restaurants/type=${searchInput}`
+            `http://127.0.0.1:8080/restaurants/type=${searchInput}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           ).then((res) => res.json());
           console.log(searchInput, searchedRes);
         }
@@ -53,7 +63,9 @@ export const SearchResult = () => {
               />
             ))
           ) : (
-            <span className="text-center text-danger fs-3 pt-3">No results found</span>
+            <span className="text-center text-danger fs-3 pt-3">
+              No results found
+            </span>
           )}
           {console.log(searchedRestaurants)}
         </div>

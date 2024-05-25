@@ -17,6 +17,7 @@ export const Header = (props) => {
 
   const logoutHandler = () => {
     localStorage.removeItem("username");
+    localStorage.removeItem("token");
     setIsLogin(false);
     navigate("/");
   };
