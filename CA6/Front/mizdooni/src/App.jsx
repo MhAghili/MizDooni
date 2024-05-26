@@ -10,6 +10,7 @@ import { Restaurant } from "./Pages/Restaurant";
 import { MangerRestaurant } from "./Pages/MangerRestaurant";
 import Error from "./Pages/Error";
 import { SignUpIn } from "./Pages/SignUpIn";
+import { Callback } from "./components/Callback";
 
 function App() {
   const { setRestaurantData } = useData();
@@ -18,12 +19,11 @@ function App() {
     async function fetchData() {
       try {
         const restaurantDataResponse = await fetch(
-          "http://localhost:8080/restaurants"
-          ,
+          "http://localhost:8080/restaurants",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
+            },
           }
         );
         const restaurantData = await restaurantDataResponse.json();
@@ -45,6 +45,7 @@ function App() {
         <Route path="/SearchResult" element={<SearchResult />} />
         <Route path="/Restaurant" element={<Restaurant />} />
         <Route path="/Manager-Restaurant" element={<MangerRestaurant />} />
+        <Route path="/callback" element={<Callback />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>

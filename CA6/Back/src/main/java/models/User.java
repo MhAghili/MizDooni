@@ -10,20 +10,24 @@ import lombok.Value;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Setter
 @NoArgsConstructor(force = true)
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @Column(name = "username")
     private String username;
 
+
     @Column(name = "role")
     private UserType role;
 
-    @Setter
+
     @Column(name = "password")
     private String password;
+
 
     @Column(name = "email")
     private String email;

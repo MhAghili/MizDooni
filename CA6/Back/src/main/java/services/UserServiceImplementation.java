@@ -119,16 +119,12 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User getUserByNameAndPassword(String name, String password) throws Exception {
+    public User getUserByName(String name) throws Exception {
         try (Session session = sessionFactory.openSession()) {
             User user = session.createQuery("FROM User WHERE username = :name", User.class)
                     .setParameter("name", name)
                     .uniqueResultOptional()
-                    .orElseThrow(UserNotFound::new);
-
-            if (!passwordEncoder.matches(password, user.getPassword())) {
-                throw new InvalidPassword();
-            }
+                    .orElse(null);
 
             return user;
         }
@@ -158,9 +154,10 @@ public class UserServiceImplementation implements UserService {
     }
 
     private static boolean isValidUsername(String username) {
-        String regex = "^[a-zA-Z0-9_]+$";
+        String regex = "^[a-zA-Z0-9_ ]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(username);
         return matcher.matches();
     }
+
 }

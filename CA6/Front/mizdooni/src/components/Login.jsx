@@ -9,6 +9,9 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setIsLogin } = useData();
+  const googleClientId = "779637281034-0r9mqce17s07g21nnkr748p01ssgtnkq.apps.googleusercontent.com";
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${googleClientId}&response_type=code&scope=email%20profile&redirect_uri=http://localhost:3000/callback`;
+
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -96,6 +99,7 @@ export const Login = () => {
             </button>
           </div>
         </form>
+        <a href={googleAuthUrl}>Login with Google</a>
       </div>
       <ToastContainer />
     </>

@@ -10,7 +10,7 @@ public interface UserService {
     void delete(String username) throws Exception;
     boolean login(String username, String password) throws Exception;
     List<User> getAllUsers();
-    User getUserByNameAndPassword(String name , String password) throws Exception;
+    User getUserByName(String name) throws Exception;
 
 
 }
