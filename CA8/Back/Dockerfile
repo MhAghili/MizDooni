@@ -1,32 +1,14 @@
-FROM maven:3.8.7-openjdk-18-slim AS build
-
-WORKDIR /app
-
-COPY pom.xml .
-RUN mvn dependency:go-offline
-
-COPY src ./src
-
-RUN mvn clean package -DskipTests
-
+# Use an official OpenJDK runtime as a parent image
 FROM openjdk:18-jdk-slim
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY --from=build ./target/*.jar app.jar
+# Copy the executable WAR file to the container
+COPY target/CA6.war /app/CA6.war
 
-EXPOSE 8093
+# Expose the port the application runs on
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
-# FROM eclipse-temurin:17-jdk-focal
- 
-# WORKDIR /app
- 
-# COPY .mvn/ .mvn
-# COPY mvnw pom.xml ./
-# RUN ./mvnw dependency:go-offline
- 
-# COPY src ./src
- 
-# CMD ["./mvnw", "spring-boot:run"]
+# Run the WAR file
+ENTRYPOINT ["java", "-jar", "/app/CA6.war"]
