@@ -15,12 +15,14 @@ services:
       - mysql-data:/var/lib/mysql
 
   backend:
-    image: your-backend-image
+    build:
+      context: ./Back
+      dockerfile: Dockerfile
     container_name: backend-container
     ports:
       - "8093:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3307/Mizdooni
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3308/Mizdooni
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
     depends_on:
