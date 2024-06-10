@@ -24,7 +24,7 @@ export const Customer = () => {
         username: reservationToCancel.user.username,
         reservationNumber: reservationToCancel.reservationNumber,
       };
-      const response = await fetch("http://127.0.0.1:8080/DeleteReservation", {
+      const response = await fetch("http://127.0.0.1:8093/DeleteReservation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const Customer = () => {
   async function fetchData() {
     try {
       const reservationsRes = await fetch(
-        `http://127.0.0.1:8080/reservations/username=${userName}`,
+        `http://127.0.0.1:8093/reservations/username=${userName}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,7 +58,7 @@ export const Customer = () => {
       ).then((res) => res.json());
       setReservations(reservationsRes);
       const userRes = await fetch(
-        `http://127.0.0.1:8080/users/${userName}`,{
+        `http://127.0.0.1:8093/users/${userName}`,{
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

@@ -50,7 +50,7 @@ export const SignUp = () => {
         email: formData.email,
       };
       console.log(reqBody);
-      const response = await fetch("http://127.0.0.1:8080/register", {
+      const response = await fetch("http://127.0.0.1:8093/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -28,7 +28,7 @@ export const MangerRestaurant = () => {
   async function fetchData() {
     try {
       const restaurantsResponse = await fetch(
-        `http://localhost:8080/restaurants/managerName=${loggedInUser}`,
+        `http://localhost:8093/restaurants/managerName=${loggedInUser}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

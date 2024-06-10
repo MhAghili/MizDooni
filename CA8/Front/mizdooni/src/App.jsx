@@ -19,7 +19,7 @@ function App() {
     async function fetchData() {
       try {
         const restaurantDataResponse = await fetch(
-          "http://localhost:8080/restaurants",
+          "http://localhost:8093/restaurants",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

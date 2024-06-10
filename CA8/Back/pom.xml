@@ -8,10 +8,10 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>MizDooni</groupId>
-  <artifactId>CA7</artifactId>
+  <artifactId>CA6</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>CA7</name>
+  <name>CA6</name>
   <url>http://maven.apache.org</url>
 
 
@@ -36,16 +36,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>co.elastic.apm</groupId>
-      <artifactId>elastic-apm-agent</artifactId>
-      <version>1.50.0</version>
-    </dependency>
-    <dependency>
-      <groupId>co.elastic.apm</groupId>
-      <artifactId>apm-agent-api</artifactId>
-      <version>1.34.0</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -161,7 +151,7 @@
   </dependencies>
 
   <build>
-    <finalName>CA7</finalName>
+    <finalName>CA6</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

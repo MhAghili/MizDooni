@@ -19,7 +19,7 @@ const AddTableModal = ({
         managerUsername: managerUsername,
         seatsNumber: seatsNumber,
       };
-      const response = await fetch("http://127.0.0.1:8080/table", {
+      const response = await fetch("http://127.0.0.1:8093/table", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

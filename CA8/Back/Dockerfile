@@ -1,12 +1,32 @@
-FROM openjdk:11-jre-slim
+FROM maven:3.8.7-openjdk-18-slim AS build
 
-COPY elastic-apm-agent-1.50.0.jar /elastic-apm-agent.jar
-COPY my-application.jar /my-application.jar
+WORKDIR /app
 
-ENTRYPOINT ["java", "-javaagent:/elastic-apm-agent.jar", \
-            "-Delastic.apm.service_name=my-application", \
-            "-Delastic.apm.server_urls=http://localhost:8200", \
-            "-Delastic.apm.secret_token=", \
-            "-Delastic.apm.environment=production", \
-            "-Delastic.apm.application_packages=org.example", \
-            "-jar", "/my-application.jar"]
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+FROM openjdk:18-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build ./target/*.jar app.jar
+
+EXPOSE 8093
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# FROM eclipse-temurin:17-jdk-focal
+ 
+# WORKDIR /app
+ 
+# COPY .mvn/ .mvn
+# COPY mvnw pom.xml ./
+# RUN ./mvnw dependency:go-offline
+ 
+# COPY src ./src
+ 
+# CMD ["./mvnw", "spring-boot:run"]

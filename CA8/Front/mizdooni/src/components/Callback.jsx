@@ -11,7 +11,7 @@ export const Callback = () => {
       const code = urlParams.get("code");
       if (code) {
         try {
-          const response = await fetch("http://localhost:8080/callback", {
+          const response = await fetch("http://localhost:8093/callback", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

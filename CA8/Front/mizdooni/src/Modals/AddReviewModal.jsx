@@ -23,7 +23,7 @@ const AddReviewModal = ({ show, handleClose, restaurantName, username }) => {
         // Add any additional fields you need here
       };
       console.log(requestBody);
-      const response = await fetch("http://127.0.0.1:8080/reviews", {
+      const response = await fetch("http://127.0.0.1:8093/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

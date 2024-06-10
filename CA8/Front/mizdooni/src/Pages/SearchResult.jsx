@@ -14,7 +14,7 @@ export const SearchResult = () => {
         let searchedRes = [];
         if (searchBy === "name") {
           searchedRes = await fetch(
-            `http://localhost:8080/restaurants/RestaurantName=${searchInput}`,
+            `http://localhost:8093/restaurants/RestaurantName=${searchInput}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -24,7 +24,7 @@ export const SearchResult = () => {
           console.log(searchedRes);
         } else {
           searchedRes = await fetch(
-            `http://127.0.0.1:8080/restaurants/type=${searchInput}`,
+            `http://127.0.0.1:8093/restaurants/type=${searchInput}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

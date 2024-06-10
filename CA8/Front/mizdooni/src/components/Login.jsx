@@ -26,7 +26,7 @@ export const Login = () => {
     try {
       const requestBody = JSON.stringify({ username, password });
 
-      const response = await fetch("http://127.0.0.1:8080/login", {
+      const response = await fetch("http://127.0.0.1:8093/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export const Login = () => {
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
         setIsLogin(true);
-        const UserRes = await fetch(`http://127.0.0.1:8080/users/${username}`, {
+        const UserRes = await fetch(`http://127.0.0.1:8093/users/${username}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

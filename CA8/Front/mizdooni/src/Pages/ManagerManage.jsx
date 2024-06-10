@@ -19,7 +19,7 @@ export const ManagerManage = () => {
   async function fetchData() {
     try {
       const restaurantResponse = await fetch(
-        `http://127.0.0.1:8080/restaurants/name=${restaurantName}`,
+        `http://127.0.0.1:8093/restaurants/name=${restaurantName}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -27,7 +27,7 @@ export const ManagerManage = () => {
         }
       ).then((res) => res.json());
       const tableRses = await fetch(
-        `http://127.0.0.1:8080/tables/restaurantName=${restaurantName}`,
+        `http://127.0.0.1:8093/tables/restaurantName=${restaurantName}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -35,7 +35,7 @@ export const ManagerManage = () => {
         }
       ).then((res) => res.json());
       const reservationsRes = await fetch(
-        `http://127.0.0.1:8080/reservations/restaurantName=${restaurantName}`,
+        `http://127.0.0.1:8093/reservations/restaurantName=${restaurantName}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
